@@ -1,7 +1,6 @@
 package com.artemis.systems;
 
 import com.artemis.Aspect;
-import com.artemis.EntitySystem;
 
 
 /**
@@ -12,22 +11,22 @@ import com.artemis.EntitySystem;
  *
  */
 public abstract class IntervalEntitySystem extends EntitySystem {
-	private float acc;
-	private float interval;
+    protected float acc;
+    protected float interval;
 
-	public IntervalEntitySystem(Aspect aspect, float interval) {
-		super(aspect);
-		this.interval = interval;
-	}
+    public IntervalEntitySystem(Aspect aspect, float interval) {
+        super(aspect);
+        this.interval = interval;
+    }
 
-	@Override
-	protected boolean checkProcessing() {
-		acc += world.getDelta();
-		if(acc >= interval) {
-			acc -= interval;
-			return true;
-		}
-		return false;
-	}
+    @Override
+    protected boolean checkProcessing() {
+        acc += world.getDelta();
+        if(acc >= interval) {
+            acc -= interval;
+            return true;
+        }
+        return false;
+    }
 
 }

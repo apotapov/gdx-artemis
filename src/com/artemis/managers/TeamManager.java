@@ -1,12 +1,7 @@
 package com.artemis.managers;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.artemis.Entity;
-import com.artemis.Manager;
-import com.artemis.utils.Bag;
-import com.artemis.utils.ImmutableBag;
+import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.ObjectMap;
 
 
 /**
@@ -21,47 +16,43 @@ import com.artemis.utils.ImmutableBag;
  *
  */
 public class TeamManager extends Manager {
-	private Map<String, Bag<String>> playersByTeam;
-	private Map<String, String> teamByPlayer;
+    protected ObjectMap<String, SafeArray<String>> playersByTeam;
+    protected ObjectMap<String, String> teamByPlayer;
 
-	public TeamManager() {
-		playersByTeam = new HashMap<String, Bag<String>>();
-		teamByPlayer = new HashMap<String, String>();
-	}
-	
-	@Override
-	protected void initialize() {
-	}
-	
-	public String getTeam(String player) {
-		return teamByPlayer.get(player);
-	}
-	
-	public void setTeam(String player, String team) {
-		removeFromTeam(player);
-		
-		teamByPlayer.put(player, team);
-		
-		Bag<String> players = playersByTeam.get(team);
-		if(players == null) {
-			players = new Bag<String>();
-			playersByTeam.put(team, players);
-		}
-		players.add(player);
-	}
-	
-	public ImmutableBag<String> getPlayers(String team) {
-		return playersByTeam.get(team);
-	}
-	
-	public void removeFromTeam(String player) {
-		String team = teamByPlayer.remove(player);
-		if(team != null) {
-			Bag<String> players = playersByTeam.get(team);
-			if(players != null) {
-				players.remove(player);
-			}
-		}
-	}
+    public TeamManager() {
+        playersByTeam = new ObjectMap<String, SafeArray<String>>();
+        teamByPlayer = new ObjectMap<String, String>();
+    }
+
+    public String getTeam(String player) {
+        return teamByPlayer.get(player);
+    }
+
+    public void setTeam(String player, String team) {
+        removeFromTeam(player);
+
+        teamByPlayer.put(player, team);
+
+        SafeArray<String> players = playersByTeam.get(team);
+        if(players == null) {
+            players = new SafeArray<String>();
+            playersByTeam.put(team, players);
+        }
+        players.add(player);
+    }
+
+    public SafeArray<String> getPlayers(String team) {
+        return playersByTeam.get(team);
+    }
+
+    public void removeFromTeam(String player) {
+        String team = teamByPlayer.remove(player);
+        if(team != null) {
+            SafeArray<String> players = playersByTeam.get(team);
+            if(players != null) {
+                players.removeValue(player, true);
+            }
+        }
+    }
 
 }

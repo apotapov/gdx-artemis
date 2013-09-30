@@ -1,12 +1,8 @@
 package com.artemis.managers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.artemis.Entity;
-import com.artemis.Manager;
-import com.artemis.utils.Bag;
-import com.artemis.utils.ImmutableBag;
+import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.ObjectMap;
 
 
 /**
@@ -18,53 +14,49 @@ import com.artemis.utils.ImmutableBag;
  *
  */
 public class PlayerManager extends Manager {
-	private Map<Entity, String> playerByEntity;
-	private Map<String, Bag<Entity>> entitiesByPlayer;
+    protected ObjectMap<Entity, String> playerByEntity;
+    protected ObjectMap<String, SafeArray<Entity>> entitiesByPlayer;
 
-	public PlayerManager() {
-		playerByEntity = new HashMap<Entity, String>();
-		entitiesByPlayer = new HashMap<String, Bag<Entity>>();
-	}
-	
-	public void setPlayer(Entity e, String player) {
-		playerByEntity.put(e, player);
-		Bag<Entity> entities = entitiesByPlayer.get(player);
-		if(entities == null) {
-			entities = new Bag<Entity>();
-			entitiesByPlayer.put(player, entities);
-		}
-		entities.add(e);
-	}
-	
-	public ImmutableBag<Entity> getEntitiesOfPlayer(String player) {
-		Bag<Entity> entities = entitiesByPlayer.get(player);
-		if(entities == null) {
-			entities = new Bag<Entity>();
-		}
-		return entities;
-	}
-	
-	public void removeFromPlayer(Entity e) {
-		String player = playerByEntity.get(e);
-		if(player != null) {
-			Bag<Entity> entities = entitiesByPlayer.get(player);
-			if(entities != null) {
-				entities.remove(e);
-			}
-		}
-	}
-	
-	public String getPlayer(Entity e) {
-		return playerByEntity.get(e);
-	}
+    public PlayerManager() {
+        playerByEntity = new ObjectMap<Entity, String>();
+        entitiesByPlayer = new ObjectMap<String, SafeArray<Entity>>();
+    }
 
-	@Override
-	protected void initialize() {
-	}
+    public void setPlayer(Entity e, String player) {
+        playerByEntity.put(e, player);
+        SafeArray<Entity> entities = entitiesByPlayer.get(player);
+        if(entities == null) {
+            entities = new SafeArray<Entity>();
+            entitiesByPlayer.put(player, entities);
+        }
+        entities.add(e);
+    }
 
-	@Override
-	public void deleted(Entity e) {
-		removeFromPlayer(e);
-	}
+    public SafeArray<Entity> getEntitiesOfPlayer(String player) {
+        SafeArray<Entity> entities = entitiesByPlayer.get(player);
+        if(entities == null) {
+            entities = new SafeArray<Entity>();
+        }
+        return entities;
+    }
+
+    public void removeFromPlayer(Entity e) {
+        String player = playerByEntity.get(e);
+        if(player != null) {
+            SafeArray<Entity> entities = entitiesByPlayer.get(player);
+            if(entities != null) {
+                entities.removeValue(e, true);
+            }
+        }
+    }
+
+    public String getPlayer(Entity e) {
+        return playerByEntity.get(e);
+    }
+
+    @Override
+    public void deleted(Entity e) {
+        removeFromPlayer(e);
+    }
 
 }

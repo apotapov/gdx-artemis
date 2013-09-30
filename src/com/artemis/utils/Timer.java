@@ -2,75 +2,76 @@ package com.artemis.utils;
 
 public abstract class Timer {
 
-	private float delay;
-	private boolean repeat;
-	private float acc;
-	private boolean done;
-	private boolean stopped;
-	
-	public Timer(float delay) {
-		this(delay, false);
-	}
+    protected float delay;
+    protected boolean repeat;
+    protected float acc;
+    protected boolean done;
+    protected boolean stopped;
 
-	public Timer(float delay, boolean repeat) {
-		this.delay = delay;
-		this.repeat = repeat;
-		this.acc = 0;
-	}
+    public Timer(float delay) {
+        this(delay, false);
+    }
 
-	public void update(float delta) {
-		if (!done && !stopped) {
-			acc += delta;
+    public Timer(float delay, boolean repeat) {
+        this.delay = delay;
+        this.repeat = repeat;
+        this.acc = 0;
+    }
 
-			if (acc >= delay) {
-				acc -= delay;
+    public void update(float delta) {
+        if (!done && !stopped) {
+            acc += delta;
 
-				if (repeat) {
-					reset();
-				} else {
-					done = true;
-				}
+            if (acc >= delay) {
+                acc -= delay;
 
-				execute();
-			}
-		}
-	}
+                if (repeat) {
+                    reset();
+                } else {
+                    done = true;
+                }
 
-	public void reset() {
-		stopped = false;
-		done = false;
-		acc = 0;
-	}
+                execute();
+            }
+        }
+    }
 
-	public boolean isDone() {
-		return done;
-	}
+    public void reset() {
+        stopped = false;
+        done = false;
+        acc = 0;
+    }
 
-	public boolean isRunning() {
-		return !done && acc < delay && !stopped;
-	}
+    public boolean isDone() {
+        return done;
+    }
 
-	public void stop() {
-		stopped = true;
-	}
+    public boolean isRunning() {
+        return !done && acc < delay && !stopped;
+    }
 
-	public void setDelay(int delay) {
-		this.delay = delay;
-	}
+    public void stop() {
+        stopped = true;
+    }
 
-	public abstract void execute();
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
 
-	public float getPercentageRemaining() {
-		if (done)
-			return 100;
-		else if (stopped)
-			return 0;
-		else
-			return 1 - (delay - acc) / delay;
-	}
+    public abstract void execute();
 
-	public float getDelay() {
-		return delay;
-	}
+    public float getPercentageRemaining() {
+        if (done) {
+            return 100;
+        } else if (stopped) {
+            return 0;
+        } else {
+            return 1 - (delay - acc) / delay;
+        }
+    }
+
+    public float getDelay() {
+        return delay;
+    }
 
 }
