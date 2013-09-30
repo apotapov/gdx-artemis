@@ -1,6 +1,6 @@
-package com.artemis.systems;
+package com.badlogic.gdx.artemis.systems;
 
-import com.artemis.Aspect;
+import com.badlogic.gdx.artemis.Aspect;
 
 
 /**

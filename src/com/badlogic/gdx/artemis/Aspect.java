@@ -1,6 +1,8 @@
-package com.artemis;
+package com.badlogic.gdx.artemis;
 
 import java.util.BitSet;
+
+import com.badlogic.gdx.artemis.managers.ComponentManager;
 
 /**
  * An Aspects is used by systems as a matcher against entities, to check if a system is
@@ -55,10 +57,10 @@ public class Aspect {
      * @return an aspect that can be matched against entities
      */
     public Aspect all(Class<? extends Component> type, Class<? extends Component>... types) {
-        allSet.set(Component.getIndexFor(type));
+        allSet.set(ComponentManager.getComponentClassIndex(type));
 
         for (Class<? extends Component> t : types) {
-            allSet.set(Component.getIndexFor(t));
+            allSet.set(ComponentManager.getComponentClassIndex(t));
         }
 
         return this;
@@ -73,10 +75,10 @@ public class Aspect {
      * @return an aspect that can be matched against entities
      */
     public Aspect exclude(Class<? extends Component> type, Class<? extends Component>... types) {
-        exclusionSet.set(Component.getIndexFor(type));
+        exclusionSet.set(ComponentManager.getComponentClassIndex(type));
 
         for (Class<? extends Component> t : types) {
-            exclusionSet.set(Component.getIndexFor(t));
+            exclusionSet.set(ComponentManager.getComponentClassIndex(t));
         }
         return this;
     }
@@ -88,27 +90,12 @@ public class Aspect {
      * @return an aspect that can be matched against entities
      */
     public Aspect one(Class<? extends Component> type, Class<? extends Component>... types) {
-        oneSet.set(Component.getIndexFor(type));
+        oneSet.set(ComponentManager.getComponentClassIndex(type));
 
         for (Class<? extends Component> t : types) {
-            oneSet.set(Component.getIndexFor(t));
+            oneSet.set(ComponentManager.getComponentClassIndex(t));
         }
         return this;
-    }
-
-    /**
-     * Creates an aspect where an entity must possess all of the specified component types.
-     * 
-     * @param type the type the entity must possess
-     * @param types the type the entity must possess
-     * @return an aspect that can be matched against entities
-     * 
-     * @deprecated
-     * @see getAspectForAll
-     */
-    @Deprecated
-    public static Aspect getAspectFor(Class<? extends Component> type, Class<? extends Component>... types) {
-        return getAspectForAll(type, types);
     }
 
     /**

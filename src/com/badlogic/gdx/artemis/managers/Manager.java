@@ -1,8 +1,8 @@
-package com.artemis.managers;
+package com.badlogic.gdx.artemis.managers;
 
-import com.artemis.Entity;
-import com.artemis.EntityObserver;
-import com.artemis.World;
+import com.badlogic.gdx.artemis.Entity;
+import com.badlogic.gdx.artemis.EntityObserver;
+import com.badlogic.gdx.artemis.World;
 
 
 /**

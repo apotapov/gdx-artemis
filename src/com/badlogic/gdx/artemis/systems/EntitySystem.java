@@ -1,12 +1,12 @@
-package com.artemis.systems;
+package com.badlogic.gdx.artemis.systems;
 
 import java.util.BitSet;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.EntityObserver;
-import com.artemis.World;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.Aspect;
+import com.badlogic.gdx.artemis.Entity;
+import com.badlogic.gdx.artemis.EntityObserver;
+import com.badlogic.gdx.artemis.World;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**

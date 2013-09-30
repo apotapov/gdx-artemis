@@ -1,7 +1,7 @@
-package com.artemis.managers;
+package com.badlogic.gdx.artemis.managers;
 
-import com.artemis.Entity;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.Entity;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.ObjectMap;
 
 

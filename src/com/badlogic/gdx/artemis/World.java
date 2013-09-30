@@ -1,14 +1,14 @@
-package com.artemis;
+package com.badlogic.gdx.artemis;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
-import com.artemis.annotations.Mapper;
-import com.artemis.managers.ComponentManager;
-import com.artemis.managers.EntityManager;
-import com.artemis.managers.Manager;
-import com.artemis.systems.EntitySystem;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.annotations.Mapper;
+import com.badlogic.gdx.artemis.managers.ComponentManager;
+import com.badlogic.gdx.artemis.managers.EntityManager;
+import com.badlogic.gdx.artemis.managers.Manager;
+import com.badlogic.gdx.artemis.systems.EntitySystem;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**

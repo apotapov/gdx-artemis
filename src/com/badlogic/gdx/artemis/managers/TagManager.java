@@ -1,6 +1,6 @@
-package com.artemis.managers;
+package com.badlogic.gdx.artemis.managers;
 
-import com.artemis.Entity;
+import com.badlogic.gdx.artemis.Entity;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Values;
 

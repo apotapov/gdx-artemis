@@ -1,11 +1,11 @@
-package com.artemis;
+package com.badlogic.gdx.artemis;
 
 import java.util.BitSet;
 import java.util.UUID;
 
-import com.artemis.managers.ComponentManager;
-import com.artemis.managers.EntityManager;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.managers.ComponentManager;
+import com.badlogic.gdx.artemis.managers.EntityManager;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
@@ -109,25 +109,13 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * Faster removal of components from a entity.
-     * 
-     * @param component to remove from this entity.
-     * 
-     * @return this entity for chaining.
-     */
-    public Entity removeComponent(int typeIndex) {
-        componentManager.removeComponent(this, typeIndex);
-        return this;
-    }
-
-    /**
      * Remove component by its type.
      * @param type
      * 
      * @return this entity for chaining.
      */
     public Entity removeComponent(Class<? extends Component> type) {
-        removeComponent(Component.getIndexFor(type));
+        componentManager.removeComponent(this, type);
         return this;
     }
 
@@ -153,24 +141,9 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * This is the preferred method to use when retrieving a component from a
-     * entity. It will provide good performance.
-     * But the recommended way to retrieve components from an entity is using
-     * the ComponentMapper.
-     * 
-     * @param type
-     *            in order to retrieve the component fast you must provide a
-     *            ComponentType instance for the expected component.
-     * @return
-     */
-    public Component getComponent(int typeIndex) {
-        return componentManager.getComponent(this, typeIndex);
-    }
-
-    /**
      * Slower retrieval of components from this entity. Minimize usage of this,
      * but is fine to use e.g. when creating new entities and setting data in
-     * components.
+     * components. Use mappers instead.
      * 
      * @param <T>
      *            the expected return component type.
@@ -179,18 +152,18 @@ public final class Entity implements Poolable {
      * @return component that matches, or null if none is found.
      */
     public <T extends Component> T getComponent(Class<T> type) {
-        return type.cast(getComponent(Component.getIndexFor(type)));
+        return componentManager.getComponent(this, type);
     }
 
     /**
-     * Returns a bag of all components this entity has.
+     * Returns an array of all components this entity has.
      * You need to reset the bag yourself if you intend to fill it more than once.
      * 
-     * @param fillBag the bag to put the components into.
+     * @param array the bag to put the components into.
      * @return the fillBag with the components in.
      */
-    public SafeArray<Component> getComponents(SafeArray<Component> fillBag) {
-        return componentManager.getComponentsFor(this, fillBag);
+    public void getComponents(SafeArray<Component> array) {
+        componentManager.getComponents(this, array);
     }
 
     /**

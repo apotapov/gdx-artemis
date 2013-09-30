@@ -1,10 +1,10 @@
-package com.artemis.managers;
+package com.badlogic.gdx.artemis.managers;
 
 import java.util.BitSet;
 
-import com.artemis.Entity;
-import com.artemis.utils.IdentifierPool;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.Entity;
+import com.badlogic.gdx.artemis.utils.IdentifierPool;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 

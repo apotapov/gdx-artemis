@@ -1,8 +1,8 @@
-package com.artemis.systems;
+package com.badlogic.gdx.artemis.systems;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.utils.SafeArray;
+import com.badlogic.gdx.artemis.Aspect;
+import com.badlogic.gdx.artemis.Entity;
+import com.badlogic.gdx.artemis.utils.SafeArray;
 
 /**
  * A typical entity system. Use this when you need to process entities possessing the

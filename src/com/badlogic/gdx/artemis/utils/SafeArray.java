@@ -1,13 +1,12 @@
-package com.artemis.utils;
+package com.badlogic.gdx.artemis.utils;
 
 import com.badlogic.gdx.utils.Array;
 
 
 /**
- * A non-throwing array, until the logic is reworked to avoid throwing
+ * A non-throwing Array, until the logic is reworked to avoid throwing
  * @author apotapov
  *
- * @param <T>
  */
 public class SafeArray<T> extends Array<T> {
 
@@ -43,12 +42,18 @@ public class SafeArray<T> extends Array<T> {
         super(array);
     }
 
+    /**
+     * Works similar to Array.set() but grows the Array if necessary.
+     */
     @Override
     public void set(int index, T value) {
         ensureFit(this, index);
         super.set(index, value);
     }
 
+    /**
+     * Works similar to Array.get(), but doesn't throw on index out of bounds.
+     */
     @Override
     public T get(int index) {
         if (index < size) {
@@ -60,8 +65,8 @@ public class SafeArray<T> extends Array<T> {
     /**
      * If index is larger than the size of the array,
      * will grow the array to the index.
-     * @param array
-     * @param index
+     * @param array Array to grow.
+     * @param index Index to grow the array to.
      */
     public static <T> void ensureFit(Array<T> array, int index) {
         if (index >= array.size) {

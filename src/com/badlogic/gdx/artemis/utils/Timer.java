@@ -1,4 +1,4 @@
-package com.artemis.utils;
+package com.badlogic.gdx.artemis.utils;
 
 public abstract class Timer {
 

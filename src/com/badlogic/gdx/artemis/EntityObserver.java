@@ -1,4 +1,4 @@
-package com.artemis;
+package com.badlogic.gdx.artemis;
 
 public interface EntityObserver {
 	
