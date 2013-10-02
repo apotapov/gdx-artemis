@@ -2,11 +2,10 @@
 
 This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entity System Framework](http://gamadu.com/artemis/).
 The major difference is that the code base has been refactored to use libgdx containers and pooling.
-The hope is to eventually add it to libgdx extensions.
 
 # What's changed
 
- - The packages have been renamed to follow the libgdx standard.
+ - Some files have been reshuffled in the packages for better organization.
  - Most private fields and methods have been changed to protected to allow for easier extension.
  - Component is now an interface.
  - ComponentType has been removed. The indexing done in the ComponentManager.
@@ -21,9 +20,11 @@ The hope is to eventually add it to libgdx extensions.
 
 # What's left to be done
 
+ - Mavenize the project and add it to the central repo.
  - This is still very much a work in progress. Feedback is appreciated. Pull requests accepted.
  - Get rid of the SafeArray class. (needed because of the difference between Bag and Array get/set implementation)
  - Javadoc the rest of the classes.
+ - Add unit tests
  - Do some profiling to determine bottle necks.
 
 # Alternative Artemis forks
