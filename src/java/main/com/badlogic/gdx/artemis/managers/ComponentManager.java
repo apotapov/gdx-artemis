@@ -5,6 +5,7 @@ import java.util.BitSet;
 import com.badlogic.gdx.artemis.Component;
 import com.badlogic.gdx.artemis.Entity;
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.Pools;
 
@@ -13,8 +14,8 @@ import com.badlogic.gdx.utils.Pools;
  * mapping to entities.
  */
 public class ComponentManager extends Manager {
-    protected SafeArray<SafeArray<Component>> componentsByType;
-    protected SafeArray<Entity> deleted;
+    protected Array<Array<Component>> componentsByType;
+    protected Array<Entity> deleted;
 
     protected static int nextComponentClassIndex = 0;
     protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
@@ -40,7 +41,7 @@ public class ComponentManager extends Manager {
      * Default constructor
      */
     public ComponentManager() {
-        componentsByType = new SafeArray<SafeArray<Component>>();
+        componentsByType = new SafeArray<Array<Component>>();
         deleted = new SafeArray<Entity>();
     }
 
@@ -74,7 +75,7 @@ public class ComponentManager extends Manager {
      */
     public void addComponent(Entity e, Component component) {
         int classIndex = getComponentClassIndex(component.getClass());
-        SafeArray<Component> components = componentsByType.get(classIndex);
+        Array<Component> components = componentsByType.get(classIndex);
         if(components == null) {
             components = new SafeArray<Component>();
             componentsByType.set(classIndex, components);
@@ -104,9 +105,9 @@ public class ComponentManager extends Manager {
      * @param type Type of Componets to return
      * @return an Array of said components.
      */
-    public SafeArray<Component> getComponents(Class<? extends Component> type) {
+    public Array<Component> getComponents(Class<? extends Component> type) {
         int classIndex = getComponentClassIndex(type);
-        SafeArray<Component> components = componentsByType.get(classIndex);
+        Array<Component> components = componentsByType.get(classIndex);
         if(components == null) {
             components = new SafeArray<Component>();
             componentsByType.set(classIndex, components);
@@ -124,7 +125,7 @@ public class ComponentManager extends Manager {
      */
     public <T extends Component> T getComponent(Entity e, Class<T> type) {
         int classIndex = getComponentClassIndex(type);
-        SafeArray<Component> components = componentsByType.get(classIndex);
+        Array<Component> components = componentsByType.get(classIndex);
         if(components != null) {
             return type.cast(components.get(e.getId()));
         }
@@ -136,7 +137,7 @@ public class ComponentManager extends Manager {
      * @param e Entity to get Components with.
      * @param array Array of Components to fill.
      */
-    public void getComponents(Entity e, SafeArray<Component> array) {
+    public void getComponents(Entity e, Array<Component> array) {
         BitSet componentBits = e.getComponentBits();
 
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
@@ -174,7 +175,7 @@ public class ComponentManager extends Manager {
      * @param componentClassIndex Component index to remove.
      */
     protected void removeComponent(int entityId, int componentClassIndex) {
-        SafeArray<Component> components = componentsByType.get(componentClassIndex);
+        Array<Component> components = componentsByType.get(componentClassIndex);
         if (components != null) {
             Component compoment = components.get(entityId);
             if (compoment != null) {

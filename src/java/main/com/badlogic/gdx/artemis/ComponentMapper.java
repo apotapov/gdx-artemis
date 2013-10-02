@@ -1,6 +1,7 @@
 package com.badlogic.gdx.artemis;
 
-import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
+
 
 /**
  * High performance component retrieval from entities. Use this wherever you
@@ -12,7 +13,7 @@ import com.badlogic.gdx.artemis.utils.SafeArray;
  */
 public class ComponentMapper<A extends Component> {
     private Class<A> classType;
-    private SafeArray<Component> components;
+    private Array<Component> components;
 
     private ComponentMapper(Class<A> type, World world) {
         components = world.getComponentManager().getComponents(type);

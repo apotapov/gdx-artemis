@@ -2,7 +2,7 @@ package com.badlogic.gdx.artemis.systems;
 
 import com.badlogic.gdx.artemis.Aspect;
 import com.badlogic.gdx.artemis.Entity;
-import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * The purpose of this class is to allow systems to execute at varying intervals.
@@ -39,7 +39,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
     }
 
     @Override
-    protected final void processEntities(SafeArray<Entity> entities) {
+    protected final void processEntities(Array<Entity> entities) {
         for (int i = 0, s = entities.size; s > i; i++) {
             Entity entity = entities.get(i);
             processDelta(entity, acc);

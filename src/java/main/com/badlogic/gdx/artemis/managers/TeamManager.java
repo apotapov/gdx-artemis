@@ -1,6 +1,7 @@
 package com.badlogic.gdx.artemis.managers;
 
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 
@@ -16,11 +17,11 @@ import com.badlogic.gdx.utils.ObjectMap;
  *
  */
 public class TeamManager extends Manager {
-    protected ObjectMap<String, SafeArray<String>> playersByTeam;
+    protected ObjectMap<String, Array<String>> playersByTeam;
     protected ObjectMap<String, String> teamByPlayer;
 
     public TeamManager() {
-        playersByTeam = new ObjectMap<String, SafeArray<String>>();
+        playersByTeam = new ObjectMap<String, Array<String>>();
         teamByPlayer = new ObjectMap<String, String>();
     }
 
@@ -33,7 +34,7 @@ public class TeamManager extends Manager {
 
         teamByPlayer.put(player, team);
 
-        SafeArray<String> players = playersByTeam.get(team);
+        Array<String> players = playersByTeam.get(team);
         if(players == null) {
             players = new SafeArray<String>();
             playersByTeam.put(team, players);
@@ -41,14 +42,14 @@ public class TeamManager extends Manager {
         players.add(player);
     }
 
-    public SafeArray<String> getPlayers(String team) {
+    public Array<String> getPlayers(String team) {
         return playersByTeam.get(team);
     }
 
     public void removeFromTeam(String player) {
         String team = teamByPlayer.remove(player);
         if(team != null) {
-            SafeArray<String> players = playersByTeam.get(team);
+            Array<String> players = playersByTeam.get(team);
             if(players != null) {
                 players.removeValue(player, true);
             }

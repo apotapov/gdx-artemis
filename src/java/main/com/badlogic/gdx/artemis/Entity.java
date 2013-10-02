@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.badlogic.gdx.artemis.managers.ComponentManager;
 import com.badlogic.gdx.artemis.managers.EntityManager;
-import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
@@ -162,7 +162,7 @@ public final class Entity implements Poolable {
      * @param array the bag to put the components into.
      * @return the fillBag with the components in.
      */
-    public void getComponents(SafeArray<Component> array) {
+    public void getComponents(Array<Component> array) {
         componentManager.getComponents(this, array);
     }
 

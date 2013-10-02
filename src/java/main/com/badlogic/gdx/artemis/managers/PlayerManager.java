@@ -2,6 +2,7 @@ package com.badlogic.gdx.artemis.managers;
 
 import com.badlogic.gdx.artemis.Entity;
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 
@@ -15,16 +16,16 @@ import com.badlogic.gdx.utils.ObjectMap;
  */
 public class PlayerManager extends Manager {
     protected ObjectMap<Entity, String> playerByEntity;
-    protected ObjectMap<String, SafeArray<Entity>> entitiesByPlayer;
+    protected ObjectMap<String, Array<Entity>> entitiesByPlayer;
 
     public PlayerManager() {
         playerByEntity = new ObjectMap<Entity, String>();
-        entitiesByPlayer = new ObjectMap<String, SafeArray<Entity>>();
+        entitiesByPlayer = new ObjectMap<String, Array<Entity>>();
     }
 
     public void setPlayer(Entity e, String player) {
         playerByEntity.put(e, player);
-        SafeArray<Entity> entities = entitiesByPlayer.get(player);
+        Array<Entity> entities = entitiesByPlayer.get(player);
         if(entities == null) {
             entities = new SafeArray<Entity>();
             entitiesByPlayer.put(player, entities);
@@ -32,8 +33,8 @@ public class PlayerManager extends Manager {
         entities.add(e);
     }
 
-    public SafeArray<Entity> getEntitiesOfPlayer(String player) {
-        SafeArray<Entity> entities = entitiesByPlayer.get(player);
+    public Array<Entity> getEntitiesOfPlayer(String player) {
+        Array<Entity> entities = entitiesByPlayer.get(player);
         if(entities == null) {
             entities = new SafeArray<Entity>();
         }
@@ -43,7 +44,7 @@ public class PlayerManager extends Manager {
     public void removeFromPlayer(Entity e) {
         String player = playerByEntity.get(e);
         if(player != null) {
-            SafeArray<Entity> entities = entitiesByPlayer.get(player);
+            Array<Entity> entities = entitiesByPlayer.get(player);
             if(entities != null) {
                 entities.removeValue(e, true);
             }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.artemis.managers.EntityManager;
 import com.badlogic.gdx.artemis.managers.Manager;
 import com.badlogic.gdx.artemis.systems.EntitySystem;
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
@@ -26,11 +27,11 @@ public class World {
     protected ComponentManager cm;
 
     protected float delta;
-    protected SafeArray<Entity> added;
-    protected SafeArray<Entity> changed;
-    protected SafeArray<Entity> deleted;
-    protected SafeArray<Entity> enable;
-    protected SafeArray<Entity> disable;
+    protected Array<Entity> added;
+    protected Array<Entity> changed;
+    protected Array<Entity> deleted;
+    protected Array<Entity> enable;
+    protected Array<Entity> disable;
 
     protected Performer addedPerformer;
     protected Performer changedPerformer;
@@ -39,10 +40,10 @@ public class World {
     protected Performer disablePerformer;
 
     protected ObjectMap<Class<? extends Manager>, Manager> managers;
-    protected SafeArray<Manager> managersArray;
+    protected Array<Manager> managersArray;
 
     protected ObjectMap<Class<?>, EntitySystem> systems;
-    protected SafeArray<EntitySystem> systemsArray;
+    protected Array<EntitySystem> systemsArray;
 
     public World() {
         this(new ComponentManager(), new EntityManager());
@@ -271,7 +272,7 @@ public class World {
      * 
      * @return all entity systems in world.
      */
-    public SafeArray<EntitySystem> getSystems() {
+    public Array<EntitySystem> getSystems() {
         return systemsArray;
     }
 
@@ -339,7 +340,7 @@ public class World {
      * @param entities
      * @param performer
      */
-    protected void check(SafeArray<Entity> entities, Performer performer) {
+    protected void check(Array<Entity> entities, Performer performer) {
         if (entities.size > 0) {
             for (int i = 0; entities.size > i; i++) {
                 Entity e = entities.get(i);

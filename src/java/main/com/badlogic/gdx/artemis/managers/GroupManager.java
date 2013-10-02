@@ -2,6 +2,7 @@ package com.badlogic.gdx.artemis.managers;
 
 import com.badlogic.gdx.artemis.Entity;
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
@@ -14,12 +15,12 @@ import com.badlogic.gdx.utils.ObjectMap;
  *
  */
 public class GroupManager extends Manager {
-    protected ObjectMap<String, SafeArray<Entity>> entitiesByGroup;
-    protected ObjectMap<Entity, SafeArray<String>> groupsByEntity;
+    protected ObjectMap<String, Array<Entity>> entitiesByGroup;
+    protected ObjectMap<Entity, Array<String>> groupsByEntity;
 
     public GroupManager() {
-        entitiesByGroup = new ObjectMap<String, SafeArray<Entity>>();
-        groupsByEntity = new ObjectMap<Entity, SafeArray<String>>();
+        entitiesByGroup = new ObjectMap<String, Array<Entity>>();
+        groupsByEntity = new ObjectMap<Entity, Array<String>>();
     }
 
     /**
@@ -29,14 +30,14 @@ public class GroupManager extends Manager {
      * @param e entity to add into the group.
      */
     public void add(Entity e, String group) {
-        SafeArray<Entity> entities = entitiesByGroup.get(group);
+        Array<Entity> entities = entitiesByGroup.get(group);
         if(entities == null) {
             entities = new SafeArray<Entity>();
             entitiesByGroup.put(group, entities);
         }
         entities.add(e);
 
-        SafeArray<String> groups = groupsByEntity.get(e);
+        Array<String> groups = groupsByEntity.get(e);
         if(groups == null) {
             groups = new SafeArray<String>();
             groupsByEntity.put(e, groups);
@@ -50,22 +51,22 @@ public class GroupManager extends Manager {
      * @param group
      */
     public void remove(Entity e, String group) {
-        SafeArray<Entity> entities = entitiesByGroup.get(group);
+        Array<Entity> entities = entitiesByGroup.get(group);
         if(entities != null) {
             entities.removeValue(e, true);
         }
 
-        SafeArray<String> groups = groupsByEntity.get(e);
+        Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
             groups.removeValue(group, true);
         }
     }
 
     public void removeFromAllGroups(Entity e) {
-        SafeArray<String> groups = groupsByEntity.get(e);
+        Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
             for(int i = 0; groups.size > i; i++) {
-                SafeArray<Entity> entities = entitiesByGroup.get(groups.get(i));
+                Array<Entity> entities = entitiesByGroup.get(groups.get(i));
                 if(entities != null) {
                     entities.removeValue(e, true);
                 }
@@ -79,8 +80,8 @@ public class GroupManager extends Manager {
      * @param group name of the group.
      * @return read-only Array of entities belonging to the group.
      */
-    public SafeArray<Entity> getEntities(String group) {
-        SafeArray<Entity> entities = entitiesByGroup.get(group);
+    public Array<Entity> getEntities(String group) {
+        Array<Entity> entities = entitiesByGroup.get(group);
         if(entities == null) {
             entities = new SafeArray<Entity>();
             entitiesByGroup.put(group, entities);
@@ -92,7 +93,7 @@ public class GroupManager extends Manager {
      * @param e entity
      * @return the groups the entity belongs to, null if none.
      */
-    public SafeArray<String> getGroups(Entity e) {
+    public Array<String> getGroups(Entity e) {
         return groupsByEntity.get(e);
     }
 
@@ -113,7 +114,7 @@ public class GroupManager extends Manager {
      */
     public boolean isInGroup(Entity e, String group) {
         if(group != null) {
-            SafeArray<String> groups = groupsByEntity.get(e);
+            Array<String> groups = groupsByEntity.get(e);
             for(int i = 0; groups.size > i; i++) {
                 String g = groups.get(i);
                 if(group == g || group.equals(g)) {

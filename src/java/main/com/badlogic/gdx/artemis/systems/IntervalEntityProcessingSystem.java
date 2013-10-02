@@ -2,7 +2,7 @@ package com.badlogic.gdx.artemis.systems;
 
 import com.badlogic.gdx.artemis.Aspect;
 import com.badlogic.gdx.artemis.Entity;
-import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * If you need to process entities at a certain interval then use this.
@@ -27,7 +27,7 @@ public abstract class IntervalEntityProcessingSystem extends IntervalEntitySyste
 
 
     @Override
-    protected void processEntities(SafeArray<Entity> entities) {
+    protected void processEntities(Array<Entity> entities) {
         for (int i = 0, s = entities.size; s > i; i++) {
             process(entities.get(i));
         }

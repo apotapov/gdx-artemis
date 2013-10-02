@@ -7,6 +7,7 @@ import com.badlogic.gdx.artemis.Entity;
 import com.badlogic.gdx.artemis.EntityObserver;
 import com.badlogic.gdx.artemis.World;
 import com.badlogic.gdx.artemis.utils.SafeArray;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
@@ -22,7 +23,7 @@ public abstract class EntitySystem implements EntityObserver {
 
     protected World world;
 
-    protected SafeArray<Entity> actives;
+    protected Array<Entity> actives;
 
     protected Aspect aspect;
 
@@ -82,7 +83,7 @@ public abstract class EntitySystem implements EntityObserver {
      * 
      * @param entities the entities this system contains.
      */
-    protected abstract void processEntities(SafeArray<Entity> entities);
+    protected abstract void processEntities(Array<Entity> entities);
 
     /**
      * 
@@ -203,7 +204,7 @@ public abstract class EntitySystem implements EntityObserver {
         this.passive = passive;
     }
 
-    public SafeArray<Entity> getActives() {
+    public Array<Entity> getActives() {
         return actives;
     }
 
