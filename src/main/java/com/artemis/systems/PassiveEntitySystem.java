@@ -9,7 +9,12 @@ package com.artemis.systems;
 public abstract class PassiveEntitySystem extends VoidEntitySystem {
 
     public PassiveEntitySystem() {
-        setPassive(true);
+        super.setPassive(true);
+    }
+
+    @Override
+    public final void setPassive(boolean passive) {
+        // do not change the passive status of the system
     }
 
     @Override
