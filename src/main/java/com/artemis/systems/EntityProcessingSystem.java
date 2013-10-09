@@ -29,10 +29,4 @@ public abstract class EntityProcessingSystem extends EntitySystem {
             process(entities.get(i));
         }
     }
-
-    @Override
-    protected boolean checkProcessing() {
-        return true;
-    }
-
 }
