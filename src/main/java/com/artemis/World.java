@@ -8,9 +8,12 @@ import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.artemis.managers.Manager;
 import com.artemis.systems.EntitySystem;
+import com.artemis.systems.event.EventSystem;
+import com.artemis.systems.event.SystemEvent;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * The primary instance for the framework. It contains all the managers.
@@ -43,6 +46,7 @@ public class World {
     protected Array<Manager> managersArray;
 
     protected ObjectMap<Class<?>, EntitySystem> systems;
+    protected Array<EventSystem> eventSystems;
     protected Array<EntitySystem> systemsArray;
 
     public World() {
@@ -98,6 +102,8 @@ public class World {
 
         this.em = em;
         setManager(em);
+
+        this.eventSystems = new Array<EventSystem>();
     }
 
 
@@ -264,8 +270,30 @@ public class World {
         return em.getEntity(entityId);
     }
 
+    /**
+     * Post event to all event systems.
+     * 
+     * @param sendingSystem
+     * @param event
+     */
+    public void postEvent(EntitySystem sendingSystem, SystemEvent event) {
+        for (EventSystem eventSystem : eventSystems) {
+            eventSystem.postEvent(sendingSystem, event);
+        }
+    }
 
-
+    /**
+     * Retrieve events from all systems. The set ensures that events are not repeated.
+     * 
+     * @param pollingSystem System that is requesting the events.
+     * @param type Type of events requested.
+     * @param events Event set to populate with events
+     */
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
+        for (EventSystem eventSystem : eventSystems) {
+            eventSystem.getEvents(pollingSystem, type, events);
+        }
+    }
 
     /**
      * Gives you all the systems in this world for possible iteration.
@@ -299,6 +327,9 @@ public class World {
 
         systems.put(system.getClass(), system);
         systemsArray.add(system);
+        if (system instanceof EventSystem) {
+            eventSystems.add((EventSystem)system);
+        }
 
         return system;
     }
@@ -310,6 +341,9 @@ public class World {
     public void deleteSystem(EntitySystem system) {
         systems.remove(system.getClass());
         systemsArray.removeValue(system, true);
+        if (system instanceof EventSystem) {
+            eventSystems.removeValue((EventSystem)system, true);
+        }
     }
 
     protected void notifySystems(Performer performer, Entity e) {
