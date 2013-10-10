@@ -29,7 +29,7 @@ public abstract class IntervalEntityProcessingSystem extends IntervalEntitySyste
     @Override
     protected void processEntities(Array<Entity> entities) {
         for (int i = 0, s = entities.size; s > i; i++) {
-            process(entities.get(i));
+            process(entities.items[i]);
         }
     }
 

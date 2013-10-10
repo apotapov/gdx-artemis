@@ -141,7 +141,7 @@ public class ComponentManager extends Manager {
         BitSet componentBits = e.getComponentBits();
 
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
-            array.add(componentsByType.get(i).get(e.id));
+            array.add(componentsByType.items[i].get(e.id));
         }
     }
 
@@ -161,7 +161,7 @@ public class ComponentManager extends Manager {
     public void clean() {
         if(deleted.size > 0) {
             for(int i = 0; deleted.size > i; i++) {
-                removeComponentsOfEntity(deleted.get(i));
+                removeComponentsOfEntity(deleted.items[i]);
             }
             deleted.clear();
         }

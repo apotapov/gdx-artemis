@@ -112,12 +112,12 @@ public class World {
      */
     public void initialize() {
         for (int i = 0; i < managersArray.size; i++) {
-            managersArray.get(i).initialize();
+            managersArray.items[i].initialize();
         }
 
         for (int i = 0; i < systemsArray.size; i++) {
-            ComponentMapperInitHelper.config(systemsArray.get(i), this);
-            systemsArray.get(i).initialize();
+            ComponentMapperInitHelper.config(systemsArray.items[i], this);
+            systemsArray.items[i].initialize();
         }
     }
 
@@ -348,7 +348,7 @@ public class World {
 
     protected void notifySystems(Performer performer, Entity e) {
         for(int i = 0, s=systemsArray.size; s > i; i++) {
-            performer.perform(systemsArray.get(i), e);
+            performer.perform(systemsArray.items[i], e);
         }
     }
 
@@ -377,7 +377,7 @@ public class World {
     protected void check(Array<Entity> entities, Performer performer) {
         if (entities.size > 0) {
             for (int i = 0; entities.size > i; i++) {
-                Entity e = entities.get(i);
+                Entity e = entities.items[i];
                 notifyManagers(performer, e);
                 notifySystems(performer, e);
             }
@@ -400,7 +400,7 @@ public class World {
         em.clean();
 
         for(int i = 0; systemsArray.size > i; i++) {
-            EntitySystem system = systemsArray.get(i);
+            EntitySystem system = systemsArray.items[i];
             if(!system.isPassive()) {
                 system.process();
             }
