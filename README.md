@@ -1,9 +1,13 @@
 # Preamble
 
 This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entity System Framework](http://gamadu.com/artemis/).
-The major difference is that the code base has been refactored to use libgdx containers and pooling.
+The major difference is that the code base has been refactored to use libgdx containers and pooling. An event (messaging) system
+has been added to version 0.2. This is still very much a work in progress. Feedback is appreciated.
 
-# What's changed
+# Version 0.2
+ - Created an event system to allow inter-system communication.
+
+# Version 0.1
 
  - Some files have been reshuffled in the packages for better organization.
  - Most private fields and methods have been changed to protected to allow for easier extension.
@@ -17,15 +21,8 @@ The major difference is that the code base has been refactored to use libgdx con
  - Removed all the unused utils classes.
  - Added a check to EntitySystem to prune activeEntities before processing. (in case of removal by a different system earlier on in the process cycle)
  - Cleaned up some compiler warnings.
+ - Mavenize the project
 
-# What's left to be done
-
- - Mavenize the project and add it to the central repo.
- - This is still very much a work in progress. Feedback is appreciated. Pull requests accepted.
- - Get rid of the SafeArray class. (needed because of the difference between Bag and Array get/set implementation)
- - Javadoc the rest of the classes.
- - Add unit tests
- - Do some profiling to determine bottle necks.
 
 # Alternative Artemis forks
 
