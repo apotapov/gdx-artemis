@@ -18,7 +18,12 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 public final class Entity implements Poolable {
     protected UUID uuid;
 
-    protected int id;
+    /**
+     * The internal id for this entity within the framework. No other entity
+     * will have the same ID, but ID's are however reused so another entity may
+     * acquire this ID if the previous entity was deleted.
+     */
+    public int id;
     protected BitSet componentBits;
     protected BitSet systemBits;
 
@@ -34,21 +39,6 @@ public final class Entity implements Poolable {
         systemBits = new BitSet();
         componentBits = new BitSet();
         uuid = UUID.randomUUID();
-    }
-
-    /**
-     * The internal id for this entity within the framework. No other entity
-     * will have the same ID, but ID's are however reused so another entity may
-     * acquire this ID if the previous entity was deleted.
-     * 
-     * @return id of the entity.
-     */
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**

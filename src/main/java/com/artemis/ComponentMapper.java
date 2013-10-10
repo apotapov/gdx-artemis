@@ -29,7 +29,7 @@ public class ComponentMapper<A extends Component> {
      * @return the instance of the component
      */
     public A get(Entity e) {
-        return classType.cast(components.get(e.getId()));
+        return classType.cast(components.get(e.id));
     }
 
     /**
@@ -40,8 +40,8 @@ public class ComponentMapper<A extends Component> {
      * @return the instance of the component
      */
     public A getSafe(Entity e) {
-        if(e.getId() < components.size) {
-            return classType.cast(components.get(e.getId()));
+        if(e.id < components.size) {
+            return classType.cast(components.get(e.id));
         }
         return null;
     }

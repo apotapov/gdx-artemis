@@ -36,20 +36,20 @@ public class EntityManager extends Manager {
             @Override
             public Entity obtain() {
                 Entity entity = super.obtain();
-                entity.setId(identifierPool.checkOut());
+                entity.id = identifierPool.checkOut();
                 return entity;
             }
 
             @Override
             public void free (Entity entity) {
-                identifierPool.checkIn(entity.getId());
+                identifierPool.checkIn(entity.id);
                 super.free(entity);
             }
 
             @Override
             public void freeAll (Array<Entity> entities) {
                 for (int i = 0; i < entities.size; i++) {
-                    identifierPool.checkIn(entities.get(i).getId());
+                    identifierPool.checkIn(entities.get(i).id);
                 }
                 super.freeAll(entities);
             }
@@ -66,17 +66,17 @@ public class EntityManager extends Manager {
     public void added(Entity e) {
         active++;
         added++;
-        entities.set(e.getId(), e);
+        entities.set(e.id, e);
     }
 
     @Override
     public void enabled(Entity e) {
-        disabled.clear(e.getId());
+        disabled.clear(e.id);
     }
 
     @Override
     public void disabled(Entity e) {
-        disabled.set(e.getId());
+        disabled.set(e.id);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class EntityManager extends Manager {
         if(deletedEntities.size > 0) {
             for(int i = 0; deletedEntities.size > i; i++) {
                 Entity e = deletedEntities.get(i);
-                entities.set(e.getId(), null);
-                disabled.clear(e.getId());
+                entities.set(e.id, null);
+                disabled.clear(e.id);
                 active--;
                 deleted++;
                 entityPool.free(e);

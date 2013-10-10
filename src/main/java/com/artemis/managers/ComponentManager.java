@@ -62,7 +62,7 @@ public class ComponentManager extends Manager {
     public void removeComponentsOfEntity(Entity e) {
         BitSet componentBits = e.getComponentBits();
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
-            removeComponent(e.getId(), i);
+            removeComponent(e.id, i);
         }
         componentBits.clear();
     }
@@ -80,7 +80,7 @@ public class ComponentManager extends Manager {
             components = new SafeArray<Component>();
             componentsByType.set(classIndex, components);
         }
-        components.set(e.getId(), component);
+        components.set(e.id, component);
 
         e.getComponentBits().set(classIndex);
     }
@@ -94,7 +94,7 @@ public class ComponentManager extends Manager {
     public void removeComponent(Entity e, Class<? extends Component> type) {
         int classIndex = getComponentClassIndex(type);
         if(e.getComponentBits().get(classIndex)) {
-            removeComponent(e.getId(), classIndex);
+            removeComponent(e.id, classIndex);
             e.getComponentBits().clear(classIndex);
         }
     }
@@ -127,7 +127,7 @@ public class ComponentManager extends Manager {
         int classIndex = getComponentClassIndex(type);
         Array<Component> components = componentsByType.get(classIndex);
         if(components != null) {
-            return type.cast(components.get(e.getId()));
+            return type.cast(components.get(e.id));
         }
         return null;
     }
@@ -141,7 +141,7 @@ public class ComponentManager extends Manager {
         BitSet componentBits = e.getComponentBits();
 
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
-            array.add(componentsByType.get(i).get(e.getId()));
+            array.add(componentsByType.get(i).get(e.id));
         }
     }
 
