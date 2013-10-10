@@ -66,7 +66,7 @@ public class GroupManager extends Manager {
         Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
             for(int i = 0; groups.size > i; i++) {
-                Array<Entity> entities = entitiesByGroup.get(groups.items[i]);
+                Array<Entity> entities = entitiesByGroup.get(groups.get(i));
                 if(entities != null) {
                     entities.removeValue(e, true);
                 }
@@ -116,7 +116,7 @@ public class GroupManager extends Manager {
         if(group != null) {
             Array<String> groups = groupsByEntity.get(e);
             for(int i = 0; groups.size > i; i++) {
-                String g = groups.items[i];
+                String g = groups.get(i);
                 if(group == g || group.equals(g)) {
                     return true;
                 }

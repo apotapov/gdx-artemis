@@ -41,7 +41,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
     @Override
     protected final void processEntities(Array<Entity> entities) {
         for (int i = 0, s = entities.size; s > i; i++) {
-            Entity entity = entities.items[i];
+            Entity entity = entities.get(i);
             processDelta(entity, acc);
             float remaining = getRemainingDelay(entity);
             if(remaining <= 0) {

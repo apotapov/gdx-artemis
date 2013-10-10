@@ -49,7 +49,7 @@ public class EntityManager extends Manager {
             @Override
             public void freeAll (Array<Entity> entities) {
                 for (int i = 0; i < entities.size; i++) {
-                    identifierPool.checkIn(entities.items[i].id);
+                    identifierPool.checkIn(entities.get(i).id);
                 }
                 super.freeAll(entities);
             }
@@ -87,7 +87,7 @@ public class EntityManager extends Manager {
     public void clean() {
         if(deletedEntities.size > 0) {
             for(int i = 0; deletedEntities.size > i; i++) {
-                Entity e = deletedEntities.items[i];
+                Entity e = deletedEntities.get(i);
                 entities.set(e.id, null);
                 disabled.clear(e.id);
                 active--;

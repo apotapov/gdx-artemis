@@ -26,7 +26,7 @@ public abstract class EntityProcessingSystem extends EntitySystem {
     @Override
     protected final void processEntities(Array<Entity> entities) {
         for (int i = 0, s = entities.size; s > i; i++) {
-            process(entities.items[i]);
+            process(entities.get(i));
         }
     }
 }
