@@ -311,7 +311,15 @@ public class World {
      * @return the added system.
      */
     public <T extends EntitySystem> T setSystem(T system) {
-        return setSystem(system, false);
+        system.setWorld(this);
+
+        systems.put(system.getClass(), system);
+        systemsArray.add(system);
+        if (system instanceof EventSystem) {
+            eventSystems.add((EventSystem)system);
+        }
+
+        return system;
     }
 
     /**

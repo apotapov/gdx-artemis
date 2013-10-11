@@ -13,11 +13,6 @@ public abstract class PassiveEntitySystem extends VoidEntitySystem {
     }
 
     @Override
-    public final void setPassive(boolean passive) {
-        // do not change the passive status of the system
-    }
-
-    @Override
     protected final void processSystem() {
     }
 
