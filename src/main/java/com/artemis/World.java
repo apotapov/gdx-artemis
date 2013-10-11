@@ -452,7 +452,7 @@ public class World {
                 clazz = clazz.getSuperclass();
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error while setting component mappers", e);
+            throw new RuntimeException("Error while setting component mappers for system: " + system, e);
         }
     }
 
