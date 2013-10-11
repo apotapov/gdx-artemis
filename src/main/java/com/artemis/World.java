@@ -3,7 +3,6 @@ package com.artemis;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
-import com.artemis.annotations.Mapper;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.artemis.managers.Manager;
@@ -116,7 +115,7 @@ public class World {
         }
 
         for (int i = 0; i < systemsArray.size; i++) {
-            ComponentMapperInitHelper.config(systemsArray.get(i), this);
+            assignComponentMappers(systemsArray.get(i));
             systemsArray.get(i).initialize();
         }
     }
@@ -434,30 +433,27 @@ public class World {
         void perform(EntityObserver observer, Entity e);
     }
 
+    @SuppressWarnings("unchecked")
+    protected void assignComponentMappers(EntitySystem system) {
+        try {
 
-
-    protected static class ComponentMapperInitHelper {
-
-        @SuppressWarnings("unchecked")
-        public static void config(Object target, World world) {
-            try {
-                Class<?> clazz = target.getClass();
+            Class<?> clazz = system.getClass();
+            while (clazz != null) {
                 for (Field field : clazz.getDeclaredFields()) {
-                    Mapper annotation = field.getAnnotation(Mapper.class);
-                    if (annotation != null && Mapper.class.isAssignableFrom(Mapper.class)) {
+                    if (field.getType().isAssignableFrom(ComponentMapper.class)) {
                         ParameterizedType genericType = (ParameterizedType) field.getGenericType();
                         @SuppressWarnings("rawtypes")
                         Class componentType = (Class) genericType.getActualTypeArguments()[0];
 
                         field.setAccessible(true);
-                        field.set(target, world.getMapper(componentType));
+                        field.set(system, getMapper(componentType));
                     }
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Error while setting component mappers", e);
+                clazz = clazz.getSuperclass();
             }
+        } catch (Exception e) {
+            throw new RuntimeException("Error while setting component mappers", e);
         }
-
     }
 
 }
