@@ -1,9 +1,10 @@
-package com.artemis;
+package com.artemis.systems.event;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.artemis.World;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.systems.event.BasicEventSystem;
 import com.artemis.systems.event.SystemEvent;
