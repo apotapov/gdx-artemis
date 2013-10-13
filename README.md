@@ -7,6 +7,9 @@ has been added to version 0.2. This is still very much a work in progress. Feedb
 # Version 0.2
  - Created an event system to allow inter-system communication.
  - Speed improvement: Removed some unnecessary accessor calls.
+ - Deprecated Mapper annotation and imporved ComoponentMapper intialization
+ - Allow inheritance for EntitySystems (component mappers are initialized in parent objects as well)
+ - Making a dent in unit testing.
 
 # Version 0.1
 
