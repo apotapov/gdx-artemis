@@ -32,4 +32,4 @@ has been added to version 0.2. This is still very much a work in progress. Feedb
 # Alternative Artemis forks
 
  - [junkdog](https://github.com/junkdog/artemis-odb)
- - [gemserker](https://github.com/gemserk/artemis)
+ - [gemserker](https://github.com/gemserk/commons-gdx)
