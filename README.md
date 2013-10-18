@@ -10,6 +10,7 @@ has been added to version 0.2. This is still very much a work in progress. Feedb
  - Deprecated Mapper annotation and imporved ComoponentMapper intialization
  - Allow inheritance for EntitySystems (component mappers are initialized in parent objects as well)
  - Fixed a bug in EntitySystem.check(e) and made it more performant.
+ - Adding ComponentMapper reuse. No need to create new instances for all the systems.
  - Making a dent in unit testing.
 
 # Version 0.1

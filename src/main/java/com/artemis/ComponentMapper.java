@@ -1,6 +1,7 @@
 package com.artemis;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 
 
 /**
@@ -12,6 +13,10 @@ import com.badlogic.gdx.utils.Array;
  * @param <A> the class type of the component
  */
 public class ComponentMapper<A extends Component> {
+
+    private static final ObjectMap<Class<?>, ComponentMapper<?>> mappers =
+            new ObjectMap<Class<?>, ComponentMapper<?>>();
+
     private Class<A> classType;
     private Array<Component> components;
 
@@ -62,8 +67,16 @@ public class ComponentMapper<A extends Component> {
      * @param world the world that this component mapper should use.
      * @return a new mapper.
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Component> ComponentMapper<T> getFor(Class<T> type, World world) {
-        return new ComponentMapper<T>(type, world);
+        ComponentMapper<T> mapper;
+        if (mappers.containsKey(type)) {
+            mapper = (ComponentMapper<T>) mappers.get(type);
+        } else {
+            mapper = new ComponentMapper<T>(type, world);
+            mappers.put(type, mapper);
+        }
+        return mapper;
     }
 
 }
