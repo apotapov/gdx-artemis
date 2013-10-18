@@ -3,6 +3,7 @@ package com.artemis;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
+import com.artemis.annotations.IgnoreMapper;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.artemis.managers.Manager;
@@ -441,12 +442,17 @@ public class World {
             while (clazz != null) {
                 for (Field field : clazz.getDeclaredFields()) {
                     if (field.getType().isAssignableFrom(ComponentMapper.class)) {
-                        ParameterizedType genericType = (ParameterizedType) field.getGenericType();
-                        @SuppressWarnings("rawtypes")
-                        Class componentType = (Class) genericType.getActualTypeArguments()[0];
 
-                        field.setAccessible(true);
-                        field.set(system, getMapper(componentType));
+                        // check whether the field is marked to be ignored
+                        IgnoreMapper annotation = field.getAnnotation(IgnoreMapper.class);
+                        if (annotation == null) {
+                            ParameterizedType genericType = (ParameterizedType) field.getGenericType();
+                            @SuppressWarnings("rawtypes")
+                            Class componentType = (Class) genericType.getActualTypeArguments()[0];
+
+                            field.setAccessible(true);
+                            field.set(system, getMapper(componentType));
+                        }
                     }
                 }
                 clazz = clazz.getSuperclass();
