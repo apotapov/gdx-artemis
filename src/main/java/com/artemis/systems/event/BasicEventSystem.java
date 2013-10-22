@@ -98,7 +98,9 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
     public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
         if (currentEvents.containsKey(type)) {
             for (SystemEvent event : currentEvents.get(type)) {
-                events.add(type.cast(event));
+                if (!event.handled) {
+                    events.add(type.cast(event));
+                }
             }
         }
     }

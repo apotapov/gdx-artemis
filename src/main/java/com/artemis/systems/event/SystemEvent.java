@@ -18,6 +18,7 @@ public abstract class SystemEvent implements Poolable {
      */
     public int eventId;
     public EntitySystem sender;
+    public boolean handled = false;
 
     /**
      * Called when an event is rolled back into the pool.
@@ -26,6 +27,7 @@ public abstract class SystemEvent implements Poolable {
     public final void reset() {
         eventId = -1;
         sender = null;
+        handled = false;
         resetForPooling();
     }
 
