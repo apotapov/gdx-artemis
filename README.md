@@ -12,6 +12,7 @@ has been added to version 0.2. This is still very much a work in progress. Feedb
  - Fixed a bug in EntitySystem.check(e) and made it more performant.
  - Adding ComponentMapper reuse. No need to create new instances for all the systems.
  - Adding @IgnoreMapper annotation to allow bypassing ComponentMapper initialization during world initialization. (useful for generic systems with generic mappers, where reflection won't work)
+ - Adding a notion of stopping event propagation by marking event handled.
  - Making a dent in unit testing.
 
 # Version 0.1
