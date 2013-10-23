@@ -7,7 +7,7 @@ This is still very much a work in progress. Feedback is appreciated.
 Major new features:
  - Uses libgdx containers and pooling.
  - Event (messaging) system was added (version 0.2)
- - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.
+ - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.	
 
 
 # Version 0.3
