@@ -37,6 +37,11 @@ public class EntitySystemTest {
             super(Aspect.getAspectForAll(ComponentA.class).one(ComponentB.class));
         }
 
+        public void initalize() {
+            aMapper = world.getMapper(ComponentA.class);
+            bMapper = world.getMapper(ComponentB.class);
+        }
+
         @Override
         protected void processEntities(Array<Entity> entities) {
             numEntities = entities.size;

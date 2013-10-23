@@ -29,6 +29,11 @@ public class ParentMapperTest {
         }
 
         @Override
+        public void initialize() {
+            mapper = world.getMapper(TestComponent.class);
+        }
+
+        @Override
         protected void process(Entity e) {
             Assert.assertNotNull(mapper);
             mapper.get(e);

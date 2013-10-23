@@ -1,9 +1,5 @@
 package com.artemis;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-
-import com.artemis.annotations.IgnoreMapper;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.artemis.managers.Manager;
@@ -121,7 +117,6 @@ public class World implements Disposable {
         }
 
         for (int i = 0; i < systemsArray.size; i++) {
-            assignComponentMappers(systemsArray.get(i));
             systemsArray.get(i).initialize();
         }
     }
@@ -444,34 +439,6 @@ public class World implements Disposable {
      */
     protected interface Performer {
         void perform(EntityObserver observer, Entity e);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected void assignComponentMappers(EntitySystem system) {
-        try {
-
-            Class<?> clazz = system.getClass();
-            while (clazz != null) {
-                for (Field field : clazz.getDeclaredFields()) {
-                    if (field.getType().isAssignableFrom(ComponentMapper.class)) {
-
-                        // check whether the field is marked to be ignored
-                        IgnoreMapper annotation = field.getAnnotation(IgnoreMapper.class);
-                        if (annotation == null) {
-                            ParameterizedType genericType = (ParameterizedType) field.getGenericType();
-                            @SuppressWarnings("rawtypes")
-                            Class componentType = (Class) genericType.getActualTypeArguments()[0];
-
-                            field.setAccessible(true);
-                            field.set(system, getMapper(componentType));
-                        }
-                    }
-                }
-                clazz = clazz.getSuperclass();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error while setting component mappers for system: " + system, e);
-        }
     }
 
     @Override

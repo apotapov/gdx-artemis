@@ -8,7 +8,7 @@ import com.artemis.EntityObserver;
 import com.artemis.World;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectIntMap;
 
 /**
  * The most raw entity system. It should not typically be used, but you can create your own
@@ -218,14 +218,16 @@ public abstract class EntitySystem implements EntityObserver {
      */
     protected static class SystemIndexManager {
         protected static int INDEX = 0;
-        protected static ObjectMap<Class<? extends EntitySystem>, Integer> indices =
-                new ObjectMap<Class<? extends EntitySystem>, Integer>();
+        protected static ObjectIntMap<Class<? extends EntitySystem>> indices =
+                new ObjectIntMap<Class<? extends EntitySystem>>();
 
         protected static int getIndexFor(Class<? extends EntitySystem> es){
-            Integer index = indices.get(es);
-            if(index == null) {
+            int index;
+            if (!indices.containsKey(es)) {
                 index = INDEX++;
                 indices.put(es, index);
+            } else {
+                index = indices.get(es, -1);
             }
             return index;
         }

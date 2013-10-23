@@ -1,11 +1,18 @@
 # Preamble
 
 This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entity System Framework](http://gamadu.com/artemis/).
-The major difference is that the code base has been refactored to use libgdx containers and pooling. An event (messaging) system
-has been added to version 0.2. This is still very much a work in progress. Feedback is appreciated.
+There are some major changes made to make Artemis more robust, memory efficient and intuitive. 
+This is still very much a work in progress. Feedback is appreciated.
+
+Major new features:
+ - Uses libgdx containers and pooling.
+ - Event (messaging) system was added (version 0.2)
+ - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.
+
 
 # Version 0.3
  - Adding the ability to dispose of the world.
+ - For better support of GWT and HTML5 games with libgdx, removed automatic ComponentMapper initialization. ComponentMappers should be initialized manually in EntitySystem.initialize() method by calling mapper = world.getMapper(Component.class). 
 
 # Version 0.2
  - Created an event system to allow inter-system communication.
