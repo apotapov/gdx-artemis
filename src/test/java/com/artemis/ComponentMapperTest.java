@@ -22,8 +22,8 @@ public class ComponentMapperTest {
     public void testComponentCaching() {
         World world = new World();
         world.initialize();
-        ComponentMapper<ComponentA> mapper1 = ComponentMapper.getFor(ComponentA.class, world);
-        ComponentMapper<ComponentA> mapper2 = ComponentMapper.getFor(ComponentA.class, world);
+        ComponentMapper<ComponentA> mapper1 = world.getMapper(ComponentA.class);
+        ComponentMapper<ComponentA> mapper2 = world.getMapper(ComponentA.class);
         Assert.assertTrue(mapper1 == mapper2);
     }
 
