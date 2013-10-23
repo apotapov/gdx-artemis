@@ -3,6 +3,7 @@ package com.artemis.managers;
 import com.artemis.Entity;
 import com.artemis.EntityObserver;
 import com.artemis.World;
+import com.badlogic.gdx.utils.Disposable;
 
 
 /**
@@ -11,7 +12,7 @@ import com.artemis.World;
  * @author Arni Arent
  * 
  */
-public abstract class Manager implements EntityObserver {
+public abstract class Manager implements EntityObserver, Disposable {
     protected World world;
 
     public void initialize() {

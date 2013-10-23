@@ -130,4 +130,10 @@ public class GroupManager extends Manager {
         removeFromAllGroups(e);
     }
 
+    @Override
+    public void dispose() {
+        entitiesByGroup.clear();
+        groupsByEntity.clear();
+    }
+
 }

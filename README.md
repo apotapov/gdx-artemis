@@ -4,6 +4,9 @@ This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entit
 The major difference is that the code base has been refactored to use libgdx containers and pooling. An event (messaging) system
 has been added to version 0.2. This is still very much a work in progress. Feedback is appreciated.
 
+# Version 0.3
+ - Adding the ability to dispose of the world.
+
 # Version 0.2
  - Created an event system to allow inter-system communication.
  - Speed improvement: Removed some unnecessary accessor calls.

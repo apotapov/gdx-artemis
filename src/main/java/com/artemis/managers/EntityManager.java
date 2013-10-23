@@ -42,14 +42,18 @@ public class EntityManager extends Manager {
 
             @Override
             public void free (Entity entity) {
-                identifierPool.checkIn(entity.id);
-                super.free(entity);
+                if (entity != null) {
+                    identifierPool.checkIn(entity.id);
+                    super.free(entity);
+                }
             }
 
             @Override
             public void freeAll (Array<Entity> entities) {
-                for (int i = 0; i < entities.size; i++) {
-                    identifierPool.checkIn(entities.get(i).id);
+                for (Entity entity : entities) {
+                    if (entity != null) {
+                        identifierPool.checkIn(entity.id);
+                    }
                 }
                 super.freeAll(entities);
             }
@@ -162,5 +166,19 @@ public class EntityManager extends Manager {
      */
     public long getTotalDeleted() {
         return deleted;
+    }
+
+    @Override
+    public void dispose() {
+        entityPool.freeAll(entities);
+        entities.clear();
+        entityPool.freeAll(deletedEntities);
+        deletedEntities.clear();
+        disabled.clear();
+        active = 0;
+        added = 0;
+        created = 0;
+        deleted = 0;
+        identifierPool.dispose();
     }
 }

@@ -155,4 +155,19 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
             queue.addAll(entry.value);
         }
     }
+
+    @Override
+    public void dispose() {
+        for (Array<SystemEvent> events : buffer.values()) {
+            SystemEvent.free(events);
+            events.clear();
+        }
+        buffer.clear();
+
+        for (Array<SystemEvent> events : currentEvents.values()) {
+            SystemEvent.free(events);
+            events.clear();
+        }
+        currentEvents.clear();
+    }
 }

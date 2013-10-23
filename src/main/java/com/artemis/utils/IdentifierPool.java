@@ -1,11 +1,12 @@
 package com.artemis.utils;
 
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntArray;
 
 /**
  * Used to generate distinct ids for entities and reuse them.
  */
-public class IdentifierPool {
+public class IdentifierPool implements Disposable {
     protected IntArray ids;
     protected int nextAvailableId;
 
@@ -33,5 +34,11 @@ public class IdentifierPool {
      */
     public void checkIn(int id) {
         ids.add(id);
+    }
+
+    @Override
+    public void dispose() {
+        ids.clear();
+        nextAvailableId = 0;
     }
 }

@@ -49,4 +49,10 @@ public class TagManager extends Manager {
             entitiesByTag.remove(removedTag);
         }
     }
+
+    @Override
+    public void dispose() {
+        entitiesByTag.clear();
+        tagsByEntity.clear();
+    }
 }

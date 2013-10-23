@@ -60,4 +60,10 @@ public class PlayerManager extends Manager {
         removeFromPlayer(e);
     }
 
+    @Override
+    public void dispose() {
+        playerByEntity.clear();
+        entitiesByPlayer.clear();
+    }
+
 }

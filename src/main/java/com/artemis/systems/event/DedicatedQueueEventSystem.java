@@ -89,4 +89,17 @@ public class DedicatedQueueEventSystem extends BasicEventSystem {
             clearBuffer();
         }
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        for (ObjectMap<Class<? extends SystemEvent>, Array<SystemEvent>> subscriberQueue : subscriberQueues.values()) {
+            for (Array<SystemEvent> events : subscriberQueue.values()) {
+                SystemEvent.free(events);
+                events.clear();
+            }
+            subscriberQueue.clear();
+        }
+        subscriberQueues.clear();
+    }
 }

@@ -56,4 +56,9 @@ public class TeamManager extends Manager {
         }
     }
 
+    @Override
+    public void dispose() {
+        playersByTeam.clear();
+        teamByPlayer.clear();
+    }
 }

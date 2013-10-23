@@ -1,6 +1,7 @@
 package com.artemis.systems.event;
 
 import com.artemis.systems.EntitySystem;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
 
 /**
@@ -8,7 +9,7 @@ import com.badlogic.gdx.utils.ObjectSet;
  * 
  * @author apotapov
  */
-public interface EventSystem {
+public interface EventSystem extends Disposable {
     /**
      * Post an event to people who care.
      * 

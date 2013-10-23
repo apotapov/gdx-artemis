@@ -19,15 +19,13 @@ public class ComponentManager extends Manager {
 
     protected static int nextComponentClassIndex = 0;
     protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
-            new ObjectIntMap<Class<? extends Component>>();
-
-    /**
-     * Returns the index of a Component class. Indices are cached, so retrieval
-     * should be fast.
-     * 
-     * @param type Component class to retrieve the index for.
-     * @return Index of a specific component class.
-     */
+            new ObjectIntMap<Class<? extends Component>>();    /**
+             * Returns the index of a Component class. Indices are cached, so retrieval
+             * should be fast.
+             * 
+             * @param type Component class to retrieve the index for.
+             * @return Index of a specific component class.
+             */
     public static int getComponentClassIndex(Class<? extends Component> type) {
         if (componentClassIndeces.containsKey(type)) {
             return componentClassIndeces.get(type, -1);
@@ -183,6 +181,23 @@ public class ComponentManager extends Manager {
                 Pools.free(compoment);
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        for (Array<Component> components : componentsByType) {
+            if (components != null) {
+                // TODO fix the hack when: https://github.com/libgdx/libgdx/issues/857 is resolved
+                for (Component component : components) {
+                    if (component != null) {
+                        Pools.free(component);
+                    }
+                }
+                components.clear();
+            }
+        }
+        componentsByType.clear();
+        deleted.clear();
     }
 
 }

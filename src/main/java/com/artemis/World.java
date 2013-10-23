@@ -12,6 +12,7 @@ import com.artemis.systems.event.EventSystem;
 import com.artemis.systems.event.SystemEvent;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 
@@ -25,7 +26,7 @@ import com.badlogic.gdx.utils.ObjectSet;
  * @author Arni Arent
  * 
  */
-public class World {
+public class World implements Disposable {
     protected EntityManager em;
     protected ComponentManager cm;
 
@@ -460,6 +461,32 @@ public class World {
         } catch (Exception e) {
             throw new RuntimeException("Error while setting component mappers for system: " + system, e);
         }
+    }
+
+    @Override
+    public void dispose() {
+        em.dispose();
+        cm.dispose();
+
+        added.clear();
+        changed.clear();
+        deleted.clear();
+        enable.clear();
+        disable.clear();
+
+        for (Manager manager : managersArray) {
+            manager.dispose();
+        }
+        managers.clear();
+        managersArray.clear();
+
+        systems.clear();
+        systemsArray.clear();
+
+        for (EventSystem eventSystem : eventSystems) {
+            eventSystem.dispose();
+        }
+        eventSystems.clear();
     }
 
 }

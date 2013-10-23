@@ -87,4 +87,10 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
             lastPolledEvents.put(pollingSystem, highestPolledEvent);
         }
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        lastPolledEvents.clear();
+    }
 }
