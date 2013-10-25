@@ -3,10 +3,12 @@ package com.artemis.managers;
 import java.util.BitSet;
 
 import com.artemis.Component;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pools;
 
 /**
@@ -16,6 +18,8 @@ import com.badlogic.gdx.utils.Pools;
 public class ComponentManager extends Manager {
     protected Array<Array<Component>> componentsByType;
     protected Array<Entity> deleted;
+
+    protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
 
     protected static int nextComponentClassIndex = 0;
     protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
@@ -41,6 +45,7 @@ public class ComponentManager extends Manager {
     public ComponentManager() {
         componentsByType = new SafeArray<Array<Component>>();
         deleted = new SafeArray<Entity>();
+        this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
     }
 
     /**
@@ -183,21 +188,35 @@ public class ComponentManager extends Manager {
         }
     }
 
+    /**
+     * Retrieves a ComponentMapper instance for fast retrieval of components from entities.
+     * 
+     * @param type of component to get mapper for.
+     * @return mapper for specified component type.
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Component> ComponentMapper<T> getMapper(Class<T> type) {
+        ComponentMapper<T> mapper;
+        if (mappers.containsKey(type)) {
+            mapper = (ComponentMapper<T>) mappers.get(type);
+        } else {
+            mapper = new ComponentMapper<T>(type, world);
+            mappers.put(type, mapper);
+        }
+        return mapper;
+    }
+
     @Override
     public void dispose() {
         for (Array<Component> components : componentsByType) {
             if (components != null) {
-                // TODO fix the hack when: https://github.com/libgdx/libgdx/issues/857 is resolved
-                for (Component component : components) {
-                    if (component != null) {
-                        Pools.free(component);
-                    }
-                }
+                Pools.freeAll(components);
                 components.clear();
             }
         }
         componentsByType.clear();
         deleted.clear();
+        mappers.clear();
     }
 
 }

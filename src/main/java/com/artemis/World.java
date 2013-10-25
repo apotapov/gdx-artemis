@@ -39,8 +39,6 @@ public class World implements Disposable {
     protected Performer enablePerformer;
     protected Performer disablePerformer;
 
-    protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
-
     protected ObjectMap<Class<? extends Manager>, Manager> managers;
     protected Array<Manager> managersArray;
 
@@ -95,8 +93,6 @@ public class World implements Disposable {
                 observer.disabled(e);
             }
         };
-
-        this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
 
         this.cm = cm;
         setManager(cm);
@@ -422,16 +418,8 @@ public class World implements Disposable {
      * @param type of component to get mapper for.
      * @return mapper for specified component type.
      */
-    @SuppressWarnings("unchecked")
     public <T extends Component> ComponentMapper<T> getMapper(Class<T> type) {
-        ComponentMapper<T> mapper;
-        if (mappers.containsKey(type)) {
-            mapper = (ComponentMapper<T>) mappers.get(type);
-        } else {
-            mapper = new ComponentMapper<T>(type, this);
-            mappers.put(type, mapper);
-        }
-        return mapper;
+        return cm.getMapper(type);
     }
 
     /*
@@ -451,8 +439,6 @@ public class World implements Disposable {
         deleted.clear();
         enable.clear();
         disable.clear();
-
-        mappers.clear();
 
         for (Manager manager : managersArray) {
             manager.dispose();
