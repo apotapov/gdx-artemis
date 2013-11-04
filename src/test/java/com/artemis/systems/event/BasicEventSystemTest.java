@@ -6,10 +6,8 @@ import org.junit.Test;
 
 import com.artemis.World;
 import com.artemis.systems.VoidEntitySystem;
-import com.artemis.systems.event.BasicEventSystem;
-import com.artemis.systems.event.SystemEvent;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * Tests out the basic event system, with simple send/receive mechanic
@@ -40,7 +38,7 @@ public class BasicEventSystemTest {
 
         @Override
         protected void processSystem() {
-            ObjectSet<TestEvent> events = new ObjectSet<TestEvent>();
+            Array<TestEvent> events = new Array<TestEvent>();
             world.getEvents(this, TestEvent.class, events);
             for (TestEvent event : events) {
                 array.add(event.eventId);

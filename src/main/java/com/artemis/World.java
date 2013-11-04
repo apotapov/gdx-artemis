@@ -10,7 +10,6 @@ import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * The primary instance for the framework. It contains all the managers.
@@ -285,7 +284,8 @@ public class World implements Disposable {
      * @param type Type of events requested.
      * @param events Event set to populate with events
      */
-    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
+        events.clear();
         for (EventSystem eventSystem : eventSystems) {
             eventSystem.getEvents(pollingSystem, type, events);
         }

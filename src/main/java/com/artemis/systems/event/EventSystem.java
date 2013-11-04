@@ -1,8 +1,8 @@
 package com.artemis.systems.event;
 
 import com.artemis.systems.EntitySystem;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * Interface for event systems to adhere to.
@@ -25,5 +25,5 @@ public interface EventSystem extends Disposable {
      * @param eventType Type of event to get.
      * @param events Set that the posted events will be loaded into.
      */
-    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> eventType, ObjectSet<T> events);
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> eventType, Array<T> events);
 }

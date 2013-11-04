@@ -5,7 +5,6 @@ import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * Basic implementation of event system. All the events that are
@@ -95,10 +94,10 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
      * Retrieves events of specific type and adds them to the events Set.
      */
     @Override
-    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
         if (currentEvents.containsKey(type)) {
             for (SystemEvent event : currentEvents.get(type)) {
-                if (!event.handled) {
+                if (!event.handled && !events.contains(type.cast(event), false)) {
                     events.add(type.cast(event));
                 }
             }

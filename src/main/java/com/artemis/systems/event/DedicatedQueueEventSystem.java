@@ -3,7 +3,6 @@ package com.artemis.systems.event;
 import com.artemis.systems.EntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * A special type of event system that creates a dedicated
@@ -54,7 +53,7 @@ public class DedicatedQueueEventSystem extends BasicEventSystem {
      * The caller is then responsible for freeing the events after processing.
      */
     @Override
-    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
         if (subscriberQueues.containsKey(pollingSystem)) {
             currentEvents = subscriberQueues.get(pollingSystem);
             super.getEvents(pollingSystem, type, events);

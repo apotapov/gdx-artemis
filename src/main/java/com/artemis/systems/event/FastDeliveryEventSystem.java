@@ -3,7 +3,6 @@ package com.artemis.systems.event;
 import com.artemis.systems.EntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * A special type of event system. That ensures fast delivery
@@ -61,7 +60,7 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
      * processed by the system get returned.
      */
     @Override
-    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, ObjectSet<T> events) {
+    public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
         if (currentEvents.containsKey(type)) {
 
             // get the highest event id processed by this system
@@ -73,7 +72,7 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
 
             for (SystemEvent event : currentEvents.get(type)) {
                 // only add events if their id is higher than the last time we polled
-                if (!event.handled && event.eventId > lastPolledEvent) {
+                if (!event.handled && events.contains(type.cast(event), false) && event.eventId > lastPolledEvent) {
                     events.add(type.cast(event));
 
                     // update the current highest polled event
