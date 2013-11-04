@@ -83,6 +83,9 @@ public final class Entity implements Poolable {
      */
     public Entity addComponent(Component component) {
         componentManager.addComponent(this, component);
+        if (isActive()) {
+            world.changedEntity(this);
+        }
         return this;
     }
 
@@ -106,6 +109,9 @@ public final class Entity implements Poolable {
      */
     public Entity removeComponent(Class<? extends Component> type) {
         componentManager.removeComponent(this, type);
+        if (isActive()) {
+            world.changedEntity(this);
+        }
         return this;
     }
 

@@ -53,7 +53,6 @@ public class SingletonComponentManager extends Manager {
             mappers.put(componentClass, world.getMapper(componentClass));
         }
         singletonEntity.addComponent(component);
-        singletonEntity.changedInWorld();
         return singletonEntity;
     }
 

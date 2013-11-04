@@ -10,6 +10,7 @@ import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
 
 /**
  * The primary instance for the framework. It contains all the managers.
@@ -26,11 +27,11 @@ public class World implements Disposable {
     protected ComponentManager cm;
 
     protected float delta;
-    protected Array<Entity> added;
-    protected Array<Entity> changed;
-    protected Array<Entity> deleted;
-    protected Array<Entity> enable;
-    protected Array<Entity> disable;
+    protected ObjectSet<Entity> added;
+    protected ObjectSet<Entity> changed;
+    protected ObjectSet<Entity> deleted;
+    protected ObjectSet<Entity> enable;
+    protected ObjectSet<Entity> disable;
 
     protected Performer addedPerformer;
     protected Performer changedPerformer;
@@ -56,11 +57,11 @@ public class World implements Disposable {
         systems = new ObjectMap<Class<?>, EntitySystem>();
         systemsArray = new SafeArray<EntitySystem>();
 
-        added = new SafeArray<Entity>();
-        changed = new SafeArray<Entity>();
-        deleted = new SafeArray<Entity>();
-        enable = new SafeArray<Entity>();
-        disable = new SafeArray<Entity>();
+        added = new ObjectSet<Entity>();
+        changed = new ObjectSet<Entity>();
+        deleted = new ObjectSet<Entity>();
+        enable = new ObjectSet<Entity>();
+        disable = new ObjectSet<Entity>();
 
         addedPerformer = new Performer() {
             @Override
@@ -219,7 +220,7 @@ public class World implements Disposable {
      * @param e entity
      */
     public void deleteEntity(Entity e) {
-        if (!deleted.contains(e, true)) {
+        if (!deleted.contains(e)) {
             deleted.add(e);
         }
     }
@@ -378,10 +379,9 @@ public class World implements Disposable {
      * @param entities
      * @param performer
      */
-    protected void check(Array<Entity> entities, Performer performer) {
+    protected void check(ObjectSet<Entity> entities, Performer performer) {
         if (entities.size > 0) {
-            for (int i = 0; entities.size > i; i++) {
-                Entity e = entities.get(i);
+            for (Entity e : entities) {
                 notifyManagers(performer, e);
                 notifySystems(performer, e);
             }
