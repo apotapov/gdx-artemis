@@ -16,6 +16,7 @@ Major new features:
  - Changed the libgdx dependency to 0.9.9 instead of the nightly build.
  - Changed the EventSystem.getEvents() to take an Array instead of an ObjectSet to preserve the order of the events occuring.
  - Added a SingletonComponentManager to manage singleton components in the world.
+ - Bug fix in DelayedEntityProcessingSystem.
 
 # Previous versions
 See CHANGELOG.md

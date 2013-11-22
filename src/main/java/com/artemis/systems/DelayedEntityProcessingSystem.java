@@ -40,6 +40,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 
     @Override
     protected final void processEntities(Array<Entity> entities) {
+	    delay = Float.MAX_VALUE;
         for (int i = 0, s = entities.size; s > i; i++) {
             Entity entity = entities.get(i);
             processDelta(entity, acc);
@@ -50,12 +51,15 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
                 offerDelay(remaining);
             }
         }
-        stop();
+	    
+	    acc = 0;
+        if (actives.size == 0) stop();
     }
 
     @Override
     protected void inserted(Entity e) {
         float delay = getRemainingDelay(e);
+	    processDelta(e, -acc);
         if(delay > 0) {
             offerDelay(delay);
         }
@@ -99,8 +103,9 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
      * 
      * Cancels current delayed run and starts a new one.
      * 
-     * @param delta time delay until processing starts.
+     * @param delay time delay until processing starts.
      */
+    @Deprecated
     public void restart(float delay) {
         this.delay = delay;
         this.acc = 0;
@@ -119,12 +124,15 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
      * offered delay is shorter than the time remaining, the system will
      * restart itself to run at the offered delay.
      * 
-     * @param delay
+     * @param offeredDelay
      */
-    public void offerDelay(float delay) {
-        if(!running || delay < getRemainingTimeUntilProcessing()) {
-            restart(delay);
-        }
+    public void offerDelay(float offeredDelay) {
+	    if (!running) {
+		    running = true;
+		    delay = offeredDelay;
+	    } else {
+		    delay = Math.min(delay, offeredDelay);
+	    }
     }
 
 
