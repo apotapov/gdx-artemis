@@ -35,14 +35,18 @@ public class GroupManager extends Manager {
             entities = new SafeArray<Entity>();
             entitiesByGroup.put(group, entities);
         }
-        entities.add(e);
+        if (entities.contains(e, true)) {
+            entities.add(e);
+        }
 
         Array<String> groups = groupsByEntity.get(e);
         if(groups == null) {
             groups = new SafeArray<String>();
             groupsByEntity.put(e, groups);
         }
-        groups.add(group);
+        if (!groups.contains(group, false)) {
+            groups.add(group);
+        }
     }
 
     /**
@@ -59,6 +63,9 @@ public class GroupManager extends Manager {
         Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
             groups.removeValue(group, true);
+            if (groupsByEntity.size == 0) {
+                groupsByEntity.remove(e);
+            }
         }
     }
 
@@ -73,6 +80,7 @@ public class GroupManager extends Manager {
             }
             groups.clear();
         }
+        groupsByEntity.remove(e);
     }
 
     /**
