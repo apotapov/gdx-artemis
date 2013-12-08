@@ -35,7 +35,7 @@ public class GroupManager extends Manager {
             entities = new SafeArray<Entity>();
             entitiesByGroup.put(group, entities);
         }
-        if (entities.contains(e, true)) {
+        if (!entities.contains(e, true)) {
             entities.add(e);
         }
 
