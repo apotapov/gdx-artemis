@@ -72,7 +72,7 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
 
             for (SystemEvent event : currentEvents.get(type)) {
                 // only add events if their id is higher than the last time we polled
-                if (!event.handled && events.contains(type.cast(event), false) && event.eventId > lastPolledEvent) {
+                if (!event.handled && !events.contains(type.cast(event), false) && event.eventId > lastPolledEvent) {
                     events.add(type.cast(event));
 
                     // update the current highest polled event
