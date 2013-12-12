@@ -51,9 +51,6 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
     @Override
     public void postEvent(EntitySystem sender, SystemEvent event) {
         synchronized (buffer) {
-            // perform pre-send operations
-            prePost(event);
-
             //update event with tracking information
             event.eventId = currentEventId++;
             event.sender = sender;
@@ -70,24 +67,7 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
 
             // add to the queue
             bufferQueue.add(event);
-
-            // peform post send operations
-            postPost(event);
         }
-    }
-
-    /**
-     * Helper method for child classes to perform additional work.
-     * @param event Event that got posted
-     */
-    protected void prePost(SystemEvent event) {
-    }
-
-    /**
-     * Helper method for child classes to perform additional work.
-     * @param event Event that got posted
-     */
-    protected void postPost(SystemEvent event) {
     }
 
     /**

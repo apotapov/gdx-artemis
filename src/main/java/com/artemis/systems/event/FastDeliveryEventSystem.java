@@ -3,6 +3,7 @@ package com.artemis.systems.event;
 import com.artemis.systems.EntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 
 /**
  * A special type of event system. That ensures fast delivery
@@ -30,16 +31,26 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
      */
     protected ObjectIntMap<EntitySystem> lastPolledEvents;
 
+    /**
+     * Secondary buffer to make sure no events get cleaned out prematurely.
+     */
+    protected ObjectMap<Class<? extends SystemEvent>, Array<SystemEvent>> secondaryBuffer;
+
     public FastDeliveryEventSystem() {
         this.lastPolledEvents = new ObjectIntMap<EntitySystem>();
+        this.secondaryBuffer = new ObjectMap<Class<? extends SystemEvent>, Array<SystemEvent>>();
     }
 
     /**
-     * After adding the event to the buffer, add it to the
-     * currentEvents as well.
+     * Adds the specified event from the sender to the queue to be processed
+     * EntitySystems that care.
      */
     @Override
-    protected void postPost(SystemEvent event) {
+    public void postEvent(EntitySystem sender, SystemEvent event) {
+
+        // update event with tracking information
+        event.eventId = currentEventId++;
+        event.sender = sender;
 
         // make sure there is a queue for this event
         Class<? extends SystemEvent> type = event.getClass();
@@ -61,29 +72,66 @@ public class FastDeliveryEventSystem extends BasicEventSystem {
      */
     @Override
     public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
-        if (currentEvents.containsKey(type)) {
+        synchronized (currentEvents) {
 
-            // get the highest event id processed by this system
-            int lastPolledEvent = lastPolledEvents.get(pollingSystem, -1);
+            if (currentEvents.containsKey(type)) {
 
-            // keep track of the highest event id processed this time
-            // (keeping this separate just in case the events might not be in order)
-            int highestPolledEvent = 0;
+                // get the highest event id processed by this system
+                int lastPolledEvent = lastPolledEvents.get(pollingSystem, -1);
 
-            for (SystemEvent event : currentEvents.get(type)) {
-                // only add events if their id is higher than the last time we polled
-                if (!event.handled && !events.contains(type.cast(event), false) && event.eventId > lastPolledEvent) {
-                    events.add(type.cast(event));
+                // keep track of the highest event id processed this time
+                // (keeping this separate just in case the events might not be in order)
+                int highestPolledEvent = 0;
 
-                    // update the current highest polled event
-                    if (event.eventId > highestPolledEvent) {
-                        highestPolledEvent = event.eventId;
+                for (SystemEvent event : currentEvents.get(type)) {
+                    // only add events if their id is higher than the last time we polled
+                    if (!event.handled && !events.contains(type.cast(event), false) && event.eventId > lastPolledEvent) {
+                        events.add(type.cast(event));
+
+                        // update the current highest polled event
+                        if (event.eventId > highestPolledEvent) {
+                            highestPolledEvent = event.eventId;
+                        }
                     }
                 }
+
+                // update the last polled event with the highest this round
+                lastPolledEvents.put(pollingSystem, highestPolledEvent);
+            }
+        }
+    }
+
+    /**
+     * Since current events are always stored in currentEvents. We need to make sure
+     * that they all get consumed correctly and not freed prematurely. The double
+     * buffer here takes care of that. We use the second buffer to know which elements,
+     * of the currentEvents is ready to be freed up. The elements in the secondary buffer
+     * should have lived for at least two world.process() calls and hence should be safe
+     * to delete.
+     */
+    @Override
+    protected void processSystem() {
+        synchronized (currentEvents) {
+
+            for (ObjectMap.Entry<Class<? extends SystemEvent>, Array<SystemEvent>> entry : secondaryBuffer.entries()) {
+                Array<SystemEvent> currentQueue = currentEvents.get(entry.key);
+                if (currentQueue != null) {
+                    for (SystemEvent bufferedEvent : entry.value) {
+                        currentQueue.removeValue(bufferedEvent, true);
+                    }
+                }
+                SystemEvent.free(entry.value);
+                entry.value.clear();
             }
 
-            // update the last polled event with the highest this round
-            lastPolledEvents.put(pollingSystem, highestPolledEvent);
+            transferEvents(buffer, secondaryBuffer);
+
+            for (Array<SystemEvent> events : buffer.values()) {
+                events.clear();
+            }
+
+            // transfer from buffer to current events
+            transferEvents(currentEvents, buffer);
         }
     }
 
