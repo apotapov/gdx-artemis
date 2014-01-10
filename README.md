@@ -9,6 +9,9 @@ Major new features:
  - Event (messaging) system was added (version 0.2)
  - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.
 
+# Documentation
+
+See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
 # Version 0.3
  - Adding the ability to dispose of the world.
