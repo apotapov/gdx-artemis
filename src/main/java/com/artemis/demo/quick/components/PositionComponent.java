@@ -1,4 +1,4 @@
-package com.artemis.demo.component;
+package com.artemis.demo.quick.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;

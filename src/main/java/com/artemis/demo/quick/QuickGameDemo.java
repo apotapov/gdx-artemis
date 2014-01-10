@@ -1,11 +1,11 @@
-package com.artemis.demo;
+package com.artemis.demo.quick;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.demo.component.PositionComponent;
-import com.artemis.demo.component.VelocityComponent;
-import com.artemis.demo.system.MovementSystem;
-import com.artemis.demo.system.RenderingSystem;
+import com.artemis.demo.quick.components.PositionComponent;
+import com.artemis.demo.quick.components.VelocityComponent;
+import com.artemis.demo.quick.systems.MovementSystem;
+import com.artemis.demo.quick.systems.RenderingSystem;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;

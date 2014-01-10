@@ -1,11 +1,11 @@
-package com.artemis.demo.system;
+package com.artemis.demo.quick.systems;
 
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.demo.component.PositionComponent;
-import com.artemis.demo.component.VelocityComponent;
+import com.artemis.demo.quick.components.PositionComponent;
+import com.artemis.demo.quick.components.VelocityComponent;
 import com.artemis.systems.EntityProcessingSystem;
 
 public class MovementSystem extends EntityProcessingSystem {
