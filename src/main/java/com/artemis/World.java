@@ -252,8 +252,23 @@ public class World implements Disposable {
         return em.createEntityInstance();
     }
 
+    /**
+     * Create and return a new or reused component instance of specified type.
+     * @param type Type of component to return
+     * @return Created component
+     */
     public <T extends Component> T createComponent(Class<T> type) {
         return cm.createComponent(type);
+    }
+
+    /**
+     * Creates an instance of an event of a specified type. The event needs to be posted to
+     * the world in order to be propagated to listeners.
+     * @param type Type of event to create.
+     * @return Event of specified type.
+     */
+    public <T extends SystemEvent> T createEvent(Class<T> type) {
+        return SystemEvent.createEvent(type);
     }
 
     /**
