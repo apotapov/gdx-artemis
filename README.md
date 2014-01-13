@@ -25,8 +25,8 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
  - Added a SingletonComponentManager to manage singleton components in the world.
  - Bug fix in DelayedEntityProcessingSystem.
 
-## Previous versions
-See CHANGELOG.md
+### Previous changes
+See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
 
 ## Alternative Artemis forks
 
