@@ -30,5 +30,9 @@ See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG
 
 ## Alternative Artemis forks
 
+ - [Original Implementation by Arni Arent*](https://code.google.com/p/artemis-framework/)
  - [junkdog](https://github.com/junkdog/artemis-odb)
  - [gemserker](https://github.com/gemserk/commons-gdx)
+
+ * There are quite a few bugs in the original implementation. If you want to stay true to it, I would suggest looking at [junkdog's fork](https://github.com/junkdog/artemis-odb).
+ 
