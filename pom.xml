@@ -10,7 +10,7 @@
     <groupId>com.roundtriangles.games</groupId>
     <artifactId>gdx-artemis</artifactId>
     <packaging>jar</packaging>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
     <name>gdx-artemis</name>
     <description>Artemis Entity System for Libgdx</description>
     <url>http://github.com/apotapov/gdx-artemis</url>
@@ -79,7 +79,7 @@
         <url>https://github.com/apotapov/gdx-artemis/</url>
         <connection>scm:git:git@github.com:apotapov/gdx-artemis.git</connection>
         <developerConnection>scm:git:git@github.com:apotapov/gdx-artemis.git</developerConnection>
-      <tag>gdx-artemis-0.3</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencies>
