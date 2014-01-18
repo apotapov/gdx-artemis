@@ -19,6 +19,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
 ## Version 0.4
  - Deprecated DelayedEntityProcessingSystem.
+ - Fixed some bugs and added pooling to GroupManager + unit tests.
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)

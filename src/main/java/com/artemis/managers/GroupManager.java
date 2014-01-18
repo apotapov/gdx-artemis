@@ -1,9 +1,9 @@
 package com.artemis.managers;
 
 import com.artemis.Entity;
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * If you need to group your entities together, e.g. tanks going into "units" group or explosions into "effects",
@@ -18,9 +18,26 @@ public class GroupManager extends Manager {
     protected ObjectMap<String, Array<Entity>> entitiesByGroup;
     protected ObjectMap<Entity, Array<String>> groupsByEntity;
 
+    protected Pool<Array<Entity>> entityArrayPool;
+    protected Pool<Array<String>> stringArrayPool;
+
     public GroupManager() {
         entitiesByGroup = new ObjectMap<String, Array<Entity>>();
         groupsByEntity = new ObjectMap<Entity, Array<String>>();
+
+        entityArrayPool = new Pool<Array<Entity>>() {
+            @Override
+            protected Array<Entity> newObject() {
+                return new Array<Entity>();
+            }
+        };
+
+        stringArrayPool = new Pool<Array<String>>() {
+            @Override
+            protected Array<String> newObject() {
+                return new Array<String>();
+            }
+        };
     }
 
     /**
@@ -32,7 +49,7 @@ public class GroupManager extends Manager {
     public void add(Entity e, String group) {
         Array<Entity> entities = entitiesByGroup.get(group);
         if(entities == null) {
-            entities = new SafeArray<Entity>();
+            entities = entityArrayPool.obtain();
             entitiesByGroup.put(group, entities);
         }
         if (!entities.contains(e, true)) {
@@ -41,7 +58,7 @@ public class GroupManager extends Manager {
 
         Array<String> groups = groupsByEntity.get(e);
         if(groups == null) {
-            groups = new SafeArray<String>();
+            groups = stringArrayPool.obtain();
             groupsByEntity.put(e, groups);
         }
         if (!groups.contains(group, false)) {
@@ -58,13 +75,16 @@ public class GroupManager extends Manager {
         Array<Entity> entities = entitiesByGroup.get(group);
         if(entities != null) {
             entities.removeValue(e, true);
+            if(entities.size == 0) {
+                entityArrayPool.free(entitiesByGroup.remove(group));
+            }
         }
 
         Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
             groups.removeValue(group, true);
-            if (groupsByEntity.size == 0) {
-                groupsByEntity.remove(e);
+            if (groups.size == 0) {
+                stringArrayPool.free(groupsByEntity.remove(e));
             }
         }
     }
@@ -76,11 +96,17 @@ public class GroupManager extends Manager {
                 Array<Entity> entities = entitiesByGroup.get(groups.get(i));
                 if(entities != null) {
                     entities.removeValue(e, true);
+                    if(entities.size == 0) {
+                        entityArrayPool.free(entitiesByGroup.remove(groups.get(i)));
+                    }
                 }
             }
             groups.clear();
         }
-        groupsByEntity.remove(e);
+        Array<String> removedArray = groupsByEntity.remove(e);
+        if (removedArray != null) {
+            stringArrayPool.free(removedArray);
+        }
     }
 
     /**
@@ -89,12 +115,7 @@ public class GroupManager extends Manager {
      * @return read-only Array of entities belonging to the group.
      */
     public Array<Entity> getEntities(String group) {
-        Array<Entity> entities = entitiesByGroup.get(group);
-        if(entities == null) {
-            entities = new SafeArray<Entity>();
-            entitiesByGroup.put(group, entities);
-        }
-        return entities;
+        return entitiesByGroup.get(group);
     }
 
     /**
@@ -123,10 +144,12 @@ public class GroupManager extends Manager {
     public boolean isInGroup(Entity e, String group) {
         if(group != null) {
             Array<String> groups = groupsByEntity.get(e);
-            for(int i = 0; groups.size > i; i++) {
-                String g = groups.get(i);
-                if(group == g || group.equals(g)) {
-                    return true;
+            if (groups != null) {
+                for(int i = 0; groups.size > i; i++) {
+                    String g = groups.get(i);
+                    if(group == g || group.equals(g)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -142,6 +165,8 @@ public class GroupManager extends Manager {
     public void dispose() {
         entitiesByGroup.clear();
         groupsByEntity.clear();
+        entityArrayPool.clear();
+        stringArrayPool.clear();
     }
 
 }
