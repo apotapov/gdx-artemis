@@ -5,6 +5,10 @@ import com.artemis.Entity;
 import com.badlogic.gdx.utils.Array;
 
 /**
+ * This system is currently deprecated and will be removed in future releases. It's
+ * implementation and API are buggy beyond redemption. There will be an alternative
+ * implementation added shortly.
+ * 
  * The purpose of this class is to allow systems to execute at varying intervals.
  * 
  * An example system would be an ExpirationSystem, that deletes entities after a certain
@@ -29,6 +33,7 @@ import com.badlogic.gdx.utils.Array;
  * @author Arni Arent
  *
  */
+@Deprecated
 public abstract class DelayedEntityProcessingSystem extends EntitySystem {
     protected float delay;
     protected boolean running;
@@ -40,7 +45,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
 
     @Override
     protected final void processEntities(Array<Entity> entities) {
-	    delay = Float.MAX_VALUE;
+        delay = Float.MAX_VALUE;
         for (int i = 0, s = entities.size; s > i; i++) {
             Entity entity = entities.get(i);
             processDelta(entity, acc);
@@ -51,15 +56,17 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
                 offerDelay(remaining);
             }
         }
-	    
-	    acc = 0;
-        if (actives.size == 0) stop();
+
+        acc = 0;
+        if (actives.size == 0) {
+            stop();
+        }
     }
 
     @Override
     protected void inserted(Entity e) {
         float delay = getRemainingDelay(e);
-	    processDelta(e, -acc);
+        processDelta(e, -acc);
         if(delay > 0) {
             offerDelay(delay);
         }
@@ -127,12 +134,12 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
      * @param offeredDelay
      */
     public void offerDelay(float offeredDelay) {
-	    if (!running) {
-		    running = true;
-		    delay = offeredDelay;
-	    } else {
-		    delay = Math.min(delay, offeredDelay);
-	    }
+        if (!running) {
+            running = true;
+            delay = offeredDelay;
+        } else {
+            delay = Math.min(delay, offeredDelay);
+        }
     }
 
 
