@@ -1,5 +1,12 @@
-
-# Version 0.2
+## Version 0.3
+ - Adding the ability to dispose of the world.
+ - For better support of GWT and HTML5 games with libgdx, removed automatic ComponentMapper initialization. ComponentMappers should be initialized manually in EntitySystem.initialize() method by calling mapper = world.getMapper(Component.class).
+ - Changed the libgdx dependency to 0.9.9 instead of the nightly build.
+ - Changed the EventSystem.getEvents() to take an Array instead of an ObjectSet to preserve the order of the events occuring.
+ - Added a SingletonComponentManager to manage singleton components in the world.
+ - Bug fix in DelayedEntityProcessingSystem.
+ 
+## Version 0.2
  - Created an event system to allow inter-system communication.
  - Speed improvement: Removed some unnecessary accessor calls.
  - Deprecated Mapper annotation and imporved ComoponentMapper intialization
@@ -10,7 +17,7 @@
  - Adding a notion of stopping event propagation by marking event handled.
  - Making a dent in unit testing.
 
-# Version 0.1
+## Version 0.1
 
  - Some files have been reshuffled in the packages for better organization.
  - Most private fields and methods have been changed to protected to allow for easier extension.

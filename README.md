@@ -17,13 +17,8 @@ There is a separate [Demo Project](https://github.com/apotapov/gdx-artemis-demo)
 
 See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
-## Version 0.3
- - Adding the ability to dispose of the world.
- - For better support of GWT and HTML5 games with libgdx, removed automatic ComponentMapper initialization. ComponentMappers should be initialized manually in EntitySystem.initialize() method by calling mapper = world.getMapper(Component.class).
- - Changed the libgdx dependency to 0.9.9 instead of the nightly build.
- - Changed the EventSystem.getEvents() to take an Array instead of an ObjectSet to preserve the order of the events occuring.
- - Added a SingletonComponentManager to manage singleton components in the world.
- - Bug fix in DelayedEntityProcessingSystem.
+## Version 0.4
+ - Deprecated DelayedEntityProcessingSystem.
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
