@@ -15,6 +15,10 @@ import com.badlogic.gdx.utils.Pool;
  *
  */
 public class GroupManager extends Manager {
+
+    private static final Array<Entity> DUMMY_EMPTY_ENTITY_ARRAY = new Array<Entity>();
+    private static final Array<String> DUMMY_EMPTY_STRING_ARRAY = new Array<String>();
+
     protected ObjectMap<String, Array<Entity>> entitiesByGroup;
     protected ObjectMap<Entity, Array<String>> groupsByEntity;
 
@@ -115,7 +119,12 @@ public class GroupManager extends Manager {
      * @return read-only Array of entities belonging to the group.
      */
     public Array<Entity> getEntities(String group) {
-        return entitiesByGroup.get(group);
+        if (entitiesByGroup.containsKey(group)) {
+            return entitiesByGroup.get(group);
+        } else {
+            DUMMY_EMPTY_ENTITY_ARRAY.clear();
+            return DUMMY_EMPTY_ENTITY_ARRAY;
+        }
     }
 
     /**
@@ -123,7 +132,12 @@ public class GroupManager extends Manager {
      * @return the groups the entity belongs to, null if none.
      */
     public Array<String> getGroups(Entity e) {
-        return groupsByEntity.get(e);
+        if (groupsByEntity.containsKey(e)) {
+            return groupsByEntity.get(e);
+        } else {
+            DUMMY_EMPTY_STRING_ARRAY.clear();
+            return DUMMY_EMPTY_STRING_ARRAY;
+        }
     }
 
     /**
@@ -132,7 +146,7 @@ public class GroupManager extends Manager {
      * @return true if it is in any group, false if none.
      */
     public boolean isInAnyGroup(Entity e) {
-        return getGroups(e) != null;
+        return getGroups(e).size > 0;
     }
 
     /**
