@@ -51,8 +51,8 @@ public class ComponentManager extends Manager {
     /**
      * Preferred way to create Components to allow for pooling.
      * 
-     * @param type
-     * @return
+     * @param type Type of component to create
+     * @return Pooled Component of specified type.
      */
     public <T extends Component> T createComponent(Class<T> type) {
         return Pools.obtain(type);

@@ -42,16 +42,15 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * Returns a BitSet instance containing bits of the components the entity possesses.
-     * @return
+     * @return Returns a BitSet instance containing bits of the components the entity possesses.
+     * 
      */
     public BitSet getComponentBits() {
         return componentBits;
     }
 
     /**
-     * Returns a BitSet instance containing bits of the components the entity possesses.
-     * @return
+     * @return Returns a BitSet instance containing bits of the components the entity possesses.
      */
     public BitSet getSystemBits() {
         return systemBits;
@@ -153,10 +152,9 @@ public final class Entity implements Poolable {
 
     /**
      * Returns an array of all components this entity has.
-     * You need to reset the bag yourself if you intend to fill it more than once.
+     * You need to reset the array yourself if you intend to fill it more than once.
      * 
-     * @param array the bag to put the components into.
-     * @return the fillBag with the components in.
+     * @param array to put the components into.
      */
     public void getComponents(Array<Component> array) {
         componentManager.getComponents(this, array);
