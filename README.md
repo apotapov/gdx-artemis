@@ -20,6 +20,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 ## Version 0.4
  - Deprecated DelayedEntityProcessingSystem.
  - Fixed some bugs and added pooling to GroupManager + unit tests.
+ - Fixed a bug in ComponentManager that was causing NPE's when a component was removed from an entity.
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
