@@ -8,6 +8,8 @@ Major new features:
  - Uses libgdx containers and pooling.
  - Event (messaging) system was added (version 0.2)
  - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.
+ - Battle tested, with many major bugs fixed
+ - Optimized for memory consumption and speed of execution using [Java profiler](http://www.ej-technologies.com/products/jprofiler/overview.html)
 
 ## Demo
 
@@ -28,9 +30,6 @@ See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG
 
 ## Alternative Artemis forks
 
- - [Original Implementation by Arni Arent*](https://code.google.com/p/artemis-framework/)
+ - [Original Implementation by Arni Arent](https://code.google.com/p/artemis-framework/)
  - [junkdog](https://github.com/junkdog/artemis-odb)
  - [gemserker](https://github.com/gemserk/commons-gdx)
-
- * There are quite a few bugs in the original implementation. If you want to stay true to it, I would suggest looking at [junkdog's fork](https://github.com/junkdog/artemis-odb).
- 
