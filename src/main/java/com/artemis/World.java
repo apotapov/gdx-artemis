@@ -223,6 +223,10 @@ public class World implements Disposable {
         if (!deleted.contains(e)) {
             deleted.add(e);
         }
+
+        if (added.contains(e)) {
+            added.remove(e);
+        }
     }
 
     /**
