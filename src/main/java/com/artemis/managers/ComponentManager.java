@@ -7,8 +7,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.Pools;
 
 /**
@@ -18,6 +20,7 @@ import com.badlogic.gdx.utils.Pools;
 public class ComponentManager extends Manager {
     protected Array<Array<Component>> componentsByType;
     protected Array<Entity> deleted;
+    protected ObjectMap<Entity, IntArray> componentsToDelete;
 
     protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
 
@@ -45,6 +48,7 @@ public class ComponentManager extends Manager {
     public ComponentManager() {
         componentsByType = new SafeArray<Array<Component>>();
         deleted = new SafeArray<Entity>();
+        componentsToDelete = new ObjectMap<Entity, IntArray>();
         this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
     }
 
@@ -97,8 +101,12 @@ public class ComponentManager extends Manager {
     public void removeComponent(Entity e, Class<? extends Component> type) {
         int classIndex = getComponentClassIndex(type);
         if(e.getComponentBits().get(classIndex)) {
-            removeComponent(e.id, classIndex);
             e.getComponentBits().clear(classIndex);
+
+            if (!componentsToDelete.containsKey(e)) {
+                componentsToDelete.put(e, Pools.obtain(IntArray.class));
+            }
+            componentsToDelete.get(e).add(classIndex);
         }
     }
 
@@ -168,6 +176,18 @@ public class ComponentManager extends Manager {
             }
             deleted.clear();
         }
+        cleanRemovedComponents();
+    }
+
+    protected void cleanRemovedComponents() {
+        for (Entry<Entity, IntArray> entry : componentsToDelete.entries()) {
+            for (int i = 0; i < entry.value.size; i++) {
+                removeComponent(entry.key.id, entry.value.items[i]);
+            }
+            entry.value.clear();
+            Pools.free(entry.value);
+        }
+        componentsToDelete.clear();
     }
 
     /**
