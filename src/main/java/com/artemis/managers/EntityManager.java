@@ -9,14 +9,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
 public class EntityManager extends Manager {
-    protected Array<Entity> entities;
-    protected Array<Entity> deletedEntities;
-    protected BitSet disabled;
+    public Array<Entity> entities;
+    public Array<Entity> deletedEntities;
+    public BitSet disabled;
 
-    protected int active;
-    protected long added;
-    protected long created;
-    protected long deleted;
+    public int active;
+    public long added;
+    public long created;
+    public long deleted;
 
     protected IdentifierPool identifierPool;
     protected Pool<Entity> entityPool;

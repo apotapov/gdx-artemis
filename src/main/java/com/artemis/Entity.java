@@ -121,7 +121,7 @@ public final class Entity implements Poolable {
      * @return if it's active.
      */
     public boolean isActive() {
-        return entityManager.isActive(id);
+        return entityManager.entities.get(id) != null;
     }
 
     /**

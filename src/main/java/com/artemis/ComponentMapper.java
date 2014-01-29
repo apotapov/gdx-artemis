@@ -13,12 +13,10 @@ import com.badlogic.gdx.utils.Array;
  */
 public class ComponentMapper<A extends Component> {
 
-    private Class<A> classType;
-    private Array<Component> components;
+    private Array<A> components;
 
     public ComponentMapper(Class<A> type, World world) {
         components = world.getComponentManager().getComponents(type);
-        this.classType = type;
     }
 
     /**
@@ -30,7 +28,7 @@ public class ComponentMapper<A extends Component> {
      * @return the instance of the component
      */
     public A get(Entity e) {
-        return classType.cast(components.get(e.id));
+        return components.get(e.id);
     }
 
     /**
@@ -42,7 +40,7 @@ public class ComponentMapper<A extends Component> {
      */
     public A getSafe(Entity e) {
         if(e.id < components.size) {
-            return classType.cast(components.get(e.id));
+            return components.get(e.id);
         }
         return null;
     }

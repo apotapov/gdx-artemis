@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Pools;
  * mapping to entities.
  */
 public class ComponentManager extends Manager {
-    protected Array<Array<Component>> componentsByType;
+    protected Array<Array<? extends Component>> componentsByType;
     protected Array<Entity> deleted;
     protected ObjectMap<Entity, IntArray> componentsToDelete;
 
@@ -46,7 +46,7 @@ public class ComponentManager extends Manager {
      * Default constructor
      */
     public ComponentManager() {
-        componentsByType = new SafeArray<Array<Component>>();
+        componentsByType = new SafeArray<Array<? extends Component>>();
         deleted = new SafeArray<Entity>();
         componentsToDelete = new ObjectMap<Entity, IntArray>();
         this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
@@ -80,11 +80,12 @@ public class ComponentManager extends Manager {
      * @param e Entity the component belongs to
      * @param component Component to add
      */
-    public void addComponent(Entity e, Component component) {
+    public <T extends Component> void addComponent(Entity e, T component) {
         int classIndex = getComponentClassIndex(component.getClass());
-        Array<Component> components = componentsByType.get(classIndex);
+        @SuppressWarnings("unchecked")
+        Array<T> components = (Array<T>) componentsByType.get(classIndex);
         if(components == null) {
-            components = new SafeArray<Component>();
+            components = new SafeArray<T>();
             componentsByType.set(classIndex, components);
         }
         components.set(e.id, component);
@@ -116,11 +117,12 @@ public class ComponentManager extends Manager {
      * @param type Type of Componets to return
      * @return an Array of said components.
      */
-    public Array<Component> getComponents(Class<? extends Component> type) {
+    @SuppressWarnings("unchecked")
+    public <T extends Component> Array<T> getComponents(Class<T> type) {
         int classIndex = getComponentClassIndex(type);
-        Array<Component> components = componentsByType.get(classIndex);
+        Array<T> components = (Array<T>) componentsByType.get(classIndex);
         if(components == null) {
-            components = new SafeArray<Component>();
+            components = new SafeArray<T>();
             componentsByType.set(classIndex, components);
         }
         return components;
@@ -134,11 +136,12 @@ public class ComponentManager extends Manager {
      * @param type Type of Component to return.
      * @return Component or null if not found.
      */
+    @SuppressWarnings("unchecked")
     public <T extends Component> T getComponent(Entity e, Class<T> type) {
         int classIndex = getComponentClassIndex(type);
-        Array<Component> components = componentsByType.get(classIndex);
+        Array<T> components = (Array<T>) componentsByType.get(classIndex);
         if(components != null) {
-            return type.cast(components.get(e.id));
+            return components.get(e.id);
         }
         return null;
     }
@@ -198,7 +201,7 @@ public class ComponentManager extends Manager {
      * @param componentClassIndex Component index to remove.
      */
     protected void removeComponent(int entityId, int componentClassIndex) {
-        Array<Component> components = componentsByType.get(componentClassIndex);
+        Array<? extends Component> components = componentsByType.get(componentClassIndex);
         if (components != null) {
             Component compoment = components.get(entityId);
             if (compoment != null) {
@@ -228,7 +231,7 @@ public class ComponentManager extends Manager {
 
     @Override
     public void dispose() {
-        for (Array<Component> components : componentsByType) {
+        for (Array<? extends Component> components : componentsByType) {
             if (components != null) {
                 Pools.freeAll(components);
                 components.clear();

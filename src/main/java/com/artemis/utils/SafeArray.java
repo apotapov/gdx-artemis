@@ -48,7 +48,7 @@ public class SafeArray<T> extends Array<T> {
     @Override
     public void set(int index, T value) {
         ensureFit(this, index);
-        super.set(index, value);
+        items[index] = value;
     }
 
     /**
@@ -57,7 +57,7 @@ public class SafeArray<T> extends Array<T> {
     @Override
     public T get(int index) {
         if (index < size) {
-            return super.get(index);
+            return items[index];
         }
         return null;
     }
