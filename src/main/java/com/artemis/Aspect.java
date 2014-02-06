@@ -28,24 +28,40 @@ import com.artemis.managers.ComponentManager;
  */
 public class Aspect {
 
-    private BitSet allSet;
-    private BitSet exclusionSet;
-    private BitSet oneSet;
+    protected BitSet allSet;
+    protected BitSet exclusionSet;
+    protected BitSet oneSet;
 
+    /**
+     * Access Aspect creation through static factory methods.
+     */
     private Aspect() {
         this.allSet = new BitSet();
         this.exclusionSet = new BitSet();
         this.oneSet = new BitSet();
     }
 
+    /**
+     * @return Returns a BitSet representing all components that must be
+     * present on an entity for an EntitySystem process it.
+     */
     public BitSet getAllSet() {
         return allSet;
     }
 
+    /**
+     * @return Return a BitSet representing which components should
+     * be excluded, and thus entities with those components should be
+     * ignored by the EntitySystem.
+     */
     public BitSet getExclusionSet() {
         return exclusionSet;
     }
 
+    /**
+     * @return Returns a BitSet representing which components
+     * a system can contain to be processed by an EntitySystem.
+     */
     public BitSet getOneSet() {
         return oneSet;
     }

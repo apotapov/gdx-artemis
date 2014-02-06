@@ -23,6 +23,14 @@ import com.badlogic.gdx.utils.ObjectSet;
  * 
  */
 public class World implements Disposable {
+
+    /**
+     * Only used internally to maintain clean code.
+     */
+    protected static interface Performer {
+        void perform(EntityObserver observer, Entity e);
+    }
+
     protected EntityManager em;
     protected ComponentManager cm;
 
@@ -50,6 +58,13 @@ public class World implements Disposable {
         this(new ComponentManager(), new EntityManager());
     }
 
+    /**
+     * Create a world with a specified component and entity
+     * manager.
+     * 
+     * @param cm ComponentManager to use.
+     * @param em EntityManager to use.
+     */
     public World(ComponentManager cm, EntityManager em) {
         managers = new ObjectMap<Class<? extends Manager>, Manager>();
         managersArray = new SafeArray<Manager>();
@@ -105,7 +120,8 @@ public class World implements Disposable {
 
 
     /**
-     * Makes sure all managers systems are initialized in the order they were added.
+     * Makes sure all managers systems are initialized
+     * in the order they were added.
      */
     public void initialize() {
         for (int i = 0; i < managersArray.size; i++) {
@@ -120,7 +136,6 @@ public class World implements Disposable {
 
     /**
      * Returns a manager that takes care of all the entities in the world.
-     * entities of this world.
      * 
      * @return entity manager.
      */
@@ -171,9 +186,6 @@ public class World implements Disposable {
         managersArray.removeValue(manager, true);
     }
 
-
-
-
     /**
      * Time since last game loop.
      * 
@@ -191,8 +203,6 @@ public class World implements Disposable {
     public void setDelta(float delta) {
         this.delta = delta;
     }
-
-
 
     /**
      * Adds a entity to this world.
@@ -248,7 +258,8 @@ public class World implements Disposable {
 
     /**
      * Create and return a new or reused entity instance.
-     * Will NOT add the entity to the world, use World.addEntity(Entity) for that.
+     * Will NOT add the entity to the world, use World.addEntity(Entity)
+     * for that.
      * 
      * @return entity
      */
@@ -266,8 +277,9 @@ public class World implements Disposable {
     }
 
     /**
-     * Creates an instance of an event of a specified type. The event needs to be posted to
-     * the world in order to be propagated to listeners.
+     * Creates an instance of an event of a specified type. The event
+     * needs to be posted to the world in order to be propagated to listeners.
+     * 
      * @param type Type of event to create.
      * @return Event of specified type.
      */
@@ -370,12 +382,24 @@ public class World implements Disposable {
         }
     }
 
+    /**
+     * Notify systems of changes to the specified entity.
+     * 
+     * @param performer The performer that notifies the systems.
+     * @param e Entity that has been affected.
+     */
     protected void notifySystems(Performer performer, Entity e) {
         for(int i = 0, s=systemsArray.size; s > i; i++) {
             performer.perform(systemsArray.get(i), e);
         }
     }
 
+    /**
+     * Notify managers of changes to the specified entity.
+     * 
+     * @param performer The performer that notifies the managers.
+     * @param e Entity that has been affected.
+     */
     protected void notifyManagers(Performer performer, Entity e) {
         for(int a = 0; managersArray.size > a; a++) {
             performer.perform(managersArray.get(a), e);
@@ -395,6 +419,7 @@ public class World implements Disposable {
 
     /**
      * Performs an action on each entity.
+     * 
      * @param entities
      * @param performer
      */
@@ -432,20 +457,14 @@ public class World implements Disposable {
 
 
     /**
-     * Retrieves a ComponentMapper instance for fast retrieval of components from entities.
+     * Retrieves a ComponentMapper instance for fast retrieval of
+     * components from entities.
      * 
      * @param type of component to get mapper for.
      * @return mapper for specified component type.
      */
     public <T extends Component> ComponentMapper<T> getMapper(Class<T> type) {
         return cm.getMapper(type);
-    }
-
-    /*
-     * Only used internally to maintain clean code.
-     */
-    protected interface Performer {
-        void perform(EntityObserver observer, Entity e);
     }
 
     @Override

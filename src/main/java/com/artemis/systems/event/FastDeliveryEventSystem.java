@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 
 /**
+ * WARNING: This is currently very buggy. Use at own risk.
+ * 
  * A special type of event system. That ensures fast delivery
  * of events. When an event is added to the buffer, it is
  * automatically added to the currentEvents. This avoids having

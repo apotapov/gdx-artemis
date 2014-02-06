@@ -31,6 +31,11 @@ public final class Entity implements Poolable {
     protected EntityManager entityManager;
     protected ComponentManager componentManager;
 
+    /**
+     * Create an entity for the specified world with the specified id.
+     * @param world World this entity belongs to.
+     * @param id Entity's id.
+     */
     public Entity(World world, int id) {
         this.world = world;
         this.id = id;
@@ -151,8 +156,7 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * Returns an array of all components this entity has.
-     * You need to reset the array yourself if you intend to fill it more than once.
+     * Populates provided Array with this Entity's components.
      * 
      * @param array to put the components into.
      */

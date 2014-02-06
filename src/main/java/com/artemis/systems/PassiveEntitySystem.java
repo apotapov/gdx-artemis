@@ -1,8 +1,9 @@
 package com.artemis.systems;
 
 /**
- * A passive entity system that does not perform any actions. This is
- * useful for things like sound system, entity/component factory.
+ * A passive entity system that does not perform any actions.
+ * This is useful for a system that strictly processes events
+ * or perhaps an Enity/Component factory system.
  * 
  * @author apotapov
  */
@@ -15,5 +16,4 @@ public abstract class PassiveEntitySystem extends VoidEntitySystem {
     @Override
     protected final void processSystem() {
     }
-
 }

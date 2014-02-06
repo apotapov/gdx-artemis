@@ -184,6 +184,9 @@ public class ComponentManager extends Manager {
         cleanRemovedComponents();
     }
 
+    /**
+     * Cleans up components that have removed from the world.
+     */
     protected void cleanRemovedComponents() {
         for (Entry<Entity, IntArray> entry : componentsToDelete.entries()) {
             for (int i = 0; i < entry.value.size; i++) {
@@ -203,7 +206,8 @@ public class ComponentManager extends Manager {
      * @param componentClassIndex Component index to remove.
      */
     protected void removeComponent(int entityId, int componentClassIndex) {
-        Array<? extends Component> components = componentsByType.get(componentClassIndex);
+        Array<? extends Component> components =
+                componentsByType.get(componentClassIndex);
         if (components != null) {
             Component compoment = components.get(entityId);
             if (compoment != null) {
@@ -214,7 +218,8 @@ public class ComponentManager extends Manager {
     }
 
     /**
-     * Retrieves a ComponentMapper instance for fast retrieval of components from entities.
+     * Retrieves a ComponentMapper instance for fast retrieval of
+     * components from entities.
      * 
      * @param type of component to get mapper for.
      * @return mapper for specified component type.
