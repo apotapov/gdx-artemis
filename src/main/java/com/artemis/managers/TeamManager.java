@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * Use this class together with PlayerManager.
  * 
  * You may sometimes want to create teams in your game, so that
- * some players are team mates.
+ * some players are teammates.
  * 
  * A player can only belong to a single team.
  * 
@@ -25,10 +25,23 @@ public class TeamManager extends Manager {
         teamByPlayer = new ObjectMap<String, String>();
     }
 
+    /**
+     * Returns a team for the specified player.
+     * 
+     * @param player Player to get the team for.
+     * @return Player's team, null if none.
+     */
     public String getTeam(String player) {
         return teamByPlayer.get(player);
     }
 
+    /**
+     * Assigns a player to the specified team. Removes
+     * the player from any other team.
+     * 
+     * @param player The player to assign to the team.
+     * @param team Player's team.
+     */
     public void setTeam(String player, String team) {
         removeFromTeam(player);
 
@@ -42,10 +55,23 @@ public class TeamManager extends Manager {
         players.add(player);
     }
 
+    /**
+     * Get all the players belonging to the specified team.
+     * 
+     * WARNING: the array should not be modified.
+     * 
+     * @param team Team that the players belong to.
+     * @return A list of players on the team, null if none.
+     */
     public Array<String> getPlayers(String team) {
         return playersByTeam.get(team);
     }
 
+    /**
+     * Remove specified player from the team that they are on.
+     * 
+     * @param player Player to remove from the team.
+     */
     public void removeFromTeam(String player) {
         String team = teamByPlayer.remove(player);
         if(team != null) {

@@ -6,8 +6,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 
 /**
- * If you need to group your entities together, e.g. tanks going into "units" group or explosions into "effects",
- * then use this manager. You must retrieve it using world instance.
+ * If you need to group your entities together, e.g. tanks going into "units"
+ * group or explosions into "effects", then use this manager. You must
+ * retrieve it using world instance.
  * 
  * A entity can be assigned to more than one group.
  * 
@@ -72,8 +73,8 @@ public class GroupManager extends Manager {
 
     /**
      * Remove the entity from the specified group.
-     * @param e
-     * @param group
+     * @param e Entity to be removed
+     * @param group Group to remove the enity from.
      */
     public void remove(Entity e, String group) {
         Array<Entity> entities = entitiesByGroup.get(group);
@@ -93,6 +94,11 @@ public class GroupManager extends Manager {
         }
     }
 
+    /**
+     * Remove entity from all the groups it belongs to.
+     * 
+     * @param e Entity to remove.
+     */
     public void removeFromAllGroups(Entity e) {
         Array<String> groups = groupsByEntity.get(e);
         if(groups != null) {
@@ -115,8 +121,11 @@ public class GroupManager extends Manager {
 
     /**
      * Get all entities that belong to the provided group.
+     * 
+     * WARNING: The returned array should not be modified.
+     * 
      * @param group name of the group.
-     * @return read-only Array of entities belonging to the group.
+     * @return Array of entities belonging to the group.
      */
     public Array<Entity> getEntities(String group) {
         if (entitiesByGroup.containsKey(group)) {
@@ -128,8 +137,12 @@ public class GroupManager extends Manager {
     }
 
     /**
+     * Get groups for a specific entity.
+     * 
+     * WARNING: The returned array should not be modified.
+     * 
      * @param e entity
-     * @return the groups the entity belongs to, null if none.
+     * @return the groups the entity belongs to.
      */
     public Array<String> getGroups(Entity e) {
         if (groupsByEntity.containsKey(e)) {

@@ -41,13 +41,6 @@
         <system>GitHub Issues</system>
     </issueManagement>
 
-    <repositories>
-        <repository>
-            <id>gdx-nightlies</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
-    
     <developers>
         <developer>
             <name>Arni Arent</name>
@@ -75,7 +68,6 @@
         </developer>
     </developers>
     
-  
     <scm>
         <url>https://github.com/apotapov/gdx-artemis/</url>
         <connection>scm:git:git@github.com:apotapov/gdx-artemis.git</connection>

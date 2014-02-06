@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * A manager for dealing with Singleton Components. Allows easy storage
  * and retrieval of components that will always have only one instance
  * in the world. All the singleton components will be tied to a single
- * entity. The entity will still exist in the world and will be processed
+ * entity. The entity will exist in the world and will be processed
  * by regular means. This manager allows to access the singleton components
  * without having to specify them in EntitySystem's aspect declaration.
  * 
@@ -30,9 +30,6 @@ public class SingletonComponentManager extends Manager {
         mappers = new ObjectMap<Class<? extends Component>, ComponentMapper<? extends Component>>();
     }
 
-    /**
-     * Adds the singleton entity to the world.
-     */
     @Override
     public void initialize() {
         singletonEntity = world.createEntity();

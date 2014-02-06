@@ -8,6 +8,11 @@ import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
+/**
+ * A class that is responsible for managing the life cycle of entities.
+ * Used for internal purposes. Should not be accessed directly.
+ *
+ */
 public class EntityManager extends Manager {
     public Array<Entity> entities;
     public Array<Entity> deletedEntities;
@@ -61,6 +66,9 @@ public class EntityManager extends Manager {
         };
     }
 
+    /**
+     * @return Returns an instance of an entity.
+     */
     public Entity createEntityInstance() {
         created++;
         return entityPool.obtain();
@@ -88,6 +96,9 @@ public class EntityManager extends Manager {
         deletedEntities.add(e);
     }
 
+    /**
+     * Cleans up deleted entities.
+     */
     public void clean() {
         if(deletedEntities.size > 0) {
             for(int i = 0; deletedEntities.size > i; i++) {
@@ -107,7 +118,7 @@ public class EntityManager extends Manager {
      * Check if this entity is active.
      * Active means the entity is being actively processed.
      * 
-     * @param entityId
+     * @param entityId Id of the entity to check.
      * @return true if active, false if not.
      */
     public boolean isActive(int entityId) {
@@ -117,7 +128,7 @@ public class EntityManager extends Manager {
     /**
      * Check if the specified entityId is enabled.
      * 
-     * @param entityId
+     * @param entityId Id of the entity to check.
      * @return true if the entity is enabled, false if it is disabled.
      */
     public boolean isEnabled(int entityId) {
@@ -127,8 +138,8 @@ public class EntityManager extends Manager {
     /**
      * Get a entity with this id.
      * 
-     * @param entityId
-     * @return the entity
+     * @param entityId Id of the entity to return
+     * @return Enity of specified id or null if it does not exist.
      */
     public Entity getEntity(int entityId) {
         return entities.get(entityId);

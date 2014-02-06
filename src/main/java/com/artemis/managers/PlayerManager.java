@@ -23,6 +23,12 @@ public class PlayerManager extends Manager {
         entitiesByPlayer = new ObjectMap<String, Array<Entity>>();
     }
 
+    /**
+     * Adds entity to the specified player.
+     * 
+     * @param e Entity that belongs to the player.
+     * @param player The owner of the entity.
+     */
     public void setPlayer(Entity e, String player) {
         playerByEntity.put(e, player);
         Array<Entity> entities = entitiesByPlayer.get(player);
@@ -33,6 +39,14 @@ public class PlayerManager extends Manager {
         entities.add(e);
     }
 
+    /**
+     * Returns all entities the belongs to the player.
+     * 
+     * WARNING: the array should not be modified.
+     * 
+     * @param player Player to get the entities for.
+     * @return An array of entities belonging to the player.
+     */
     public Array<Entity> getEntitiesOfPlayer(String player) {
         Array<Entity> entities = entitiesByPlayer.get(player);
         if(entities == null) {
@@ -41,6 +55,11 @@ public class PlayerManager extends Manager {
         return entities;
     }
 
+    /**
+     * Removes the specified entity from the player it belongs to.
+     * 
+     * @param e Entity to disown.
+     */
     public void removeFromPlayer(Entity e) {
         String player = playerByEntity.get(e);
         if(player != null) {
@@ -51,6 +70,12 @@ public class PlayerManager extends Manager {
         }
     }
 
+    /**
+     * Returns the player an entity belongs to.
+     * 
+     * @param e Entity to check.
+     * @return A player that the entity belongs to, or null if none.
+     */
     public String getPlayer(Entity e) {
         return playerByEntity.get(e);
     }
