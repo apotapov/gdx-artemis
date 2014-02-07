@@ -28,6 +28,8 @@ public class ComponentManager extends Manager {
     protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
             new ObjectIntMap<Class<? extends Component>>();
 
+    Array<Component> returnedComponents;
+
     /**
      * Returns the index of a Component class. Indices are cached, so retrieval
      * should be fast.
@@ -52,6 +54,8 @@ public class ComponentManager extends Manager {
         deleted = new SafeArray<Entity>();
         componentsToDelete = new ObjectMap<Entity, IntArray>();
         this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
+
+        this.returnedComponents = new Array<Component>();
     }
 
     /**
@@ -150,6 +154,7 @@ public class ComponentManager extends Manager {
 
     /**
      * Fills an array with Components belonging to the specified Entity.
+     * 
      * @param e Entity to get Components with.
      * @param array Array of Components to fill.
      */
@@ -159,6 +164,20 @@ public class ComponentManager extends Manager {
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
             array.add(componentsByType.get(i).get(e.id));
         }
+    }
+
+    /**
+     * Returns an array of components for the specified entity.
+     * The Array is generated newly every time and making changes to its
+     * contents will not affect the components belonging to the entity.
+     * 
+     * @param e Entity to get Components with.
+     * @param array Array of Components to fill.
+     */
+    public Array<Component> getComponents(Entity e) {
+        returnedComponents.clear();
+        getComponents(e, returnedComponents);
+        return returnedComponents;
     }
 
     /**

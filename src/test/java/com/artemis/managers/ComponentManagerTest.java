@@ -18,6 +18,18 @@ public class ComponentManagerTest {
         }
     }
 
+    static class ComponentB implements Component {
+        @Override
+        public void reset() {
+        }
+    }
+
+    static class ComponentC implements Component {
+        @Override
+        public void reset() {
+        }
+    }
+
     static class SystemA extends EntityProcessingSystem {
         ComponentMapper<ComponentA> aMapper;
 
@@ -72,5 +84,28 @@ public class ComponentManagerTest {
 
         world.process();
         world.process();
+    }
+
+    @Test
+    public void testGetComponents() {
+        World world = new World();
+        world.initialize();
+
+        Entity e = world.createEntity();
+        ComponentA a = world.createComponent(ComponentA.class);
+        e.addComponent(a);
+        ComponentB b = world.createComponent(ComponentB.class);
+        e.addComponent(b);
+        world.addEntity(e);
+
+        ComponentC c = world.createComponent(ComponentC.class);
+
+        world.process();
+
+        ComponentManager manager = world.getManager(ComponentManager.class);
+        Assert.assertEquals(2, manager.getComponents(e).size);
+        Assert.assertTrue(manager.getComponents(e).contains(a, true));
+        Assert.assertTrue(manager.getComponents(e).contains(b, true));
+        Assert.assertFalse(manager.getComponents(e).contains(c, true));
     }
 }

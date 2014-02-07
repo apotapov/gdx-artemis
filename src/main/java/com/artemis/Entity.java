@@ -158,6 +158,10 @@ public final class Entity implements Poolable {
     /**
      * Populates provided Array with this Entity's components.
      * 
+     * WARNING: This is an efficient way to access entitie's components.
+     * Use with care. ComponentMapper is a faster and more efficient way to
+     * access components.
+     * 
      * @param array to put the components into.
      */
     public void getComponents(Array<Component> array) {
@@ -165,10 +169,25 @@ public final class Entity implements Poolable {
     }
 
     /**
+     * Returns an array of Entity components. This is a generated array,
+     * and modifying it will not have an effect on components belonging
+     * to this entity.
+     * 
+     * WARNING: This is an efficient way to access entitie's components.
+     * Use with care. ComponentMapper is a faster and more efficient way to
+     * access components.
+     * 
+     * @param array to put the components into.
+     */
+    public Array<Component> getComponents() {
+        return componentManager.getComponents(this);
+    }
+
+    /**
      * Refresh all changes to components for this entity. After adding or
      * removing components, you must call this method. It will update all
-     * relevant systems. It is typical to call this after adding components to a
-     * newly created entity.
+     * relevant systems. It is typical to call this after adding components to
+     * a newly created entity.
      */
     public void addToWorld() {
         world.addEntity(this);
