@@ -176,8 +176,6 @@ public final class Entity implements Poolable {
      * WARNING: This is an efficient way to access entitie's components.
      * Use with care. ComponentMapper is a faster and more efficient way to
      * access components.
-     * 
-     * @param array to put the components into.
      */
     public Array<Component> getComponents() {
         return componentManager.getComponents(this);

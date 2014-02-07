@@ -172,7 +172,6 @@ public class ComponentManager extends Manager {
      * contents will not affect the components belonging to the entity.
      * 
      * @param e Entity to get Components with.
-     * @param array Array of Components to fill.
      */
     public Array<Component> getComponents(Entity e) {
         returnedComponents.clear();
@@ -180,9 +179,6 @@ public class ComponentManager extends Manager {
         return returnedComponents;
     }
 
-    /**
-     * Marks entity for clean up.
-     */
     @Override
     public void deleted(Entity e) {
         deleted.add(e);
