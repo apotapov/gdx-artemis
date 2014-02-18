@@ -59,14 +59,6 @@ public abstract class EntitySystem implements EntityObserver {
      */
     public final void process() {
         if(checkProcessing()) {
-            // clean up entities that have been removed by other systems
-            for (int i = 0; i < actives.size; i++) {
-                Entity entity = actives.get(i);
-                if (!entity.isActive()) {
-                    actives.removeIndex(i);
-                    i--;
-                }
-            }
             begin();
             processEntities(actives);
             end();

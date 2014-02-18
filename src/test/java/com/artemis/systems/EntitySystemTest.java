@@ -25,7 +25,7 @@ public class EntitySystemTest {
         }
     }
 
-    static class TestSytem extends EntitySystem {
+    static class TestSystem extends EntitySystem {
 
         ComponentMapper<ComponentA> aMapper;
         ComponentMapper<ComponentB> bMapper;
@@ -33,7 +33,7 @@ public class EntitySystemTest {
         int numEntities;
 
         @SuppressWarnings("unchecked")
-        public TestSytem() {
+        public TestSystem() {
             super(Filter.allComponents(ComponentA.class).any(ComponentB.class));
         }
 
@@ -46,13 +46,12 @@ public class EntitySystemTest {
         protected void processEntities(Array<Entity> entities) {
             numEntities = entities.size;
         }
-
     }
 
     @Test
     public void testCheck() {
         World world = new World();
-        TestSytem system = new TestSytem();
+        TestSystem system = new TestSystem();
         world.setSystem(system);
         world.initialize();
 
