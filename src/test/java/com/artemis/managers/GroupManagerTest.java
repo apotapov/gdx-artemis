@@ -8,6 +8,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
 
+@SuppressWarnings("deprecation")
 public class GroupManagerTest {
 
     private static final String TEST_GROUP = "test";
