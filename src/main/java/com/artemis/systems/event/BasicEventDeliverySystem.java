@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
  * @author apotapov
  *
  */
-public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
+public class BasicEventDeliverySystem extends VoidEntitySystem implements EventDeliverySystem {
 
     /**
      * Event buffer by type of event, that all new events get loaded into.
@@ -39,7 +39,7 @@ public class BasicEventSystem extends VoidEntitySystem implements EventSystem {
     /**
      * Default constructor.
      */
-    public BasicEventSystem() {
+    public BasicEventDeliverySystem() {
         this.buffer = new ObjectMap<Class<? extends SystemEvent>, Array<SystemEvent>>();
         this.currentEvents = new ObjectMap<Class<? extends SystemEvent>, Array<SystemEvent>>();
     }

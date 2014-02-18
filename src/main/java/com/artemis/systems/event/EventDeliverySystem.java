@@ -5,11 +5,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
- * Interface for event systems to adhere to.
+ * Interface for event delivery systems to adhere to.
  * 
  * @author apotapov
  */
-public interface EventSystem extends Disposable {
+public interface EventDeliverySystem extends Disposable {
     /**
      * Post an event to people who care.
      * 
