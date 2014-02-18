@@ -16,10 +16,14 @@ public class GenericGroupManagerTest {
         GROUP_3
     }
 
+    private static class TestGroupManager extends GenericGroupManager<Group> {
+
+    }
+
     @Test
     public void testInGroup() {
         World world = new World();
-        GenericGroupManager<Group> manager = new GenericGroupManager<Group>();
+        TestGroupManager manager = new TestGroupManager();
         world.setManager(manager);
         world.initialize();
 
@@ -46,7 +50,7 @@ public class GenericGroupManagerTest {
     @Test
     public void testRemoveAll() {
         World world = new World();
-        GenericGroupManager<Group> manager = new GenericGroupManager<Group>();
+        TestGroupManager manager = new TestGroupManager();
         world.setManager(manager);
         world.initialize();
 
@@ -145,7 +149,7 @@ public class GenericGroupManagerTest {
     @Test
     public void testGetGroups() {
         World world = new World();
-        GenericGroupManager<Group> manager = new GenericGroupManager<Group>();
+        TestGroupManager manager = new TestGroupManager();
         world.setManager(manager);
         world.initialize();
 
@@ -180,7 +184,7 @@ public class GenericGroupManagerTest {
     @Test
     public void testGetEntities() {
         World world = new World();
-        GenericGroupManager<Group> manager = new GenericGroupManager<Group>();
+        TestGroupManager manager = new TestGroupManager();
         world.setManager(manager);
         world.initialize();
 

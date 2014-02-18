@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Pool;
  *
  * @param <T> Group identifier type.
  */
-public class GenericGroupManager<T> extends Manager {
+public abstract class GenericGroupManager<T> extends Manager {
 
     private static final Array<Entity> DUMMY_EMPTY_ENTITY_ARRAY = new Array<Entity>();
     private final Array<T> DUMMY_EMPTY_GROUP_ARRAY = new Array<T>();

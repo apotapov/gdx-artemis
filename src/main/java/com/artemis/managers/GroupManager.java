@@ -2,9 +2,6 @@ package com.artemis.managers;
 
 
 /**
- * Deprecated, as it is much cleaner to use GenericGroupManager instead
- * with an Enum as a type.
- * 
  * This is a concrete implementation of a Generic Group Manager that uses
  * Strings to identify groups.
  * 
@@ -17,6 +14,5 @@ package com.artemis.managers;
  * @author Arni Arent
  *
  */
-@Deprecated
 public class GroupManager extends GenericGroupManager<String> {
 }
