@@ -30,6 +30,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
  - PlayerManager and TeamManager have been cleaned up. 
  - TagManager is deprecated in favor or SingletonEntityManager.
  - Added SkipEntityProcessingSystem to replace DelayedEntityProcessingSystem. Added ExpirationEntitySystem.
+ - Cleaning up Event System. Constraining World to only one Event System. Removed some unused classes, added classes for handling events.
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
