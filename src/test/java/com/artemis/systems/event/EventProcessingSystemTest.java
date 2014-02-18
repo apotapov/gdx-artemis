@@ -163,7 +163,7 @@ public class EventProcessingSystemTest {
     @Test
     public void testEventProcessingSystems() {
         World world = new World();
-        world.setSystem(new BasicEventDeliverySystem());
+        world.setEventDeliverySystem(new BasicEventDeliverySystem());
         world.setSystem(new PublishingSystem());
         world.setSystem(new ReceivingSystem1());
         world.setSystem(new ReceivingSystem2());

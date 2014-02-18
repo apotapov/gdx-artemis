@@ -51,7 +51,7 @@ public class BasicEventDeliverySystemTest {
     @Before
     public void before() {
         world = new World();
-        world.setSystem(new BasicEventDeliverySystem());
+        world.setEventDeliverySystem(new BasicEventDeliverySystem());
         world.setSystem(new SendingSystem());
         world.setSystem(new ReceivingSystem());
         world.initialize();

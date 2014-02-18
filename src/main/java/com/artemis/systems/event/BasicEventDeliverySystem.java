@@ -1,7 +1,6 @@
 package com.artemis.systems.event;
 
 import com.artemis.systems.EntitySystem;
-import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
@@ -18,7 +17,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
  * @author apotapov
  *
  */
-public class BasicEventDeliverySystem extends VoidEntitySystem implements EventDeliverySystem {
+public class BasicEventDeliverySystem implements EventDeliverySystem {
 
     /**
      * Event buffer by type of event, that all new events get loaded into.
@@ -73,15 +72,22 @@ public class BasicEventDeliverySystem extends VoidEntitySystem implements EventD
     /**
      * Retrieves events of specific type and adds them to the events Set.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
         if (currentEvents.containsKey(type)) {
-            for (SystemEvent event : currentEvents.get(type)) {
-                if (!event.handled && !events.contains(type.cast(event), false)) {
-                    events.add(type.cast(event));
+            Array<SystemEvent> currentEventsByType = currentEvents.get(type);
+            for (int i = 0; i < currentEventsByType.size; i++) {
+                SystemEvent event = currentEventsByType.get(i);
+                if (!event.handled) {
+                    events.add((T)event);
                 }
             }
         }
+    }
+
+    @Override
+    public void initialize() {
     }
 
     /**
@@ -89,7 +95,7 @@ public class BasicEventDeliverySystem extends VoidEntitySystem implements EventD
      * buffer to currentEvents list.
      */
     @Override
-    protected void processSystem() {
+    public void update() {
         synchronized (buffer) {
             // clear out all the existing events
             for (Array<SystemEvent> queue : currentEvents.values()) {

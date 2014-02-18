@@ -10,6 +10,10 @@ import com.badlogic.gdx.utils.Disposable;
  * @author apotapov
  */
 public interface EventDeliverySystem extends Disposable {
+
+    public void initialize();
+    public void update();
+
     /**
      * Post an event to people who care.
      * 

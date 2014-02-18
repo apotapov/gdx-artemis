@@ -58,8 +58,10 @@ public class SafeArray<T> extends Array<T> {
      */
     @Override
     public void set(int index, T value) {
-        if (index >= size) {
+        if (index >= items.length) {
             resize(Math.max(index + 1, items.length * 2));
+        }
+        if (index >= size) {
             size = index + 1;
         }
         items[index] = value;

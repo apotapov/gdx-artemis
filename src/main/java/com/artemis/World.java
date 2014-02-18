@@ -8,7 +8,6 @@ import com.artemis.systems.event.EventDeliverySystem;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 
 /**
@@ -46,12 +45,10 @@ public class World implements Disposable {
     protected Performer enablePerformer;
     protected Performer disablePerformer;
 
-    protected ObjectMap<Class<? extends Manager>, Manager> managers;
-    protected Array<Manager> managersArray;
+    protected Array<Manager> managers;
 
-    protected ObjectMap<Class<?>, EntitySystem> systems;
-    protected Array<EventDeliverySystem> eventSystems;
-    protected Array<EntitySystem> systemsArray;
+    protected EventDeliverySystem eventSystem;
+    protected Array<EntitySystem> systems;
 
     public World() {
         this(new ComponentManager(), new EntityManager());
@@ -65,11 +62,8 @@ public class World implements Disposable {
      * @param em EntityManager to use.
      */
     public World(ComponentManager cm, EntityManager em) {
-        managers = new ObjectMap<Class<? extends Manager>, Manager>();
-        managersArray = new Array<Manager>();
-
-        systems = new ObjectMap<Class<?>, EntitySystem>();
-        systemsArray = new Array<EntitySystem>();
+        managers = new Array<Manager>();
+        systems = new Array<EntitySystem>();
 
         added = new ObjectSet<Entity>();
         changed = new ObjectSet<Entity>();
@@ -113,8 +107,6 @@ public class World implements Disposable {
 
         this.em = em;
         setManager(em);
-
-        this.eventSystems = new Array<EventDeliverySystem>();
     }
 
 
@@ -123,12 +115,18 @@ public class World implements Disposable {
      * in the order they were added.
      */
     public void initialize() {
-        for (Manager manager : managersArray) {
-            manager.initialize();
+        // Can't use iterators here because initialize often calls
+        // getSystem or getManager
+        for (int i = 0; i < managers.size; i++) {
+            managers.get(i).initialize();
         }
 
-        for (EntitySystem system : systemsArray) {
-            system.initialize();
+        if (eventSystem != null) {
+            eventSystem.initialize();
+        }
+
+        for (int i = 0; i < systems.size; i++) {
+            systems.get(i).initialize();
         }
     }
 
@@ -158,8 +156,7 @@ public class World implements Disposable {
      * @param manager to be added
      */
     public <T extends Manager> T setManager(T manager) {
-        managers.put(manager.getClass(), manager);
-        managersArray.add(manager);
+        managers.add(manager);
         manager.setWorld(this);
         return manager;
     }
@@ -172,8 +169,14 @@ public class World implements Disposable {
      *            class type of the manager
      * @return the manager
      */
+    @SuppressWarnings("unchecked")
     public <T extends Manager> T getManager(Class<T> managerType) {
-        return managerType.cast(managers.get(managerType));
+        for (Manager manager : managers) {
+            if (manager.getClass().equals(managerType)) {
+                return (T) manager;
+            }
+        }
+        return null;
     }
 
     /**
@@ -181,8 +184,7 @@ public class World implements Disposable {
      * @param manager to delete.
      */
     public void deleteManager(Manager manager) {
-        managers.remove(manager.getClass());
-        managersArray.removeValue(manager, true);
+        managers.removeValue(manager, true);
     }
 
     /**
@@ -303,7 +305,7 @@ public class World implements Disposable {
      * @param event
      */
     public void postEvent(EntitySystem sendingSystem, SystemEvent event) {
-        for (EventDeliverySystem eventSystem : eventSystems) {
+        if (eventSystem != null) {
             eventSystem.postEvent(sendingSystem, event);
         }
     }
@@ -317,7 +319,7 @@ public class World implements Disposable {
      */
     public <T extends SystemEvent> void getEvents(EntitySystem pollingSystem, Class<T> type, Array<T> events) {
         events.clear();
-        for (EventDeliverySystem eventSystem : eventSystems) {
+        if (eventSystem != null) {
             eventSystem.getEvents(pollingSystem, type, events);
         }
     }
@@ -328,7 +330,20 @@ public class World implements Disposable {
      * @return all entity systems in world.
      */
     public Array<EntitySystem> getSystems() {
-        return systemsArray;
+        return systems;
+    }
+
+    /**
+     * Returns the event system, or null if not set.
+     * 
+     * @return Event System for the world.
+     */
+    public EventDeliverySystem getEventDeliverySystem() {
+        return eventSystem;
+    }
+
+    public void setEventDeliverySystem(EventDeliverySystem eventSystem) {
+        this.eventSystem = eventSystem;
     }
 
     /**
@@ -340,10 +355,10 @@ public class World implements Disposable {
     public <T extends EntitySystem> T setSystem(T system) {
         system.setWorld(this);
 
-        systems.put(system.getClass(), system);
-        systemsArray.add(system);
         if (system instanceof EventDeliverySystem) {
-            eventSystems.add((EventDeliverySystem)system);
+            eventSystem = (EventDeliverySystem) system;
+        } else {
+            systems.add(system);
         }
 
         return system;
@@ -357,15 +372,8 @@ public class World implements Disposable {
      * @return the added system.
      */
     public <T extends EntitySystem> T setSystem(T system, boolean passive) {
-        system.setWorld(this);
+        setSystem(system);
         system.setPassive(passive);
-
-        systems.put(system.getClass(), system);
-        systemsArray.add(system);
-        if (system instanceof EventDeliverySystem) {
-            eventSystems.add((EventDeliverySystem)system);
-        }
-
         return system;
     }
 
@@ -374,10 +382,10 @@ public class World implements Disposable {
      * @param system to be deleted from world.
      */
     public void deleteSystem(EntitySystem system) {
-        systems.remove(system.getClass());
-        systemsArray.removeValue(system, true);
         if (system instanceof EventDeliverySystem) {
-            eventSystems.removeValue((EventDeliverySystem)system, true);
+            eventSystem = null;
+        } else {
+            systems.removeValue(system, true);
         }
     }
 
@@ -388,8 +396,8 @@ public class World implements Disposable {
      * @param e Entity that has been affected.
      */
     protected void notifySystems(Performer performer, Entity e) {
-        for(EntitySystem system : systemsArray) {
-            performer.perform(system, e);
+        for(int i = 0; i < systems.size; i++) {
+            performer.perform(systems.get(i), e);
         }
     }
 
@@ -400,7 +408,7 @@ public class World implements Disposable {
      * @param e Entity that has been affected.
      */
     protected void notifyManagers(Performer performer, Entity e) {
-        for(Manager manager : managersArray) {
+        for(Manager manager : managers) {
             performer.perform(manager, e);
         }
     }
@@ -411,8 +419,15 @@ public class World implements Disposable {
      * @param type type of system.
      * @return instance of the system in this world.
      */
+    @SuppressWarnings("unchecked")
     public <T extends EntitySystem> T getSystem(Class<T> type) {
-        return type.cast(systems.get(type));
+        for (int i = 0; i < systems.size; i++) {
+            EntitySystem system = systems.get(i);
+            if (system.getClass().equals(type)) {
+                return (T) system;
+            }
+        }
+        return null;
     }
 
 
@@ -446,7 +461,12 @@ public class World implements Disposable {
         cm.clean();
         em.clean();
 
-        for(EntitySystem system : systemsArray) {
+        if (eventSystem != null) {
+            eventSystem.update();
+        }
+
+        for(int i = 0; i < systems.size; i++) {
+            EntitySystem system = systems.get(i);
             if(!system.isPassive()) {
                 system.process();
             }
@@ -476,19 +496,17 @@ public class World implements Disposable {
         enable.clear();
         disable.clear();
 
-        for (Manager manager : managersArray) {
+        for (Manager manager : managers) {
             manager.dispose();
         }
+
         managers.clear();
-        managersArray.clear();
-
         systems.clear();
-        systemsArray.clear();
 
-        for (EventDeliverySystem eventSystem : eventSystems) {
+        if (eventSystem != null) {
             eventSystem.dispose();
+            eventSystem = null;
         }
-        eventSystems.clear();
     }
 
 }
