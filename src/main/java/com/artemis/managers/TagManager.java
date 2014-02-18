@@ -6,8 +6,10 @@ import com.badlogic.gdx.utils.ObjectMap.Values;
 
 
 /**
+ * DEPRECATED Use SingletonEntityManager instead.
+ * 
  * The name of this manager is a bit of a misnomer. It is not a standard tag
- * implementation. If you need that use the GroupManager.
+ * implementation. If you need that, use the GroupManager or GenericGroupManager.
  * 
  * Tag manager allows tagging of a single entity with a specific tag so it
  * can be retrieved. This way it's more similar to the SingletonComponentManager
@@ -18,6 +20,7 @@ import com.badlogic.gdx.utils.ObjectMap.Values;
  * @author Arni Arent
  *
  */
+@Deprecated
 public class TagManager extends Manager {
     protected ObjectMap<String, Entity> entitiesByTag;
     protected ObjectMap<Entity, String> tagsByEntity;

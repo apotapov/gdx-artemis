@@ -63,4 +63,33 @@ public class PlayerManagerTest {
         Assert.assertEquals(1, manager.getEntitiesOfPlayer(PLAYER_1).size);
     }
 
+    @Test
+    public void testDeleteEntity() {
+        World world = new World();
+        world.setManager(new PlayerManager());
+        world.initialize();
+
+        PlayerManager manager = world.getManager(PlayerManager.class);
+
+        Entity entity = world.createEntity();
+        world.addEntity(entity);
+
+        manager.setPlayer(entity, PLAYER_1);
+
+        Assert.assertEquals(PLAYER_1, manager.getPlayer(entity));
+        Assert.assertEquals(1, manager.getEntitiesOfPlayer(PLAYER_1).size);
+
+        world.process();
+
+        Assert.assertEquals(PLAYER_1, manager.getPlayer(entity));
+        Assert.assertEquals(1, manager.getEntitiesOfPlayer(PLAYER_1).size);
+
+        entity.deleteFromWorld();
+
+        world.process();
+
+        Assert.assertNull(manager.getPlayer(entity));
+        Assert.assertEquals(0, manager.getEntitiesOfPlayer(PLAYER_1).size);
+    }
+
 }
