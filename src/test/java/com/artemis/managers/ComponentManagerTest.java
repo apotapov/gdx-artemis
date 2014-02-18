@@ -13,8 +13,12 @@ import com.artemis.systems.EntityProcessingSystem;
 public class ComponentManagerTest {
 
     static class ComponentA implements Component {
+
+        int x;
+
         @Override
         public void reset() {
+            x = 0;
         }
     }
 
@@ -107,5 +111,27 @@ public class ComponentManagerTest {
         Assert.assertTrue(manager.getComponents(e).contains(a, true));
         Assert.assertTrue(manager.getComponents(e).contains(b, true));
         Assert.assertFalse(manager.getComponents(e).contains(c, true));
+    }
+
+    @Test
+    public void testComponentReplace() {
+        World world = new World();
+        world.initialize();
+
+        Entity e = world.createEntity();
+        ComponentA a = world.createComponent(ComponentA.class);
+        a.x = 1;
+        e.addComponent(a);
+        world.addEntity(e);
+
+        world.process();
+
+        ComponentA a1 = world.createComponent(ComponentA.class);
+        a1.x = 2;
+
+        e.addComponent(a1);
+
+        // a should have been returned to the pool and a.x reset
+        Assert.assertEquals(0, a.x);
     }
 }

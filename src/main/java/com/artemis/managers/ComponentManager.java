@@ -94,7 +94,14 @@ public class ComponentManager extends Manager {
             components = new SafeArray<T>();
             componentsByType.set(classIndex, components);
         }
-        components.set(e.id, component);
+
+        // clean up existing component belonging to the entity
+        Component current = components.get(e.id);
+        if (current != null && current != component) {
+            Pools.free(current);
+        } else {
+            components.set(e.id, component);
+        }
 
         e.getComponentBits().set(classIndex);
     }
