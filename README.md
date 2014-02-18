@@ -27,6 +27,8 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
  - Used JProfiler to identify a few CPU intensive hotspots and made performance improving changes.
  - Created GenericGroupManager.
  - Deprecated Aspect in favor of Filter. (better clarity of purpose)
+ - PlayerManager and TeamManager have been cleaned up. 
+ - TagManager is deprecated in favor or SingletonEntityManager.
  - Added SkipEntityProcessingSystem to replace DelayedEntityProcessingSystem. Added ExpirationEntitySystem.
 
 ### Previous changes
