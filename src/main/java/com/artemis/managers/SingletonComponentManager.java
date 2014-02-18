@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * in the world. All the singleton components will be tied to a single
  * entity. The entity will exist in the world and will be processed
  * by regular means. This manager allows to access the singleton components
- * without having to specify them in EntitySystem's aspect declaration.
+ * without having to specify them in EntitySystem's filter declaration.
  * 
  * @author apotapov
  *

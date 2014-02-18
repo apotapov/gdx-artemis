@@ -25,7 +25,8 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
  - Fixed a bug in ComponentManager that was causing NPE's when a component was removed from an entity.
  - Fixed an entity removal bug which was causing NPE's.
  - Used JProfiler to identify a few CPU intensive hotspots and made performance improving changes.
- - Created GenericGroupManager. Deprecated old String based GroupManager.
+ - Created GenericGroupManager.
+ - Deprecated Aspect in favor of Filter. (better clarity of purpose)
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)

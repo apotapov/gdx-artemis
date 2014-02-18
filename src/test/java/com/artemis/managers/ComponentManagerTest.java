@@ -3,10 +3,10 @@ package com.artemis.managers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.artemis.World;
 import com.artemis.systems.EntityProcessingSystem;
 
@@ -35,7 +35,7 @@ public class ComponentManagerTest {
 
         @SuppressWarnings("unchecked")
         public SystemA() {
-            super(Aspect.getAspectForAll(ComponentA.class));
+            super(Filter.allComponents(ComponentA.class));
         }
 
         @Override
@@ -55,7 +55,7 @@ public class ComponentManagerTest {
 
         @SuppressWarnings("unchecked")
         public SystemB() {
-            super(Aspect.getAspectForAll(ComponentA.class));
+            super(Filter.allComponents(ComponentA.class));
         }
 
         @Override

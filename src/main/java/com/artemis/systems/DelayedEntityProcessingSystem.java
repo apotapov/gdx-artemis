@@ -1,7 +1,7 @@
 package com.artemis.systems;
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -39,8 +39,8 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
     protected boolean running;
     protected float acc;
 
-    public DelayedEntityProcessingSystem(Aspect aspect) {
-        super(aspect);
+    public DelayedEntityProcessingSystem(Filter filter) {
+        super(filter);
     }
 
     @Override

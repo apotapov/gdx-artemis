@@ -24,7 +24,7 @@ public class ParentMapperTest {
 
         @SuppressWarnings("unchecked")
         public TestParentSystem() {
-            super(Aspect.getAspectForAll(TestComponent.class));
+            super(Filter.allComponents(TestComponent.class));
             // TODO Auto-generated constructor stub
         }
 

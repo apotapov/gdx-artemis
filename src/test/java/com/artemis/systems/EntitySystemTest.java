@@ -4,10 +4,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -34,7 +34,7 @@ public class EntitySystemTest {
 
         @SuppressWarnings("unchecked")
         public TestSytem() {
-            super(Aspect.getAspectForAll(ComponentA.class).one(ComponentB.class));
+            super(Filter.allComponents(ComponentA.class).any(ComponentB.class));
         }
 
         public void initalize() {

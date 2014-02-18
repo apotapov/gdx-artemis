@@ -1,7 +1,7 @@
 package com.artemis.systems;
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -14,8 +14,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public abstract class IntervalEntityProcessingSystem extends IntervalEntitySystem {
 
-    public IntervalEntityProcessingSystem(Aspect aspect, float interval) {
-        super(aspect, interval);
+    public IntervalEntityProcessingSystem(Filter filter, float interval) {
+        super(filter, interval);
     }
 
     /**

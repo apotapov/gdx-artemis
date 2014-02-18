@@ -6,13 +6,17 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
 
 /**
- * Generic Group Manager allows to group entities together. The group
- * identifier type is generic. If you are planning to use String,
+ * Abstract Generic Group Manager allows to group entities together.
+ * The group identifier type is generic. If you are planning to use String,
  * consider using an Enum instead. However any other class can be used.
  * 
  * An entity can be added to multiple groups.
  * 
  * Example: Tank entities can be in the "units" group.
+ * 
+ * The reason this class is abstract is because of type erasure in java
+ * makes it impossible to get a class of a generic object. So it would
+ * be impossible to call world.getManager(GenericGroupManager<T>.class).
  * 
  * @author apotapov
  *

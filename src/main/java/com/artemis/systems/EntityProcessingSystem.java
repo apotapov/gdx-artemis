@@ -1,7 +1,7 @@
 package com.artemis.systems;
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.Array;
  */
 public abstract class EntityProcessingSystem extends EntitySystem {
 
-    public EntityProcessingSystem(Aspect aspect) {
-        super(aspect);
+    public EntityProcessingSystem(Filter filter) {
+        super(filter);
     }
 
     /**

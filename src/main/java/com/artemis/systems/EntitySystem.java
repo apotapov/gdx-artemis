@@ -2,9 +2,9 @@ package com.artemis.systems;
 
 import java.util.BitSet;
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.EntityObserver;
+import com.artemis.Filter;
 import com.artemis.World;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
@@ -26,33 +26,26 @@ public abstract class EntitySystem implements EntityObserver {
 
     protected Array<Entity> actives;
 
-    protected Aspect aspect;
-
-    protected BitSet allSet;
-    protected BitSet exclusionSet;
-    protected BitSet oneSet;
+    protected Filter filter;
 
     protected boolean passive;
 
-    protected boolean dummy;
+    protected boolean dummySystem;
 
     /**
-     * Creates an entity system that uses the specified aspect
+     * Creates an entity system that uses the specified filter
      * as a matcher against entities.
      * 
-     * @param aspect to match against entities
+     * @param filter to match against entities
      */
-    public EntitySystem(Aspect aspect) {
+    public EntitySystem(Filter filter) {
         actives = new SafeArray<Entity>();
-        this.aspect = aspect;
-        allSet = aspect.getAllSet();
-        exclusionSet = aspect.getExclusionSet();
-        oneSet = aspect.getOneSet();
+        this.filter = filter;
         systemIndex = SystemIndexManager.getIndexFor(this.getClass());
 
         // This system can't possibly be interested in any entity,
-        // so it must be "dummy"
-        dummy = allSet.isEmpty() && oneSet.isEmpty();
+        // so it must be "dummy system"
+        dummySystem = filter.allSet.isEmpty() && filter.anySet.isEmpty();
     }
 
     /**
@@ -128,7 +121,7 @@ public abstract class EntitySystem implements EntityObserver {
      * @param e entity to check
      */
     protected final void check(Entity e) {
-        if(dummy) {
+        if(dummySystem) {
             return;
         }
 
@@ -137,9 +130,9 @@ public abstract class EntitySystem implements EntityObserver {
 
         BitSet componentBits = e.getComponentBits();
 
-        // Check if the entity possesses ALL of the components defined in the aspect.
-        if(!allSet.isEmpty()) {
-            for (int i = allSet.nextSetBit(0); i >= 0; i = allSet.nextSetBit(i+1)) {
+        // Check if the entity possesses ALL of the components defined in the filter.
+        if(!filter.allSet.isEmpty()) {
+            for (int i = filter.allSet.nextSetBit(0); i >= 0; i = filter.allSet.nextSetBit(i+1)) {
                 if(!componentBits.get(i)) {
                     interested = false;
                     break;
@@ -147,16 +140,16 @@ public abstract class EntitySystem implements EntityObserver {
             }
         }
 
-        // Check if the entity possesses ANY of the exclusion components,
-        // if it does then the system is not interested.
-        if(interested && !exclusionSet.isEmpty()) {
-            interested = !exclusionSet.intersects(componentBits);
+        // Check if the entity possesses ANY of the components in the anySet.
+        // If so, the system is interested.
+        if(interested && !filter.anySet.isEmpty()) {
+            interested = filter.anySet.intersects(componentBits);
         }
 
-        // Check if the entity possesses ANY of the components in the oneSet.
-        // If so, the system is interested.
-        if(interested && !oneSet.isEmpty()) {
-            interested = oneSet.intersects(componentBits);
+        // Check if the entity possesses ANY of the exclusion components,
+        // if it does then the system is not interested.
+        if(interested && !filter.exclusionSet.isEmpty()) {
+            interested = !filter.exclusionSet.intersects(componentBits);
         }
 
         if (interested && !contains) {

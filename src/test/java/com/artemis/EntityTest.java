@@ -30,7 +30,7 @@ public class EntityTest {
 
         @SuppressWarnings("unchecked")
         public SystemA() {
-            super(Aspect.getAspectForAll(ComponentA.class));
+            super(Filter.allComponents(ComponentA.class));
         }
 
         @Override

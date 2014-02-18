@@ -1,6 +1,6 @@
 package com.artemis.systems;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 
 
 /**
@@ -14,8 +14,8 @@ public abstract class IntervalEntitySystem extends EntitySystem {
     protected float acc;
     protected float interval;
 
-    public IntervalEntitySystem(Aspect aspect, float interval) {
-        super(aspect);
+    public IntervalEntitySystem(Filter filter, float interval) {
+        super(filter);
         this.interval = interval;
     }
 

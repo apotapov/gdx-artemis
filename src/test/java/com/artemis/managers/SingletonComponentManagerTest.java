@@ -4,10 +4,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.artemis.World;
 import com.artemis.systems.EntitySystem;
 import com.badlogic.gdx.utils.Array;
@@ -37,7 +37,7 @@ public class SingletonComponentManagerTest {
 
         @SuppressWarnings("unchecked")
         public TestSystem() {
-            super(Aspect.getAspectForAll(ComponentA.class));
+            super(Filter.allComponents(ComponentA.class));
         }
 
         @Override
