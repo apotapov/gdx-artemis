@@ -27,6 +27,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
  - Used JProfiler to identify a few CPU intensive hotspots and made performance improving changes.
  - Created GenericGroupManager.
  - Deprecated Aspect in favor of Filter. (better clarity of purpose)
+ - Added SkipEntityProcessingSystem to replace DelayedEntityProcessingSystem. Added ExpirationEntitySystem.
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)

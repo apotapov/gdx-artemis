@@ -1,11 +1,13 @@
 package com.artemis.utils;
 
+import com.badlogic.gdx.utils.Pool.Poolable;
+
 /**
  * Helper class allowing to execute a certain action after
  * an elapsed delay.
  * 
  */
-public abstract class Timer {
+public abstract class Timer implements Poolable {
 
     protected float delay;
     protected boolean repeat;
@@ -50,9 +52,7 @@ public abstract class Timer {
             if (acc >= delay) {
                 acc -= delay;
 
-                if (repeat) {
-                    reset();
-                } else {
+                if (!repeat) {
                     done = true;
                 }
 
@@ -64,6 +64,7 @@ public abstract class Timer {
     /**
      * Resets the timer to the beginning.
      */
+    @Override
     public void reset() {
         stopped = false;
         done = false;

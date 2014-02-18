@@ -5,9 +5,8 @@ import com.artemis.Filter;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * This system is currently deprecated and will be removed in future releases. It's
- * implementation and API are buggy beyond redemption. There will be an alternative
- * implementation added shortly.
+ * DEPRECATED This system is currently deprecated because of poor API and buggy
+ * implementation beyond redemption. Use SkipEntityProcessingSystem instead.
  * 
  * The purpose of this class is to allow systems to execute at varying intervals.
  * 
