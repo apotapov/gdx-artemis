@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Pool;
 
 
 /**
@@ -15,12 +16,23 @@ import com.badlogic.gdx.utils.ObjectMap;
  *
  */
 public class PlayerManager extends Manager {
+    private static final Array<Entity> EMPTY_ENTITY_ARRAY = new Array<Entity>();
+
     protected ObjectMap<Entity, String> playerByEntity;
     protected ObjectMap<String, Array<Entity>> entitiesByPlayer;
+
+    protected Pool<Array<Entity>> entityArrayPool;
 
     public PlayerManager() {
         playerByEntity = new ObjectMap<Entity, String>();
         entitiesByPlayer = new ObjectMap<String, Array<Entity>>();
+
+        entityArrayPool = new Pool<Array<Entity>>() {
+            @Override
+            protected Array<Entity> newObject() {
+                return new SafeArray<Entity>();
+            }
+        };
     }
 
     /**
@@ -30,10 +42,13 @@ public class PlayerManager extends Manager {
      * @param player The owner of the entity.
      */
     public void setPlayer(Entity e, String player) {
+        removeFromPlayer(e);
+
         playerByEntity.put(e, player);
+
         Array<Entity> entities = entitiesByPlayer.get(player);
         if(entities == null) {
-            entities = new SafeArray<Entity>();
+            entities = entityArrayPool.obtain();
             entitiesByPlayer.put(player, entities);
         }
         entities.add(e);
@@ -50,7 +65,7 @@ public class PlayerManager extends Manager {
     public Array<Entity> getEntitiesOfPlayer(String player) {
         Array<Entity> entities = entitiesByPlayer.get(player);
         if(entities == null) {
-            entities = new SafeArray<Entity>();
+            entities = EMPTY_ENTITY_ARRAY;
         }
         return entities;
     }
@@ -61,11 +76,14 @@ public class PlayerManager extends Manager {
      * @param e Entity to disown.
      */
     public void removeFromPlayer(Entity e) {
-        String player = playerByEntity.get(e);
+        String player = playerByEntity.remove(e);
         if(player != null) {
             Array<Entity> entities = entitiesByPlayer.get(player);
             if(entities != null) {
                 entities.removeValue(e, true);
+                if (entities.size == 0) {
+                    entityArrayPool.free(entitiesByPlayer.remove(player));
+                }
             }
         }
     }

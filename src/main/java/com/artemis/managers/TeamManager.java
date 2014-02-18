@@ -3,6 +3,7 @@ package com.artemis.managers;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Pool;
 
 
 /**
@@ -17,12 +18,24 @@ import com.badlogic.gdx.utils.ObjectMap;
  *
  */
 public class TeamManager extends Manager {
+
+    private final Array<String> EMPTY_PLAYERS_ARRAY = new Array<String>();
+
     protected ObjectMap<String, Array<String>> playersByTeam;
     protected ObjectMap<String, String> teamByPlayer;
+
+    protected Pool<Array<String>> stringArrayPool;
 
     public TeamManager() {
         playersByTeam = new ObjectMap<String, Array<String>>();
         teamByPlayer = new ObjectMap<String, String>();
+
+        stringArrayPool = new Pool<Array<String>>() {
+            @Override
+            protected Array<String> newObject() {
+                return new SafeArray<String>();
+            }
+        };
     }
 
     /**
@@ -49,7 +62,7 @@ public class TeamManager extends Manager {
 
         Array<String> players = playersByTeam.get(team);
         if(players == null) {
-            players = new SafeArray<String>();
+            players = stringArrayPool.obtain();
             playersByTeam.put(team, players);
         }
         players.add(player);
@@ -61,10 +74,14 @@ public class TeamManager extends Manager {
      * WARNING: the array should not be modified.
      * 
      * @param team Team that the players belong to.
-     * @return A list of players on the team, null if none.
+     * @return A list of players on the team, empty array if none.
      */
     public Array<String> getPlayers(String team) {
-        return playersByTeam.get(team);
+        Array<String> players = playersByTeam.get(team);
+        if (players == null) {
+            return EMPTY_PLAYERS_ARRAY;
+        }
+        return players;
     }
 
     /**
@@ -78,6 +95,9 @@ public class TeamManager extends Manager {
             Array<String> players = playersByTeam.get(team);
             if(players != null) {
                 players.removeValue(player, true);
+                if (players.size == 0) {
+                    stringArrayPool.free(playersByTeam.remove(team));
+                }
             }
         }
     }

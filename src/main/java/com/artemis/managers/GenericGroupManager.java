@@ -1,6 +1,7 @@
 package com.artemis.managers;
 
 import com.artemis.Entity;
+import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
@@ -31,7 +32,7 @@ public abstract class GenericGroupManager<T> extends Manager {
     protected ObjectMap<Entity, Array<T>> groupsByEntity;
 
     protected Pool<Array<Entity>> entityArrayPool;
-    protected Pool<Array<T>> stringArrayPool;
+    protected Pool<Array<T>> groupArrayPool;
 
     public GenericGroupManager() {
         entitiesByGroup = new ObjectMap<T, Array<Entity>>();
@@ -40,14 +41,14 @@ public abstract class GenericGroupManager<T> extends Manager {
         entityArrayPool = new Pool<Array<Entity>>() {
             @Override
             protected Array<Entity> newObject() {
-                return new Array<Entity>();
+                return new SafeArray<Entity>();
             }
         };
 
-        stringArrayPool = new Pool<Array<T>>() {
+        groupArrayPool = new Pool<Array<T>>() {
             @Override
             protected Array<T> newObject() {
-                return new Array<T>();
+                return new SafeArray<T>();
             }
         };
     }
@@ -70,7 +71,7 @@ public abstract class GenericGroupManager<T> extends Manager {
 
         Array<T> groups = groupsByEntity.get(e);
         if(groups == null) {
-            groups = stringArrayPool.obtain();
+            groups = groupArrayPool.obtain();
             groupsByEntity.put(e, groups);
         }
         if (!groups.contains(group, false)) {
@@ -96,7 +97,7 @@ public abstract class GenericGroupManager<T> extends Manager {
         if(groups != null) {
             groups.removeValue(group, true);
             if (groups.size == 0) {
-                stringArrayPool.free(groupsByEntity.remove(e));
+                groupArrayPool.free(groupsByEntity.remove(e));
             }
         }
     }
@@ -122,7 +123,7 @@ public abstract class GenericGroupManager<T> extends Manager {
         }
         Array<T> removedArray = groupsByEntity.remove(e);
         if (removedArray != null) {
-            stringArrayPool.free(removedArray);
+            groupArrayPool.free(removedArray);
         }
     }
 
@@ -198,7 +199,7 @@ public abstract class GenericGroupManager<T> extends Manager {
         entitiesByGroup.clear();
         groupsByEntity.clear();
         entityArrayPool.clear();
-        stringArrayPool.clear();
+        groupArrayPool.clear();
     }
 
 }

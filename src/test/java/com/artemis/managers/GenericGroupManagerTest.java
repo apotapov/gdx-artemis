@@ -23,9 +23,10 @@ public class GenericGroupManagerTest {
     @Test
     public void testInGroup() {
         World world = new World();
-        TestGroupManager manager = new TestGroupManager();
-        world.setManager(manager);
+        world.setManager(new TestGroupManager());
         world.initialize();
+
+        TestGroupManager manager = world.getManager(TestGroupManager.class);
 
         Entity e = world.createEntity();
         manager.add(e, Group.GROUP_1);
@@ -50,9 +51,10 @@ public class GenericGroupManagerTest {
     @Test
     public void testRemoveAll() {
         World world = new World();
-        TestGroupManager manager = new TestGroupManager();
-        world.setManager(manager);
+        world.setManager(new TestGroupManager());
         world.initialize();
+
+        TestGroupManager manager = world.getManager(TestGroupManager.class);
 
         Entity e = world.createEntity();
         manager.add(e, Group.GROUP_1);
@@ -149,11 +151,12 @@ public class GenericGroupManagerTest {
     @Test
     public void testGetGroups() {
         World world = new World();
-        TestGroupManager manager = new TestGroupManager();
-        world.setManager(manager);
+        world.setManager(new TestGroupManager());
         world.initialize();
 
         Entity e = world.createEntity();
+
+        TestGroupManager manager = world.getManager(TestGroupManager.class);
 
         Assert.assertTrue(manager.getGroups(e).size == 0);
 
@@ -184,9 +187,10 @@ public class GenericGroupManagerTest {
     @Test
     public void testGetEntities() {
         World world = new World();
-        TestGroupManager manager = new TestGroupManager();
-        world.setManager(manager);
+        world.setManager(new TestGroupManager());
         world.initialize();
+
+        TestGroupManager manager = world.getManager(TestGroupManager.class);
 
         Assert.assertTrue(manager.getEntities(Group.GROUP_1).size == 0);
 
