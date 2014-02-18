@@ -6,7 +6,6 @@ import com.artemis.managers.Manager;
 import com.artemis.systems.EntitySystem;
 import com.artemis.systems.event.EventDeliverySystem;
 import com.artemis.systems.event.SystemEvent;
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -67,10 +66,10 @@ public class World implements Disposable {
      */
     public World(ComponentManager cm, EntityManager em) {
         managers = new ObjectMap<Class<? extends Manager>, Manager>();
-        managersArray = new SafeArray<Manager>();
+        managersArray = new Array<Manager>();
 
         systems = new ObjectMap<Class<?>, EntitySystem>();
-        systemsArray = new SafeArray<EntitySystem>();
+        systemsArray = new Array<EntitySystem>();
 
         added = new ObjectSet<Entity>();
         changed = new ObjectSet<Entity>();
@@ -124,12 +123,12 @@ public class World implements Disposable {
      * in the order they were added.
      */
     public void initialize() {
-        for (int i = 0; i < managersArray.size; i++) {
-            managersArray.get(i).initialize();
+        for (Manager manager : managersArray) {
+            manager.initialize();
         }
 
-        for (int i = 0; i < systemsArray.size; i++) {
-            systemsArray.get(i).initialize();
+        for (EntitySystem system : systemsArray) {
+            system.initialize();
         }
     }
 
@@ -389,8 +388,8 @@ public class World implements Disposable {
      * @param e Entity that has been affected.
      */
     protected void notifySystems(Performer performer, Entity e) {
-        for(int i = 0, s=systemsArray.size; s > i; i++) {
-            performer.perform(systemsArray.get(i), e);
+        for(EntitySystem system : systemsArray) {
+            performer.perform(system, e);
         }
     }
 
@@ -401,8 +400,8 @@ public class World implements Disposable {
      * @param e Entity that has been affected.
      */
     protected void notifyManagers(Performer performer, Entity e) {
-        for(int a = 0; managersArray.size > a; a++) {
-            performer.perform(managersArray.get(a), e);
+        for(Manager manager : managersArray) {
+            performer.perform(manager, e);
         }
     }
 
@@ -447,8 +446,7 @@ public class World implements Disposable {
         cm.clean();
         em.clean();
 
-        for(int i = 0; systemsArray.size > i; i++) {
-            EntitySystem system = systemsArray.get(i);
+        for(EntitySystem system : systemsArray) {
             if(!system.isPassive()) {
                 system.process();
             }

@@ -58,7 +58,10 @@ public class SafeArray<T> extends Array<T> {
      */
     @Override
     public void set(int index, T value) {
-        ensureFit(this, index);
+        if (index >= size) {
+            resize(Math.max(index + 1, items.length * 2));
+            size = index + 1;
+        }
         items[index] = value;
     }
 
@@ -72,21 +75,5 @@ public class SafeArray<T> extends Array<T> {
             return items[index];
         }
         return null;
-    }
-
-    /**
-     * If index is larger than the size of the array,
-     * will grow the array to the index.
-     * 
-     * @param array Array to grow.
-     * @param index Index to grow the array to.
-     */
-    public static <T> void ensureFit(Array<T> array, int index) {
-        if (index >= array.size) {
-            array.ensureCapacity(index - array.size + 1);
-            while (index >= array.size) {
-                array.add(null);
-            }
-        }
     }
 }

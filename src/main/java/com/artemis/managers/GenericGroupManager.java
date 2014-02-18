@@ -1,7 +1,6 @@
 package com.artemis.managers;
 
 import com.artemis.Entity;
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
@@ -41,14 +40,14 @@ public abstract class GenericGroupManager<T> extends Manager {
         entityArrayPool = new Pool<Array<Entity>>() {
             @Override
             protected Array<Entity> newObject() {
-                return new SafeArray<Entity>();
+                return new Array<Entity>();
             }
         };
 
         groupArrayPool = new Pool<Array<T>>() {
             @Override
             protected Array<T> newObject() {
-                return new SafeArray<T>();
+                return new Array<T>();
             }
         };
     }

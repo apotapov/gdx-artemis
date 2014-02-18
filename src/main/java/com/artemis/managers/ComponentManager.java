@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.Pools;
  */
 public class ComponentManager extends Manager {
     protected Array<Array<? extends Component>> componentsByType;
-    protected Array<Entity> deleted;
+    protected Array<Entity> deletedEntities;
     protected ObjectMap<Entity, IntArray> componentsToDelete;
 
     protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
@@ -51,7 +51,7 @@ public class ComponentManager extends Manager {
      */
     public ComponentManager() {
         componentsByType = new SafeArray<Array<? extends Component>>();
-        deleted = new SafeArray<Entity>();
+        deletedEntities = new Array<Entity>();
         componentsToDelete = new ObjectMap<Entity, IntArray>();
         this.mappers = new ObjectMap<Class<?>, ComponentMapper<?>>();
 
@@ -188,7 +188,7 @@ public class ComponentManager extends Manager {
 
     @Override
     public void deleted(Entity e) {
-        deleted.add(e);
+        deletedEntities.add(e);
     }
 
     /**
@@ -197,11 +197,11 @@ public class ComponentManager extends Manager {
      * the removal of an entity.
      */
     public void clean() {
-        if(deleted.size > 0) {
-            for(int i = 0; deleted.size > i; i++) {
-                removeComponentsOfEntity(deleted.get(i));
+        if (deletedEntities.size > 0) {
+            for (Entity entity : deletedEntities) {
+                removeComponentsOfEntity(entity);
             }
-            deleted.clear();
+            deletedEntities.clear();
         }
         cleanRemovedComponents();
     }
@@ -267,7 +267,7 @@ public class ComponentManager extends Manager {
             }
         }
         componentsByType.clear();
-        deleted.clear();
+        deletedEntities.clear();
         mappers.clear();
     }
 

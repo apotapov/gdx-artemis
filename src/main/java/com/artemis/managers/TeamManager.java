@@ -1,6 +1,5 @@
 package com.artemis.managers;
 
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
@@ -33,7 +32,7 @@ public class TeamManager extends Manager {
         stringArrayPool = new Pool<Array<String>>() {
             @Override
             protected Array<String> newObject() {
-                return new SafeArray<String>();
+                return new Array<String>();
             }
         };
     }

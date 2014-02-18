@@ -28,7 +28,7 @@ public class EntityManager extends Manager {
 
     public EntityManager() {
         entities = new SafeArray<Entity>();
-        deletedEntities = new SafeArray<Entity>();
+        deletedEntities = new Array<Entity>();
         disabled = new BitSet();
         identifierPool = new IdentifierPool();
         entityPool = new Pool<Entity>() {
@@ -101,8 +101,7 @@ public class EntityManager extends Manager {
      */
     public void clean() {
         if(deletedEntities.size > 0) {
-            for(int i = 0; deletedEntities.size > i; i++) {
-                Entity e = deletedEntities.get(i);
+            for (Entity e : deletedEntities) {
                 entities.set(e.id, null);
                 disabled.clear(e.id);
                 active--;

@@ -6,7 +6,6 @@ import com.artemis.Entity;
 import com.artemis.EntityObserver;
 import com.artemis.Filter;
 import com.artemis.World;
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
 
@@ -39,7 +38,7 @@ public abstract class EntitySystem implements EntityObserver {
      * @param filter to match against entities
      */
     public EntitySystem(Filter filter) {
-        actives = new SafeArray<Entity>();
+        actives = new Array<Entity>();
         this.filter = filter;
         systemIndex = SystemIndexManager.getIndexFor(this.getClass());
 

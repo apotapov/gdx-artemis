@@ -1,7 +1,6 @@
 package com.artemis.managers;
 
 import com.artemis.Entity;
-import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
@@ -30,7 +29,7 @@ public class PlayerManager extends Manager {
         entityArrayPool = new Pool<Array<Entity>>() {
             @Override
             protected Array<Entity> newObject() {
-                return new SafeArray<Entity>();
+                return new Array<Entity>();
             }
         };
     }
