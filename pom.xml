@@ -74,7 +74,7 @@
         <developerConnection>scm:git:git@github.com:apotapov/gdx-artemis.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
+    
     <dependencies>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -155,6 +155,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.4</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
