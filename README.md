@@ -1,8 +1,22 @@
-## Preamble
+## Summary
 
 This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entity System Framework](http://gamadu.com/artemis/) which uses [libdx](http://libgdx.badlogicgames.com/) for containers and pooling. There are some major changes made to make Artemis more robust, memory efficient and intuitive. 
 
-This is still very much a work in progress. Feedback is appreciated.
+## Maven
+
+```xml
+<dependency>
+    <groupId>com.roundtriangles.games</groupId>
+    <artifactId>gdx-artemis</artifactId>
+    <version>0.4</version>
+</dependency>
+```
+
+## Description
+
+[Artemis](http://gamadu.com/artemis/) is an [Entity Component System](http://en.wikipedia.org/wiki/Entity_component_system) written in Java as a framework to manage entities in a game world. This library has been built on top of [libdx](http://libgdx.badlogicgames.com/), which is a Java library for developing cross-platform games for Android, iOS, Desktop and HTML5. For more information on gdx-artemis see the [Wiki](https://github.com/apotapov/gdx-artemis/wiki).
+
+The library is in active development. Feedback is much appreciated.
 
 Major new features:
  - Uses libgdx containers and pooling.
@@ -10,6 +24,7 @@ Major new features:
  - Better GWT and HTML 5 support. ComponentMappers need manual instantiation.
  - Battle tested, with many major bugs fixed
  - Optimized for memory consumption and speed of execution using [Java profiler](http://www.ej-technologies.com/products/jprofiler/overview.html)
+ - deployed to Maven Central repository.
 
 ## Demo
 
@@ -19,24 +34,8 @@ There is a separate [Demo Project](https://github.com/apotapov/gdx-artemis-demo)
 
 See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
-## Version 0.4
- - Deprecated DelayedEntityProcessingSystem.
- - Fixed some bugs and added pooling to GroupManager + unit tests.
- - Fixed a bug in ComponentManager that was causing NPE's when a component was removed from an entity.
- - Fixed an entity removal bug which was causing NPE's.
- - Used JProfiler to identify a few CPU intensive hotspots and made performance improving changes.
- - Created GenericGroupManager.
- - Deprecated Aspect in favor of Filter. (better clarity of purpose)
- - PlayerManager and TeamManager have been cleaned up. 
- - TagManager is deprecated in favor or SingletonEntityManager.
- - Added SkipEntityProcessingSystem to replace DelayedEntityProcessingSystem. Added ExpirationEntitySystem.
- - Cleaning up Event System. Constraining World to only one Event System. Removed some unused classes, added classes for handling events.
+## Latest Changes (0.5-SNAPSHOT)
+ - Deployed to Maven Central!
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
-
-## Alternative Artemis forks
-
- - [Original Implementation by Arni Arent](https://code.google.com/p/artemis-framework/)
- - [junkdog](https://github.com/junkdog/artemis-odb)
- - [gemserker](https://github.com/gemserk/commons-gdx)

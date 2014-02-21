@@ -1,3 +1,16 @@
+## Version 0.4
+ - Deprecated DelayedEntityProcessingSystem.
+ - Fixed some bugs and added pooling to GroupManager + unit tests.
+ - Fixed a bug in ComponentManager that was causing NPE's when a component was removed from an entity.
+ - Fixed an entity removal bug which was causing NPE's.
+ - Used JProfiler to identify a few CPU intensive hotspots and made performance improving changes.
+ - Created GenericGroupManager.
+ - Deprecated Aspect in favor of Filter. (better clarity of purpose)
+ - PlayerManager and TeamManager have been cleaned up. 
+ - TagManager is deprecated in favor or SingletonEntityManager.
+ - Added SkipEntityProcessingSystem to replace DelayedEntityProcessingSystem. Added ExpirationEntitySystem.
+ - Cleaning up Event System. Constraining World to only one Event System. Removed some unused classes, added classes for handling events.
+
 ## Version 0.3
  - Adding the ability to dispose of the world.
  - For better support of GWT and HTML5 games with libgdx, removed automatic ComponentMapper initialization. ComponentMappers should be initialized manually in EntitySystem.initialize() method by calling mapper = world.getMapper(Component.class).
