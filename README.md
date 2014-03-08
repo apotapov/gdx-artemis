@@ -36,6 +36,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
 ## Latest Changes (0.5-SNAPSHOT)
  - Deployed to Maven Central!
+ - Moved code to use java 7
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
