@@ -25,8 +25,8 @@ public abstract class EventVoidSystem3<T extends SystemEvent, U extends SystemEv
     /**
      * Constructs an event system
      * @param eventType Class of the first event this system will process.
-     * @param eventType Class of the second event this system will process.
-     * @param eventType Class of the third event this system will process.
+     * @param eventType2 Class of the second event this system will process.
+     * @param eventType3 Class of the third event this system will process.
      */
     public EventVoidSystem3(Class<T> eventType, Class<U> eventType2, Class<V> eventType3) {
         this.eventType = eventType;
