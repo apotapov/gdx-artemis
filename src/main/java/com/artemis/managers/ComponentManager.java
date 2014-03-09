@@ -99,9 +99,8 @@ public class ComponentManager extends Manager {
         Component current = components.get(e.id);
         if (current != null && current != component) {
             Pools.free(current);
-        } else {
-            components.set(e.id, component);
         }
+        components.set(e.id, component);
 
         e.getComponentBits().set(classIndex);
     }
