@@ -61,7 +61,6 @@ public class Filter {
      * @param types a required component type
      * @return a filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public Filter all(Class<? extends Component> type, Class<? extends Component>... types) {
         allSet.set(ComponentManager.getComponentClassIndex(type));
 
@@ -80,7 +79,6 @@ public class Filter {
      * @param types component type to exclude
      * @return a filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public Filter exclude(Class<? extends Component> type, Class<? extends Component>... types) {
         exclusionSet.set(ComponentManager.getComponentClassIndex(type));
 
@@ -100,7 +98,6 @@ public class Filter {
      * @return a filter that can be matched against entities
      */
     @Deprecated
-    @SuppressWarnings("unchecked")
     public Filter one(Class<? extends Component> type, Class<? extends Component>... types) {
         return any(type, types);
     }
@@ -111,7 +108,6 @@ public class Filter {
      * @param types one of the types the entity must possess
      * @return a filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public Filter any(Class<? extends Component> type, Class<? extends Component>... types) {
         anySet.set(ComponentManager.getComponentClassIndex(type));
 
@@ -128,7 +124,6 @@ public class Filter {
      * @param types a required component type
      * @return a filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public static Filter allComponents(Class<? extends Component> type, Class<? extends Component>... types) {
         Filter filter = new Filter();
         filter.all(type, types);
@@ -142,7 +137,6 @@ public class Filter {
      * @param types one of the types the entity must possess
      * @return a filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public static Filter anyComponents(Class<? extends Component> type, Class<? extends Component>... types) {
         Filter filter = new Filter();
         filter.one(type, types);

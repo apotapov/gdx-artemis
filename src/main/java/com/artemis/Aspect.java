@@ -23,7 +23,6 @@ public class Aspect extends Filter {
      * @param types a required component type
      * @return an filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public static Aspect getAspectForAll(Class<? extends Component> type, Class<? extends Component>... types) {
         Aspect filter = new Aspect();
         filter.all(type, types);
@@ -37,7 +36,6 @@ public class Aspect extends Filter {
      * @param types one of the types the entity must possess
      * @return an filter that can be matched against entities
      */
-    @SuppressWarnings("unchecked")
     public static Aspect getAspectForOne(Class<? extends Component> type, Class<? extends Component>... types) {
         Aspect filter = new Aspect();
         filter.one(type, types);
