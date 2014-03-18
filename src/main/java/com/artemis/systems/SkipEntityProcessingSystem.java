@@ -47,6 +47,7 @@ public abstract class SkipEntityProcessingSystem extends EntityProcessingSystem 
 
         @Override
         public void reset() {
+            super.reset();
             e = null;
         }
     }
