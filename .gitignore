@@ -21,6 +21,7 @@ local.properties
 .loadpath
 .externalToolBuilders/
 *.launch
+target/
 
 ## NetBeans
 nbproject/private/
