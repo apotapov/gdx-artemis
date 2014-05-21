@@ -1,12 +1,11 @@
 package com.artemis.systems;
 
-import java.util.BitSet;
-
 import com.artemis.Entity;
 import com.artemis.EntityObserver;
 import com.artemis.Filter;
 import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.ObjectIntMap;
 
 /**
@@ -119,7 +118,7 @@ public abstract class EntitySystem implements EntityObserver {
         boolean contains = e.getSystemBits().get(systemIndex);
         boolean interested = true; // possibly interested, let's try to prove it wrong.
 
-        BitSet componentBits = e.getComponentBits();
+        Bits componentBits = e.getComponentBits();
 
         // Check if the entity possesses ALL of the components defined in the filter.
         if(!filter.allSet.isEmpty()) {

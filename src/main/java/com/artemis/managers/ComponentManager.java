@@ -1,17 +1,11 @@
 package com.artemis.managers;
 
-import java.util.BitSet;
-
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.Pools;
 
 /**
  * Responsible for pooling and managing of Components and their
@@ -73,7 +67,7 @@ public class ComponentManager extends Manager {
      * @param e Entity to clear components for.
      */
     public void removeComponentsOfEntity(Entity e) {
-        BitSet componentBits = e.getComponentBits();
+        Bits componentBits = e.getComponentBits();
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
             removeComponent(e.id, i);
         }
@@ -165,7 +159,7 @@ public class ComponentManager extends Manager {
      * @param array Array of Components to fill.
      */
     public void getComponents(Entity e, Array<Component> array) {
-        BitSet componentBits = e.getComponentBits();
+        Bits componentBits = e.getComponentBits();
 
         for (int i = componentBits.nextSetBit(0); i >= 0; i = componentBits.nextSetBit(i+1)) {
             array.add(componentsByType.get(i).get(e.id));
