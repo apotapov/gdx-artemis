@@ -41,7 +41,6 @@ public class EntityManager extends Manager {
             @Override
             public Entity obtain() {
                 Entity entity = super.obtain();
-                entity.id = identifierPool.checkOut();
                 return entity;
             }
 
