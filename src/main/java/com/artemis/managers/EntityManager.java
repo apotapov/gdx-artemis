@@ -35,7 +35,7 @@ public class EntityManager extends Manager {
 
             @Override
             protected Entity newObject() {
-                return new Entity(world, -1);
+                return new Entity(world);
             }
 
             @Override

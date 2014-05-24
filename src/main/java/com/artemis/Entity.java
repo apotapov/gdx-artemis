@@ -37,8 +37,15 @@ public final class Entity implements Poolable {
      * @param id Entity's id.
      */
     public Entity(World world, int id) {
-        this.world = world;
+        this(world);
         this.id = id;
+    }
+    /**
+     * Create an entity for the specified world.
+     * @param world World this entity belongs to.
+     */
+    public Entity(World world) {
+        this.world = world;
         this.entityManager = world.getEntityManager();
         this.componentManager = world.getComponentManager();
         systemBits = new BitSet();
