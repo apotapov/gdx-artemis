@@ -8,7 +8,7 @@ This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entit
 <dependency>
     <groupId>com.roundtriangles.games</groupId>
     <artifactId>gdx-artemis</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 </dependency>
 ```
 
@@ -34,11 +34,7 @@ There is a separate [Demo Project](https://github.com/apotapov/gdx-artemis-demo)
 
 See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
-## Latest Changes (0.5-SNAPSHOT)
- - Deployed to Maven Central!
- - Gradle build added
- - Few bugs fixed: #32, #33, #40
- - java.util.BitSet replaced by libgdx Bits
+## Latest Changes (0.6-SNAPSHOT)
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)

@@ -1,3 +1,9 @@
+## Latest Changes 0.5
+ - Deployed to Maven Central!
+ - Gradle build added
+ - Few bugs fixed: #32, #33, #40
+ - java.util.BitSet replaced by libgdx Bits
+
 ## Version 0.4
  - Deprecated DelayedEntityProcessingSystem.
  - Fixed some bugs and added pooling to GroupManager + unit tests.
