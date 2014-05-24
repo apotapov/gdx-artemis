@@ -1,8 +1,7 @@
 package com.artemis;
 
-import java.util.BitSet;
-
 import com.artemis.managers.ComponentManager;
+import com.badlogic.gdx.utils.Bits;
 
 /**
  * A Filter is used by systems as a matcher against entities, to check if a
@@ -42,17 +41,17 @@ import com.artemis.managers.ComponentManager;
  */
 public class Filter {
 
-    public BitSet allSet;
-    public BitSet exclusionSet;
-    public BitSet anySet;
+    public Bits allSet;
+    public Bits exclusionSet;
+    public Bits anySet;
 
     /**
      * Access Filter creation through static factory methods.
      */
     protected Filter() {
-        this.allSet = new BitSet();
-        this.exclusionSet = new BitSet();
-        this.anySet = new BitSet();
+        this.allSet = new Bits();
+        this.exclusionSet = new Bits();
+        this.anySet = new Bits();
     }
 
     /**

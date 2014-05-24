@@ -1,12 +1,12 @@
 package com.artemis.managers;
 
-import java.util.BitSet;
-
 import com.artemis.Entity;
 import com.artemis.utils.IdentifierPool;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+
+import java.util.BitSet;
 
 /**
  * A class that is responsible for managing the life cycle of entities.
@@ -35,7 +35,7 @@ public class EntityManager extends Manager {
 
             @Override
             protected Entity newObject() {
-                return new Entity(world, identifierPool.checkOut());
+                return new Entity(world);
             }
 
             @Override

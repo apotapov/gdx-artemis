@@ -1,11 +1,9 @@
 package com.artemis;
 
-import java.util.BitSet;
-import java.util.UUID;
-
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
@@ -16,7 +14,6 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * 
  */
 public final class Entity implements Poolable {
-    protected UUID uuid;
 
     /**
      * The internal id for this entity within the framework. No other entity
@@ -24,8 +21,8 @@ public final class Entity implements Poolable {
      * acquire this ID if the previous entity was deleted.
      */
     public int id;
-    protected BitSet componentBits;
-    protected BitSet systemBits;
+    protected Bits componentBits;
+    protected Bits systemBits;
 
     protected World world;
     protected EntityManager entityManager;
@@ -37,27 +34,33 @@ public final class Entity implements Poolable {
      * @param id Entity's id.
      */
     public Entity(World world, int id) {
-        this.world = world;
+        this(world);
         this.id = id;
+    }
+    /**
+     * Create an entity for the specified world.
+     * @param world World this entity belongs to.
+     */
+    public Entity(World world) {
+        this.world = world;
         this.entityManager = world.getEntityManager();
         this.componentManager = world.getComponentManager();
-        systemBits = new BitSet();
-        componentBits = new BitSet();
-        uuid = UUID.randomUUID();
+        systemBits = new Bits();
+        componentBits = new Bits();
     }
 
     /**
      * @return Returns a BitSet instance containing bits of the components the entity possesses.
      * 
      */
-    public BitSet getComponentBits() {
+    public Bits getComponentBits() {
         return componentBits;
     }
 
     /**
      * @return Returns a BitSet instance containing bits of the components the entity possesses.
      */
-    public BitSet getSystemBits() {
+    public Bits getSystemBits() {
         return systemBits;
     }
 
@@ -69,7 +72,6 @@ public final class Entity implements Poolable {
     public void reset() {
         systemBits.clear();
         componentBits.clear();
-        uuid = UUID.randomUUID();
         id = 0;
     }
 
@@ -219,15 +221,6 @@ public final class Entity implements Poolable {
      */
     public void disable() {
         world.disable(this);
-    }
-
-    /**
-     * Get the UUID for this entity.
-     * This UUID is unique per entity (re-used entities get a new UUID).
-     * @return uuid instance for this entity.
-     */
-    public UUID getUuid() {
-        return uuid;
     }
 
     /**

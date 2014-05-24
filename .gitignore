@@ -32,6 +32,11 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+## Intellij
+.idea/
+*.iml
+*.iws
+
 ## Gradle
 
 .gradle
