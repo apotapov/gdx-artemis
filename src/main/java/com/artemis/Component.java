@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * A tag class. All Components in the system must implement this interface.
  * 
  * WARNING: DO NOT CREATE COMPONENTS USING A CONSTRUCTOR.
- * Use World.createComponent(Class<T extends Component> type) instead
+ * Use World.createComponent(Class type) instead
  * This will allow Components to be pooled.
  * 
  * @author Arni Arent

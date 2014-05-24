@@ -109,7 +109,7 @@ public final class Entity implements Poolable {
 
     /**
      * Remove component by its type.
-     * @param type
+     * @param type Type of component to remove.
      * 
      * @return this entity for chaining.
      */
@@ -171,7 +171,7 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * Returns an array of Entity components. This is a generated array,
+     * @return An array of Entity components. This is a generated array,
      * and modifying it will not have an effect on components belonging
      * to this entity.
      * 

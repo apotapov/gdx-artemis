@@ -56,6 +56,7 @@ public class SingletonComponentManager extends Manager {
     /**
      * Retrieves a singleton component by the specified class.
      * 
+     * @param <T> Type of component
      * @param componentClass Type of component to retrieve.
      * @return The component of specified class, or null if the component is not stored.
      */

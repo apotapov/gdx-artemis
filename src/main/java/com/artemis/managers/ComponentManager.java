@@ -4,8 +4,13 @@ import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Bits;
+import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.ObjectIntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.badlogic.gdx.utils.Pools;
 
 /**
  * Responsible for pooling and managing of Components and their
@@ -55,6 +60,7 @@ public class ComponentManager extends Manager {
     /**
      * Preferred way to create Components to allow for pooling.
      * 
+     * @param <T> Type of component
      * @param type Type of component to create
      * @return Pooled Component of specified type.
      */
@@ -77,6 +83,7 @@ public class ComponentManager extends Manager {
     /**
      * Adds a Component bellonging to the specified Entity to the manager.
      * 
+     * @param <T> Type of component
      * @param e Entity the component belongs to
      * @param component Component to add
      */
@@ -120,6 +127,7 @@ public class ComponentManager extends Manager {
     /**
      * Returns an Array of all Components of specified type.
      * 
+     * @param <T> Type of component
      * @param type Type of Componets to return
      * @return an Array of said components.
      */
@@ -138,6 +146,7 @@ public class ComponentManager extends Manager {
      * Returns Component of the specified type belonging to specified Entity.
      * Null if not found.
      * 
+     * @param <T> Type of component
      * @param e Entity to return Component for.
      * @param type Type of Component to return.
      * @return Component or null if not found.
@@ -172,6 +181,7 @@ public class ComponentManager extends Manager {
      * contents will not affect the components belonging to the entity.
      * 
      * @param e Entity to get Components with.
+     * @return an array of components belonging to entity.
      */
     public Array<Component> getComponents(Entity e) {
         returnedComponents.clear();
@@ -236,6 +246,7 @@ public class ComponentManager extends Manager {
      * Retrieves a ComponentMapper instance for fast retrieval of
      * components from entities.
      * 
+     * @param <T> Type of component
      * @param type of component to get mapper for.
      * @return mapper for specified component type.
      */

@@ -130,7 +130,7 @@ public abstract class DelayedEntityProcessingSystem extends EntitySystem {
      * offered delay is shorter than the time remaining, the system will
      * restart itself to run at the offered delay.
      * 
-     * @param offeredDelay
+     * @param offeredDelay delay
      */
     public void offerDelay(float offeredDelay) {
         if (!running) {

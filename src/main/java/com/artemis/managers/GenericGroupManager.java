@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Pool;
  * 
  * The reason this class is abstract is because of type erasure in java
  * makes it impossible to get a class of a generic object. So it would
- * be impossible to call world.getManager(GenericGroupManager<T>.class).
+ * be impossible to call world.getManager(GenericGroupManager.class).
  * 
  * @author apotapov
  *
