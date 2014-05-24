@@ -36,7 +36,9 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
 ## Latest Changes (0.5-SNAPSHOT)
  - Deployed to Maven Central!
- - Moved code to use java 7
+ - Gradle build added
+ - Few bugs fixed: #32, #33, #40
+ - java.util.BitSet replaced by libgdx Bits
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
