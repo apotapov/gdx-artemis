@@ -35,12 +35,13 @@ public class EntityManager extends Manager {
 
             @Override
             protected Entity newObject() {
-                return new Entity(world, identifierPool.checkOut());
+                return new Entity(world, -1);
             }
 
             @Override
             public Entity obtain() {
                 Entity entity = super.obtain();
+                entity.id = identifierPool.checkOut();
                 return entity;
             }
 
