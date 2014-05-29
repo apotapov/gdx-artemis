@@ -8,7 +8,7 @@ This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entit
 <dependency>
     <groupId>com.roundtriangles.games</groupId>
     <artifactId>gdx-artemis</artifactId>
-    <version>0.5</version>
+    <version>0.4</version>
 </dependency>
 ```
 
