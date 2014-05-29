@@ -12,6 +12,29 @@ This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entit
 </dependency>
 ```
 
+## Snapshot
+
+### Enable snapshot repository
+```xml
+<repositories>
+    <repository>
+        <id>snapshots-repo</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases><enabled>false</enabled></releases>
+        <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+</repositories>
+```
+
+### Add dependency
+```xml
+<dependency>
+    <groupId>com.roundtriangles.games</groupId>
+    <artifactId>gdx-artemis</artifactId>
+    <version>0.6-SNAPSHOT</version>
+</dependency>
+```
+
 ## Description
 
 [Artemis](http://gamadu.com/artemis/) is an [Entity Component System](http://en.wikipedia.org/wiki/Entity_component_system) written in Java as a framework to manage entities in a game world. This library has been built on top of [libdx](http://libgdx.badlogicgames.com/), which is a Java library for developing cross-platform games for Android, iOS, Desktop and HTML5. For more information on gdx-artemis see the [Wiki](https://github.com/apotapov/gdx-artemis/wiki).
