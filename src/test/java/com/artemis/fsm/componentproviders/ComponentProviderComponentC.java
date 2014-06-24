@@ -3,16 +3,16 @@ package com.artemis.fsm.componentproviders;
 import com.artemis.fsm.ComponentProvider;
 
 /**
- * Created by Vemund Kvam on 17/06/14.
+ * @author Vemund Kvam on 17/06/14.
  */
 public class ComponentProviderComponentC extends ComponentProvider<ComponentC> {
 
     public int valueA, valueB;
 
     @Override
-    public void resetValues() {
-        valueA=0;
-        valueB=0;
+    public void onProviderInit() {
+        valueA = 0;
+        valueB = 0;
     }
 
     @Override

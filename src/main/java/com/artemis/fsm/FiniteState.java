@@ -2,25 +2,18 @@ package com.artemis.fsm;
 import com.badlogic.gdx.utils.*;
 
 /**
- * Created by Vemund Kvam on 10/06/14.
  *
- * API for manipulating state
+ *
+ * @author Vemund Kvam on 10/06/14.
  */
 public class FiniteState implements Pool.Poolable{
     private FiniteStateMachine finiteStateMachine;
     private ObjectIntMap<Integer> providerIndexForProviderComponentClassIndex = new ObjectIntMap<Integer>(4);
+    private int bitSize=0;
     protected Bits providerIndicesBits = new Bits();;
     protected Bits bitsCopy = new Bits();;
-    private int bitSize=0;
 
     protected FiniteState(){;
-    }
-
-    protected Bits getProviderIndicesCopy(FiniteState excludeState){
-        bitsCopy.clear();
-        bitsCopy.or(providerIndicesBits);
-        bitsCopy.andNot(excludeState.providerIndicesBits);
-        return bitsCopy;
     }
 
     public int getProviderIndex(int componentClassIndex){
@@ -28,7 +21,17 @@ public class FiniteState implements Pool.Poolable{
     }
 
     /**
-     *
+     * @param excludeState providers from this state will be excluded
+     * @return Bits representing the providers on this state.
+     */
+    protected Bits getProviderIndicesCopy(FiniteState excludeState){
+        bitsCopy.clear();
+        bitsCopy.or(providerIndicesBits);
+        bitsCopy.andNot(excludeState.providerIndicesBits);
+        return bitsCopy;
+    }
+
+    /**
      * @param componentProvider to add to this state.
      * @return this FiniteState for chaining.
      */
@@ -56,10 +59,11 @@ public class FiniteState implements Pool.Poolable{
     }
 
     /**
-     * Removes a ComponentProvider from this state.
+     * Removes a {@link com.artemis.fsm.ComponentProvider ComponentProvider} from this state.
      *
-     * When the componentProvider is removed from all states in the parent FiniteStateMachine,
-     * the componentprovider is freed.
+     * When the componentProvider is removed from all states in the parent
+     * {@link com.artemis.fsm.FiniteStateMachine FiniteStateMachine}, the
+     * provider is pooled.
      *
      * @param componentProvider to remove from this state.
      */

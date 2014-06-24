@@ -8,11 +8,12 @@ import java.util.Iterator;
 
 /**
  * Provides a convenient way of creating and adding groups of components to an entity.
- * Accessed through {@link com.artemis.Entity#getFiniteStateMachine Entity}, abstract to
- * encourage this.
  *
- * Based on article http://www.richardlord.net/blog/finite-state-machines-with-
- * Created by Vemund Kvam on 10/06/14.
+ * Accessed through {@link com.artemis.Entity#getFiniteStateMachine Entity}.
+ *
+ * Inspired by article by an article by Richard Lord: http://www.richardlord.net/blog/finite-state-machines-with-ash
+ *
+ * @author  Vemund Kvam on 10/06/14.
  */
 public class FiniteStateMachine implements Pool.Poolable {
     private Entity entity;

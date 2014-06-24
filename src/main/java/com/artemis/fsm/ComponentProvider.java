@@ -19,12 +19,11 @@ import java.lang.reflect.ParameterizedType;
  * 3. If two states have providers of same component type, but different provider instances,
  * the component will be swapped, triggering an entity change.
  *
- * Created by Vemund Kvam on 15/06/14.
- *
+ * @author Vemund Kvam on 15/06/14.
  */
 public abstract class ComponentProvider<T extends Component> implements Pool.Poolable {
     private Class<T> componentClass;
-    protected T lastComponentProduced;
+    private T lastComponentProduced;
     protected int classIndex=-1;
     protected int instanceIndex=-1;
     protected boolean indicesSet = false;
@@ -32,6 +31,7 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
 
     public ComponentProvider() {
         setComponentClass();
+        onProviderInit();
     }
 
     /**
@@ -45,7 +45,7 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
     /**
      * Called before the component is removed from associated {@link com.artemis.Entity Entity}.
      *
-     * E.g. save the component values until next time a component is provided.
+     * Example usage: Save the component values until next time a component is created.
      * @param component the removed component.
      */
     protected abstract void onRemove(T component);
@@ -53,18 +53,17 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
     /**
      * Called before the component is added to the entity.
      *
-     * E.g. Use to restore component values before adding them to the entity.
+     * Example usage: Restore component values before adding them to the entity.
      * @param component the added component
      */
     public abstract void onAdd(T component);
 
     /**
-     * Called when the componentProvider is removed from its associated
-     * {@link com.artemis.fsm.FiniteStateMachine FiniteStateMachine}
+     * Called when the componentProvider is created or retrieved from pool
      *
-     * E.g. restore all default values that are used when adding a component.
+     * Example usage: Set all default values to be used by component.
      */
-    public abstract void resetValues();
+    public abstract void onProviderInit();
 
 
     protected void setEntity(Entity entity){
@@ -100,7 +99,7 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
 
     @Override
     public void reset() {
-        resetValues();
+        onProviderInit();
         lastComponentProduced = null;
         classIndex = -1;
         instanceIndex = -1;
