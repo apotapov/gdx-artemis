@@ -1,11 +1,11 @@
-package com.artemis.testComponents;
+package com.artemis.fsm.componentproviders;
 
 import com.artemis.Component;
 
 /**
  * Created by Vemund Kvam on 11/06/14.
  */
-public class ComponentD implements Component {
+public class ComponentC implements Component {
     public int valueA;
     public int valueB;
     @Override

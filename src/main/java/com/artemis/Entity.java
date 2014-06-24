@@ -1,10 +1,12 @@
 package com.artemis;
 
+import com.artemis.fsm.FiniteState;
 import com.artemis.fsm.FiniteStateMachine;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.Pools;
 
@@ -79,7 +81,7 @@ public final class Entity implements Poolable {
             Pools.free(finiteStateMachine);
             finiteStateMachine = null;
         }
-        id = -1;
+        id = 0;
     }
 
     @Override
@@ -115,6 +117,11 @@ public final class Entity implements Poolable {
         return finiteStateMachine;
     }
 
+    /**
+     * Activates a {@link com.artemis.fsm.FiniteState FiniteState} for this entity.
+     *
+     * @param stateId the object used to identify the FiniteState
+     */
     public void activateFiniteState(Object stateId) {
         finiteStateMachine.activateState(stateId);
     }

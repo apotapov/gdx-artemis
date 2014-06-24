@@ -1,4 +1,4 @@
-package com.artemis.testComponents;
+package com.artemis.fsm.componentproviders;
 
 import com.artemis.Component;
 

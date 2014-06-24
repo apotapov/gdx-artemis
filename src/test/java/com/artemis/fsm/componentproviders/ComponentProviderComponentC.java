@@ -1,7 +1,6 @@
-package com.artemis.fsm.testclasses;
+package com.artemis.fsm.componentproviders;
 
 import com.artemis.fsm.ComponentProvider;
-import com.artemis.testComponents.ComponentC;
 
 /**
  * Created by Vemund Kvam on 17/06/14.
@@ -12,12 +11,8 @@ public class ComponentProviderComponentC extends ComponentProvider<ComponentC> {
 
     @Override
     public void resetValues() {
-
-    }
-
-    @Override
-    public Class<ComponentC> retrieveComponentClass() {
-        return ComponentC.class;
+        valueA=0;
+        valueB=0;
     }
 
     @Override

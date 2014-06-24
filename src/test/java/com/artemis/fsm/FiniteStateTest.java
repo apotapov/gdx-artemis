@@ -4,11 +4,11 @@ import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.World;
 
-import com.artemis.fsm.testclasses.*;
+import com.artemis.fsm.componentproviders.*;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.testComponents.ComponentA;
-import com.artemis.testComponents.ComponentB;
-import com.artemis.testComponents.ComponentC;
+import com.artemis.fsm.componentproviders.ComponentA;
+import com.artemis.fsm.componentproviders.ComponentB;
+import com.artemis.fsm.componentproviders.ComponentC;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class FiniteStateTest {
 
         entity.activateFiniteState("A");
         world.process();
-        Assert.assertEquals(1,entity.getComponent(ComponentA.class).valueA);
+        Assert.assertEquals(1, entity.getComponent(ComponentA.class).valueA);
         Assert.assertNull(entity.getComponent(ComponentB.class));
 
         entity.activateFiniteState("B");

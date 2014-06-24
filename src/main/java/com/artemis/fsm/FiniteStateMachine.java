@@ -7,30 +7,41 @@ import com.badlogic.gdx.utils.*;
 import java.util.Iterator;
 
 /**
- * Created by Vemund Kvam on 10/06/14.
+ * Provides a convenient way of creating and adding groups of components to an entity.
+ * Accessed through {@link com.artemis.Entity#getFiniteStateMachine Entity}, abstract to
+ * encourage this.
  *
+ * Based on article http://www.richardlord.net/blog/finite-state-machines-with-
+ * Created by Vemund Kvam on 10/06/14.
  */
 public class FiniteStateMachine implements Pool.Poolable {
     private Entity entity;
-
     private FiniteState currentState;
     private ObjectMap<Object,FiniteState> finiteStateForIdentifier = new ObjectMap<Object, FiniteState>(4);;
 
-    private int nextProviderComponentClassId = 1;
-    private int nextProviderInstanceId = 1;
-
+    private int nextProviderComponentClassId = 0;
     private ObjectIntMap<Class<? extends Component>> classIndexForComponent = new ObjectIntMap<Class<? extends Component>>(4);
-    private IntMap<ComponentProvider> providerForIndex = new IntMap<ComponentProvider>(4);;
 
+    private int nextProviderInstanceId = 0;
+    private IntMap<ComponentProvider> providerForIndex = new IntMap<ComponentProvider>(4);;
     private boolean resetting = false;
 
-    public FiniteStateMachine(){
-
-    }
-
+    /**
+     * Should not be accessed by user, the entity is set by the entity when creating the FiniteStateMachine.
+     * @param entity
+     */
     public void setEntity(Entity entity){
         this.entity = entity;
     }
+
+    /**
+     * Retrieves a new {@link com.artemis.fsm.ComponentProvider ComponentProvider}, either by creating a
+     * new one or by obtaining one from the pool.
+     *
+     * @param type the class of the componentProvider to be created
+     * @param <C> the type of the componentProvider to be created
+     * @return a pooled ComponentProvider
+     */
 
     public <C extends ComponentProvider> C createComponentProvider(Class<C> type) {
         C componentProvider = Pools.obtain(type);
@@ -39,9 +50,7 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
-     * Removes all components that were produced by the current state.
-     *
-     *
+     * Removes components that were provided by the current state.
      */
     public void deactivateCurrentState(){
         Bits providerBits = currentState.providerIndicesBits;
@@ -54,9 +63,8 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
-     * Removes components provided by current state and adds components provided by new state.
-     *
-     * Components remains untouched if a componentProvider is present on both new and current state.
+     * Removes components that were provided by the current state and adds components provided by new state.
+     * Components remains untouched if the componentProvider on both states are the same.
      *
      * @param id the id of the new state.
      */
@@ -100,9 +108,9 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
-     * Creates a new state
+     * Creates a new {@link com.artemis.fsm.FiniteState FiniteState}
      *
-     * @param id the id of the state.
+     * @param id the object to use as identifier to the state.
      * @return the new state
      */
     public FiniteState createState(Object id){
@@ -115,22 +123,25 @@ public class FiniteStateMachine implements Pool.Poolable {
     /**
      * Deletes a state.
      *
-     * Removes componentProviders if the state is the last to reference them.
-     * If the deleted state is the current active state, the active state is deactivated.
+     * Removes {@link com.artemis.fsm.ComponentProvider componentProviders} if the deleted
+     * state is the last to reference them. If the deleted state is the current active state,
+     * the active state is deactivated and its provided components are removed.
      *
      * @param id the id of the state to delete
-     * @return if the state was deleted successfully.
      */
-    public boolean deleteState(Object id){
-            FiniteState finiteState = finiteStateForIdentifier.remove(id);
-            if (finiteState.equals(currentState)) {
-                deactivateCurrentState();
-            }
-            Pools.free(finiteState);
-            finiteStateForIdentifier.remove(id);
-            return true;
+    public void deleteState(Object id){
+        FiniteState finiteState = finiteStateForIdentifier.remove(id);
+        if (finiteState.equals(currentState)) {
+            deactivateCurrentState();
+        }
+        Pools.free(finiteState);
+        finiteStateForIdentifier.remove(id);
     }
 
+    /**
+     * Used by {@link com.artemis.fsm.FiniteState FiniteState} to remove ComponentProviders
+     *
+    */
     protected void removeComponentProvider(int providerInstanceIndex){
         if(!resetting){
             boolean noneHaveProvider = true;
@@ -153,19 +164,18 @@ public class FiniteStateMachine implements Pool.Poolable {
         Iterator<FiniteState> stateIterator = finiteStateForIdentifier.values().iterator();
         while(stateIterator.hasNext()){
             Pools.free(stateIterator.next());
+            stateIterator.remove();
         }
 
         Iterator<ComponentProvider> providerIterator = providerForIndex.values().iterator();
         while(providerIterator.hasNext()){
-            ComponentProvider componentProvider = providerIterator.next();
-            Pools.free(componentProvider);
+            Pools.free(providerIterator.next());
+            providerIterator.remove();
         }
 
-        providerForIndex.clear();
-        finiteStateForIdentifier.clear();
         classIndexForComponent.clear();
-        nextProviderComponentClassId = 1;
-        nextProviderInstanceId = 1;
+        nextProviderComponentClassId = 0;
+        nextProviderInstanceId = 0;
         currentState=null;
         resetting = false;
         entity=null;
@@ -198,7 +208,7 @@ public class FiniteStateMachine implements Pool.Poolable {
     protected int getProviderComponentClassIndex(ComponentProvider provider) {
         int index = classIndexForComponent.get(provider.getComponentClass(), -1);
         if (index == -1) {
-            index= nextProviderComponentClassId++;
+            index = nextProviderComponentClassId++;
             classIndexForComponent.put(provider.getComponentClass(), index);
         }
         return index;

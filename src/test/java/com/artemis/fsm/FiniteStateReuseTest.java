@@ -2,18 +2,14 @@ package com.artemis.fsm;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.fsm.testclasses.ComponentProviderComponentA;
-import com.artemis.fsm.testclasses.ComponentProviderComponentB;
-import com.artemis.fsm.testclasses.ComponentProviderComponentC;
-import com.artemis.testComponents.ComponentA;
-import com.artemis.testComponents.ComponentB;
-import com.artemis.testComponents.ComponentC;
+import com.artemis.fsm.componentproviders.ComponentProviderComponentA;
+import com.artemis.fsm.componentproviders.ComponentProviderComponentB;
+import com.artemis.fsm.componentproviders.ComponentA;
+import com.artemis.fsm.componentproviders.ComponentB;
 import com.badlogic.gdx.utils.Pools;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Properties;
 
 
 public class FiniteStateReuseTest {
@@ -92,8 +88,6 @@ public class FiniteStateReuseTest {
         int providerBCount = Pools.get(ComponentProviderComponentB.class).getFree();
         int componentACount = Pools.get(ComponentA.class).getFree();
         int componentBCount = Pools.get(ComponentB.class).getFree();
-
-        System.out.println("# pooled for prov.A,prov.B,comp.A,comp.B: "+providerACount+","+providerBCount+","+componentACount+","+componentBCount);
 
         Assert.assertEquals(pA, providerACount);
         Assert.assertEquals(pB,providerBCount);
