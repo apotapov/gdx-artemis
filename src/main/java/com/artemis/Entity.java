@@ -1,10 +1,12 @@
 package com.artemis;
 
+import com.artemis.fsm.FiniteStateMachine;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.badlogic.gdx.utils.Pools;
 
 /**
  * The entity class. Cannot be instantiated outside the framework, you must
@@ -27,6 +29,7 @@ public final class Entity implements Poolable {
     protected World world;
     protected EntityManager entityManager;
     protected ComponentManager componentManager;
+    protected FiniteStateMachine finiteStateMachine;
 
     /**
      * Create an entity for the specified world with the specified id.
@@ -72,7 +75,11 @@ public final class Entity implements Poolable {
     public void reset() {
         systemBits.clear();
         componentBits.clear();
-        id = 0;
+        if(finiteStateMachine!=null){
+            Pools.free(finiteStateMachine);
+            finiteStateMachine = null;
+        }
+        id = -1;
     }
 
     @Override
@@ -82,9 +89,9 @@ public final class Entity implements Poolable {
 
     /**
      * Add a component to this entity.
-     * 
+     *
      * @param component to add to this entity
-     * 
+     *
      * @return this entity for chaining.
      */
     public Entity addComponent(Component component) {
@@ -93,6 +100,23 @@ public final class Entity implements Poolable {
             world.changedEntity(this);
         }
         return this;
+    }
+
+    /**
+     * Retrieves the FiniteStateMachine for this entity,  creates a new one if none were present.
+     *
+     * @return the entity's FiniteStateMachine
+     */
+    public FiniteStateMachine getFiniteStateMachine(){
+        if(finiteStateMachine==null) {
+            finiteStateMachine = Pools.obtain(FiniteStateMachine.class);
+            finiteStateMachine.setEntity(this);
+        }
+        return finiteStateMachine;
+    }
+
+    public void activateFiniteState(Object stateId) {
+        finiteStateMachine.activateState(stateId);
     }
 
     /**

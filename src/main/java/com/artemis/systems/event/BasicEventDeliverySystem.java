@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 
 /**
  * Basic implementation of event system. All the events that are
- * sent in gets put into a buffer. During the processing cycle, the
+ * sent in gets add into a buffer. During the processing cycle, the
  * buffered events get transfered to the currentEvents list where
  * they can be consumed when interested parties call getEvents.
  * CurrentEvents gets cleared during every processing cycle.

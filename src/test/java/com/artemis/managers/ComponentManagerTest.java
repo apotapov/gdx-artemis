@@ -85,9 +85,10 @@ public class ComponentManagerTest {
         ComponentA c = world.createComponent(ComponentA.class);
         e.addComponent(c);
         world.addEntity(e);
-
         world.process();
+        e.removeComponent(c);
         world.process();
+        Assert.assertFalse(e.getComponents().contains(c,true));
     }
 
     @Test
