@@ -61,9 +61,11 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
 
     public abstract void onAdd(T component);
 
+    public abstract void resetValues();
+
     @Override
     public void reset() {
-        componentClass = null;
+        resetValues();
         lastComponentProduced = null;
         classIndex = -1;
         instanceIndex = -1;

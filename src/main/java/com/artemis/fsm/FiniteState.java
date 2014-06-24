@@ -8,20 +8,19 @@ import com.badlogic.gdx.utils.*;
  */
 public class FiniteState implements Pool.Poolable{
     private FiniteStateMachine finiteStateMachine;
-    private ObjectIntMap<Integer> providerIndexForProviderComponentClassIndex;
-    protected Bits providerIndicesBits;
-    protected Bits copy;
+    private ObjectIntMap<Integer> providerIndexForProviderComponentClassIndex = new ObjectIntMap<Integer>(4);
+    protected Bits providerIndicesBits = new Bits();;
+    protected Bits bitsCopy = new Bits();;
     private int bitSize=0;
-    protected FiniteState(){
-        providerIndicesBits = new Bits();
-        providerIndexForProviderComponentClassIndex = new ObjectIntMap<Integer>(4);
+
+    protected FiniteState(){;
     }
 
-    protected Bits getBitsCopy(FiniteState excludeState){
-        copy.clear();
-        copy.or(providerIndicesBits);
-        copy.andNot(excludeState.providerIndicesBits);
-        return copy;
+    protected Bits getProviderIndicesCopy(FiniteState excludeState){
+        bitsCopy.clear();
+        bitsCopy.or(providerIndicesBits);
+        bitsCopy.andNot(excludeState.providerIndicesBits);
+        return bitsCopy;
     }
 
     public int getProviderIndex(int componentClassIndex){
@@ -51,8 +50,8 @@ public class FiniteState implements Pool.Poolable{
 
     private void ensureBitCopySize(int index){
         if(bitSize <index){
-            copy = new Bits(index);
-            bitSize = copy.numBits();
+            bitsCopy = new Bits(index);
+            bitSize = bitsCopy.numBits();
         }
     }
 

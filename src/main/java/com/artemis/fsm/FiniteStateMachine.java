@@ -14,18 +14,18 @@ public class FiniteStateMachine implements Pool.Poolable {
     private Entity entity;
 
     private FiniteState currentState;
-    private ObjectMap<Object,FiniteState> finiteStateForIdentifier;
+    private ObjectMap<Object,FiniteState> finiteStateForIdentifier = new ObjectMap<Object, FiniteState>(4);;
 
-    private int nextProviderComponentClassId = 0;
-    private int nextProviderInstanceId = 0;
-    private ObjectIntMap<Class<? extends Component>> classIndexForComponent;
-    private IntMap<ComponentProvider> providerForIndex;
+    private int nextProviderComponentClassId = 1;
+    private int nextProviderInstanceId = 1;
+
+    private ObjectIntMap<Class<? extends Component>> classIndexForComponent = new ObjectIntMap<Class<? extends Component>>(4);
+    private IntMap<ComponentProvider> providerForIndex = new IntMap<ComponentProvider>(4);;
+
     private boolean resetting = false;
 
     public FiniteStateMachine(){
-        finiteStateForIdentifier = new ObjectMap<Object, FiniteState>(4);
-        providerForIndex = new IntMap<ComponentProvider>(4);
-        classIndexForComponent = new ObjectIntMap<Class<? extends Component>>(4);
+
     }
 
     public void setEntity(Entity entity){
@@ -71,8 +71,8 @@ public class FiniteStateMachine implements Pool.Poolable {
 
             ComponentProvider provider;
 
-            Bits providerAddBits = newState.getBitsCopy(currentState);
-            Bits providerRemoveBits = currentState.getBitsCopy(newState);
+            Bits providerRemoveBits = currentState.getProviderIndicesCopy(newState);
+            Bits providerAddBits = newState.getProviderIndicesCopy(currentState);
 
             for (int i = providerAddBits.nextSetBit(0); i >= 0; i = providerAddBits.nextSetBit(i + 1)) {
                 provider = providerForIndex.get(i);
@@ -141,7 +141,7 @@ public class FiniteStateMachine implements Pool.Poolable {
                 }
             }
             if (noneHaveProvider) {
-                Pools.free(providerForIndex.get(providerInstanceIndex));
+                Pools.free(providerForIndex.remove(providerInstanceIndex));
             }
         }
     }
@@ -154,11 +154,19 @@ public class FiniteStateMachine implements Pool.Poolable {
         while(stateIterator.hasNext()){
             Pools.free(stateIterator.next());
         }
+
         Iterator<ComponentProvider> providerIterator = providerForIndex.values().iterator();
         while(providerIterator.hasNext()){
-            Pools.free(providerIterator.next());
+            ComponentProvider componentProvider = providerIterator.next();
+            Pools.free(componentProvider);
         }
 
+        providerForIndex.clear();
+        finiteStateForIdentifier.clear();
+        classIndexForComponent.clear();
+        nextProviderComponentClassId = 1;
+        nextProviderInstanceId = 1;
+        currentState=null;
         resetting = false;
         entity=null;
     }

@@ -11,7 +11,7 @@ public class ComponentProviderComponentC extends ComponentProvider<ComponentC> {
     public int valueA, valueB;
 
     @Override
-    public void reset() {
+    public void resetValues() {
 
     }
 
