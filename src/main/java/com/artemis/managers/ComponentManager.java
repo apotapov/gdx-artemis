@@ -3,8 +3,6 @@ package com.artemis.managers;
 import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.fsm.ComponentProvider;
-import com.artemis.fsm.FiniteStateMachine;
 import com.artemis.utils.SafeArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
@@ -26,7 +24,7 @@ public class ComponentManager extends Manager {
     protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
 
     protected static int nextComponentClassIndex = 0;
-    protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
+    protected static ObjectIntMap<Class<? extends Component>> componentClassIndices =
             new ObjectIntMap<Class<? extends Component>>();
 
     Array<Component> returnedComponents;
@@ -39,11 +37,11 @@ public class ComponentManager extends Manager {
      * @return Index of a specific component class.
      */
     public static int getComponentClassIndex(Class<? extends Component> type) {
-        int index = componentClassIndeces.get(type, -1);
+        int index = componentClassIndices.get(type, -1);
         if (index!=-1) {
             return index;
         } else {
-            componentClassIndeces.put(type, nextComponentClassIndex);
+            componentClassIndices.put(type, nextComponentClassIndex);
             return nextComponentClassIndex++;
         }
     }

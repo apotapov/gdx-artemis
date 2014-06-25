@@ -1,4 +1,4 @@
-package com.artemis.fsm;
+package com.artemis.fsm.entity;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -7,18 +7,25 @@ import com.badlogic.gdx.utils.*;
 import java.util.Iterator;
 
 /**
- * Provides a convenient way of creating and adding groups of components to an entity.
+ * Convenient way of creating and adding groups of components to an entity.
  *
- * Accessed through {@link com.artemis.Entity#getFiniteStateMachine Entity}.
+ * {@link com.artemis.fsm.entity.EntityStateMachine EntityStateMachine} is accessed through
+ * {@link com.artemis.Entity#getEntityStateMachine getEntityStateMachine}.
+ * {@link com.artemis.fsm.entity.EntityState EntityStates} and
+ * {@link com.artemis.fsm.entity.ComponentProvider ComponentProviders} should be created with this class.
+ * ComponentProviders are linked to EntityStates with
+ * {@link com.artemis.fsm.entity.EntityState#add(ComponentProvider)} add}.
+ *
+ * Activate a state through {@link com.artemis.Entity#activateFiniteState(Object) activateFiniteState}
  *
  * Inspired by article by an article by Richard Lord: http://www.richardlord.net/blog/finite-state-machines-with-ash
  *
  * @author  Vemund Kvam on 10/06/14.
  */
-public class FiniteStateMachine implements Pool.Poolable {
+public class EntityStateMachine implements Pool.Poolable {
     private Entity entity;
-    private FiniteState currentState;
-    private ObjectMap<Object,FiniteState> finiteStateForIdentifier = new ObjectMap<Object, FiniteState>(4);;
+    private EntityState currentState;
+    private ObjectMap<Object,EntityState> finiteStateForIdentifier = new ObjectMap<Object, EntityState>(4);;
 
     private int nextProviderComponentClassId = 0;
     private ObjectIntMap<Class<? extends Component>> classIndexForComponent = new ObjectIntMap<Class<? extends Component>>(4);
@@ -28,7 +35,7 @@ public class FiniteStateMachine implements Pool.Poolable {
     private boolean resetting = false;
 
     /**
-     * Should not be accessed by user, the entity is set by the entity when creating the FiniteStateMachine.
+     * Should not be accessed by user, the entity is set when the EntityStateMachine is created by the entity.
      * @param entity
      */
     public void setEntity(Entity entity){
@@ -36,14 +43,13 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
-     * Retrieves a new {@link com.artemis.fsm.ComponentProvider ComponentProvider}, either by creating a
+     * Retrieves a new {@link ComponentProvider ComponentProvider}, either by creating a
      * new one or by obtaining one from the pool.
      *
      * @param type the class of the componentProvider to be created
      * @param <C> the type of the componentProvider to be created
      * @return a pooled ComponentProvider
      */
-
     public <C extends ComponentProvider> C createComponentProvider(Class<C> type) {
         C componentProvider = Pools.obtain(type);
         componentProvider.setEntity(entity);
@@ -51,6 +57,7 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
+     *
      * Removes components that were provided by the current state.
      */
     public void deactivateCurrentState(){
@@ -58,7 +65,7 @@ public class FiniteStateMachine implements Pool.Poolable {
         for (int i = providerBits.nextSetBit(0); i >= 0; i = providerBits.nextSetBit(i+1)) {
             ComponentProvider provider = providerForIndex.get(i);
             provider.removedFromEntity();
-            entity.removeComponent(provider.getLastComponent());
+            entity.removeComponent(provider.lastComponentProduced);
         }
         currentState =null;
     }
@@ -70,7 +77,7 @@ public class FiniteStateMachine implements Pool.Poolable {
      * @param id the id of the new state.
      */
     public void activateState(Object id){
-        FiniteState newState = finiteStateForIdentifier.get(id);
+        EntityState newState = finiteStateForIdentifier.get(id);
 
         if(currentState != null) {
 
@@ -96,7 +103,7 @@ public class FiniteStateMachine implements Pool.Poolable {
             for (int i = providerRemoveBits.nextSetBit(0); i >= 0; i = providerRemoveBits.nextSetBit(i+1)) {
                 provider = providerForIndex.get(i);
                 provider.removedFromEntity();
-                entity.removeComponent(provider.getLastComponent());
+                entity.removeComponent(provider.lastComponentProduced);
             }
 
         }else{
@@ -109,45 +116,44 @@ public class FiniteStateMachine implements Pool.Poolable {
     }
 
     /**
-     * Creates a new {@link com.artemis.fsm.FiniteState FiniteState}
+     * Creates a new {@link EntityState EntityState}
      *
      * @param id the object to use as identifier to the state.
      * @return the new state
      */
-    public FiniteState createState(Object id){
-        FiniteState finiteState = Pools.obtain(FiniteState.class);
-        finiteState.setFiniteStateMachine(this);
-        finiteStateForIdentifier.put(id, finiteState);
-        return finiteState;
+    public EntityState createState(Object id){
+        EntityState entityState = Pools.obtain(EntityState.class);
+        entityState.setEntityStateMachine(this);
+        finiteStateForIdentifier.put(id, entityState);
+        return entityState;
     }
 
     /**
      * Deletes a state.
      *
-     * Removes {@link com.artemis.fsm.ComponentProvider componentProviders} if the deleted
-     * state is the last to reference them. If the deleted state is the current active state,
+     * Removes {@link ComponentProvider componentProviders} when the deleted state is
+     * the last to reference them. If the deleted state is the current active state,
      * the active state is deactivated and its provided components are removed.
      *
      * @param id the id of the state to delete
      */
     public void deleteState(Object id){
-        FiniteState finiteState = finiteStateForIdentifier.remove(id);
-        if (finiteState.equals(currentState)) {
+        EntityState entityState = finiteStateForIdentifier.remove(id);
+        if (entityState.equals(currentState)) {
             deactivateCurrentState();
         }
-        Pools.free(finiteState);
+        Pools.free(entityState);
         finiteStateForIdentifier.remove(id);
     }
 
     /**
-     * Used by {@link com.artemis.fsm.FiniteState FiniteState} to remove ComponentProviders
-     *
+     * Used by {@link EntityState EntityState} to remove ComponentProviders
     */
     protected void removeComponentProvider(int providerInstanceIndex){
         if(!resetting){
             boolean noneHaveProvider = true;
-            for (FiniteState finiteState : finiteStateForIdentifier.values()) {
-                if (finiteState.providerIndicesBits.get(providerInstanceIndex)) {
+            for (EntityState entityState : finiteStateForIdentifier.values()) {
+                if (entityState.providerIndicesBits.get(providerInstanceIndex)) {
                     noneHaveProvider = false;
                     break;
                 }
@@ -156,30 +162,6 @@ public class FiniteStateMachine implements Pool.Poolable {
                 Pools.free(providerForIndex.remove(providerInstanceIndex));
             }
         }
-    }
-
-    @Override
-    public void reset() {
-        resetting = true;
-
-        Iterator<FiniteState> stateIterator = finiteStateForIdentifier.values().iterator();
-        while(stateIterator.hasNext()){
-            Pools.free(stateIterator.next());
-            stateIterator.remove();
-        }
-
-        Iterator<ComponentProvider> providerIterator = providerForIndex.values().iterator();
-        while(providerIterator.hasNext()){
-            Pools.free(providerIterator.next());
-            providerIterator.remove();
-        }
-
-        classIndexForComponent.clear();
-        nextProviderComponentClassId = 0;
-        nextProviderInstanceId = 0;
-        currentState=null;
-        resetting = false;
-        entity=null;
     }
 
 
@@ -207,12 +189,38 @@ public class FiniteStateMachine implements Pool.Poolable {
      * @return Index of a specific component class.
      */
     protected int getProviderComponentClassIndex(ComponentProvider provider) {
-        int index = classIndexForComponent.get(provider.getComponentClass(), -1);
+        int index = classIndexForComponent.get(provider.componentClass, -1);
         if (index == -1) {
             index = nextProviderComponentClassId++;
-            classIndexForComponent.put(provider.getComponentClass(), index);
+            classIndexForComponent.put(provider.componentClass, index);
         }
         return index;
     }
+
+    @Override
+    public void reset() {
+        resetting = true;
+
+        Iterator<EntityState> stateIterator = finiteStateForIdentifier.values().iterator();
+        while(stateIterator.hasNext()){
+            Pools.free(stateIterator.next());
+            stateIterator.remove();
+        }
+
+        Iterator<ComponentProvider> providerIterator = providerForIndex.values().iterator();
+        while(providerIterator.hasNext()){
+            Pools.free(providerIterator.next());
+            providerIterator.remove();
+        }
+
+        classIndexForComponent.clear();
+        nextProviderComponentClassId = 0;
+        nextProviderInstanceId = 0;
+        currentState=null;
+        resetting = false;
+        entity=null;
+    }
+
+
 
 }

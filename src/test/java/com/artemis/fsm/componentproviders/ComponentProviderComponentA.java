@@ -1,6 +1,6 @@
 package com.artemis.fsm.componentproviders;
 
-import com.artemis.fsm.ComponentProvider;
+import com.artemis.fsm.entity.ComponentProvider;
 
 /**
  * @author Vemund Kvam on 17/06/14.
@@ -10,7 +10,7 @@ public class ComponentProviderComponentA extends ComponentProvider<ComponentA> {
     public int valueA, valueB;
 
     @Override
-    public void onProviderInit() {
+    protected void onProviderInit() {
         valueA = 0;
         valueB = 0;
     }
@@ -22,7 +22,7 @@ public class ComponentProviderComponentA extends ComponentProvider<ComponentA> {
     }
 
     @Override
-    public void onAdd(ComponentA component) {
+    protected void onAdd(ComponentA component) {
         component.valueA = valueA;
         component.valueB = valueB;
     }

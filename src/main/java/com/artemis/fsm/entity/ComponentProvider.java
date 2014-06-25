@@ -1,4 +1,4 @@
-package com.artemis.fsm;
+package com.artemis.fsm.entity;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pools;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * Provider of components for {@link com.artemis.fsm.FiniteState states}, different
+ * Provider of components for {@link EntityState states}, different
  * FiniteStates may share provider instances.
  *
  * Concrete providers to be implemented by user.
@@ -22,24 +22,17 @@ import java.lang.reflect.ParameterizedType;
  * @author Vemund Kvam on 15/06/14.
  */
 public abstract class ComponentProvider<T extends Component> implements Pool.Poolable {
-    private Class<T> componentClass;
-    private T lastComponentProduced;
+    protected T lastComponentProduced;
+    protected Class<T> componentClass;
     protected int classIndex=-1;
     protected int instanceIndex=-1;
     protected boolean indicesSet = false;
     protected Entity entity;
 
     public ComponentProvider() {
-        setComponentClass();
-        onProviderInit();
-    }
-
-    /**
-     * Gets the class of T.
-     */
-    private void setComponentClass() {
         ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
         componentClass = (Class<T>) superclass.getActualTypeArguments()[0];
+        onProviderInit();
     }
 
     /**
@@ -56,14 +49,14 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
      * Example usage: Restore component values before adding them to the entity.
      * @param component the added component
      */
-    public abstract void onAdd(T component);
+    protected abstract void onAdd(T component);
 
     /**
-     * Called when the componentProvider is created or retrieved from pool
+     * Called when the componentProvider is created or retrieved from pool.
      *
      * Example usage: Set all default values to be used by component.
      */
-    public abstract void onProviderInit();
+    protected abstract void onProviderInit();
 
 
     protected void setEntity(Entity entity){
@@ -76,14 +69,6 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
         indicesSet = true;
     }
 
-    protected Component getLastComponent(){
-        return lastComponentProduced;
-    }
-
-    protected Class<T> getComponentClass(){
-        return componentClass;
-    }
-
     protected T createComponent(){
         T component = Pools.obtain(componentClass);
         lastComponentProduced = component;
@@ -91,7 +76,7 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
         return component;
     }
     protected void removedFromEntity(){
-        T component = entity.getComponent(getComponentClass());
+        T component = entity.getComponent(componentClass);
         if(component==lastComponentProduced){
             onRemove(component);
         }

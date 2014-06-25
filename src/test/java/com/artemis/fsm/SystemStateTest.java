@@ -5,6 +5,7 @@ import com.artemis.Filter;
 import com.artemis.World;
 
 import com.artemis.fsm.componentproviders.*;
+import com.artemis.fsm.entity.EntityStateMachine;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.fsm.componentproviders.ComponentA;
 import com.artemis.fsm.componentproviders.ComponentB;
@@ -14,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class FiniteStateTest {
+public class SystemStateTest {
 
     private World world;
     private Entity entity;
@@ -46,7 +47,7 @@ public class FiniteStateTest {
         world.setSystem(systemForA);
         world.setSystem(systemForB);
 
-        FiniteStateMachine machine = entity.getFiniteStateMachine();
+        EntityStateMachine machine = entity.getEntityStateMachine();
         machine.createState("A").add(machine.createComponentProvider(ComponentProviderComponentA.class));
         machine.createState("B").add(machine.createComponentProvider(ComponentProviderComponentB.class));
 
@@ -64,7 +65,7 @@ public class FiniteStateTest {
 
     @Test
     public void testAll(){
-        FiniteStateMachine machine = entity.getFiniteStateMachine();
+        EntityStateMachine machine = entity.getEntityStateMachine();
 
         ComponentProviderComponentA componentProviderComponentA = machine.createComponentProvider(ComponentProviderComponentA.class);
         ComponentProviderComponentB componentProviderComponentB = machine.createComponentProvider(ComponentProviderComponentB.class);
@@ -73,13 +74,13 @@ public class FiniteStateTest {
         machine.createState(STATEID.A).add(componentProviderComponentA).add(componentProviderComponentB);
         machine.createState(STATEID.B).add(componentProviderComponentA).add(componentProviderComponentC);
 
-        entity.getFiniteStateMachine().activateState(STATEID.A);
+        entity.getEntityStateMachine().activateState(STATEID.A);
         world.process();
         Assert.assertNotNull(entity.getComponent(ComponentA.class));
         Assert.assertNotNull(entity.getComponent(ComponentB.class));
         Assert.assertNull(entity.getComponent(ComponentC.class));
 
-        entity.getFiniteStateMachine().activateState(STATEID.B);
+        entity.getEntityStateMachine().activateState(STATEID.B);
         world.process();
         Assert.assertNotNull(entity.getComponent(ComponentA.class));
         Assert.assertNull(entity.getComponent(ComponentB.class));
@@ -88,7 +89,7 @@ public class FiniteStateTest {
 
     @Test
     public void testKeepComponentMadeWithSameProvider(){
-        FiniteStateMachine machine = entity.getFiniteStateMachine();
+        EntityStateMachine machine = entity.getEntityStateMachine();
 
         ComponentProviderComponentA componentProviderComponentA = machine.createComponentProvider(ComponentProviderComponentA.class);
 
@@ -107,7 +108,7 @@ public class FiniteStateTest {
 
     @Test
     public void testSwapComponentMadeWithDifferentProviders(){
-        FiniteStateMachine machine = entity.getFiniteStateMachine();
+        EntityStateMachine machine = entity.getEntityStateMachine();
 
         ComponentProviderComponentA componentProviderComponentAStateA = machine.createComponentProvider(ComponentProviderComponentA.class);
         ComponentProviderComponentA componentProviderComponentAStateB = machine.createComponentProvider(ComponentProviderComponentA.class);
@@ -115,11 +116,11 @@ public class FiniteStateTest {
         machine.createState(STATEID.A).add(componentProviderComponentAStateA);
         machine.createState(STATEID.B).add(componentProviderComponentAStateB);
 
-        entity.getFiniteStateMachine().activateState(STATEID.A);
+        entity.getEntityStateMachine().activateState(STATEID.A);
         world.process();
         ComponentA componentAStateA = entity.getComponent(ComponentA.class);
 
-        entity.getFiniteStateMachine().activateState(STATEID.B);
+        entity.getEntityStateMachine().activateState(STATEID.B);
         world.process();
         ComponentA componentAStateB = entity.getComponent(ComponentA.class);
         Assert.assertNotSame(componentAStateA, componentAStateB);
