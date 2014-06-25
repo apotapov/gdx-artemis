@@ -7,7 +7,10 @@ import com.badlogic.gdx.utils.*;
 import java.util.Iterator;
 
 /**
- * Convenient way of creating and adding groups of components to an entity.
+ /**
+ * This is a state machine for an entity. The state machine manages a set of states,
+ * each of which has a set of component providers. When the state machine changes the state, it removes
+ * components associated with the previous state and adds components associated with the new state.
  *
  * {@link EntityStateMachine EntityStateMachine} is accessed through
  * {@link com.artemis.Entity#getEntityStateMachine getEntityStateMachine}.
@@ -16,12 +19,13 @@ import java.util.Iterator;
  * ComponentProviders are linked to EntityStates with
  * {@link EntityState#add(ComponentProvider)} add}.
  *
- * Activate a state through {@link com.artemis.Entity#activateFiniteState(Object) activateFiniteState}
+ * Activate a state with {@link com.artemis.Entity#activateFiniteState(Object) activateFiniteState}
  *
  * Inspired by article by an article by Richard Lord: http://www.richardlord.net/blog/finite-state-machines-with-ash
  *
  * @author  Vemund Kvam on 10/06/14.
  */
+
 public class EntityStateMachine implements Pool.Poolable {
     private Entity entity;
     private EntityState currentState;
@@ -164,7 +168,6 @@ public class EntityStateMachine implements Pool.Poolable {
         }
     }
 
-
     /**
      * Returns the index of a ComponentProvider instance. Indices are cached, so retrieval
      * should be fast.
@@ -220,7 +223,5 @@ public class EntityStateMachine implements Pool.Poolable {
         resetting = false;
         entity=null;
     }
-
-
 
 }

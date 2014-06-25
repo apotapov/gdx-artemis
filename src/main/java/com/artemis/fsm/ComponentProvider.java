@@ -8,14 +8,17 @@ import com.badlogic.gdx.utils.Pools;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * Provider of components for {@link EntityState states}, different
- * FiniteStates may share provider instances.
+ * Provider of components for {@link EntityState states}. ComponentProviders are used to
+ * store componentValues when components are removed from the world and restore when the
+ * component is re-added to the world, as well as differentiating between components shared
+ * by states and components individual to each state.
  *
- * Concrete providers to be implemented by user.
+ * onAdd(),onRemove() and onProviderInit() may be used in any was the user sees fit, but
+ * the most common use-case for most will be storing and restoring component values.
  *
  * 1. For each individual component that may exist on an entity, there should be one provider.
- * 2. If a provider is shared by two states, components will not be added or
- * removed from the entity on stateChange.
+ * 2. If a provider instance is shared by two states, components will not be added or
+ * removed from the entity on stateChange between these two state.
  * 3. If two states have providers of same component type, but different provider instances,
  * the component will be swapped, triggering an entity change.
  *

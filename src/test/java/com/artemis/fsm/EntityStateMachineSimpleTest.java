@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Created by Vemund Kvam on 25/06/14.
  */
-public class Simple {
+public class EntityStateMachineSimpleTest {
 
     public static class ComponentA implements Component {
         public int valueA;

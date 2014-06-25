@@ -2,7 +2,9 @@ package com.artemis.fsm;
 import com.badlogic.gdx.utils.*;
 
 /**
- *
+ /**
+ * Represents a state for an EntityStateMachine. The state contains any number of ComponentProviders which
+ * are used to add components to the entity when this state is entered.
  *
  * @author Vemund Kvam on 10/06/14.
  */

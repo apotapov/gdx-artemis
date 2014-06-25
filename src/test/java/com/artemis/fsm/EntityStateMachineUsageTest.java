@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class SystemStateTest {
+public class EntityStateMachineUsageTest {
 
     private World world;
     private Entity entity;
