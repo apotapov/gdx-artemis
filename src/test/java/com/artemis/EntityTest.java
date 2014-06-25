@@ -1,10 +1,8 @@
 package com.artemis;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.artemis.systems.EntityProcessingSystem;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class EntityTest {
     static class ComponentA implements Component {

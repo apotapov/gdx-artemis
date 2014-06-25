@@ -1,16 +1,10 @@
 package com.artemis.managers;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import com.artemis.Component;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.Filter;
-import com.artemis.World;
+import com.artemis.*;
 import com.artemis.systems.EntitySystem;
 import com.badlogic.gdx.utils.Array;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class SingletonComponentManagerTest {
 

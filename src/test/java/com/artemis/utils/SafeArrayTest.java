@@ -1,13 +1,7 @@
 package com.artemis.utils;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.badlogic.gdx.utils.Array;
+import org.junit.*;
 
 public class SafeArrayTest {
 

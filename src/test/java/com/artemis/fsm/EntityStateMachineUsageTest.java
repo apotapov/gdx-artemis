@@ -3,13 +3,8 @@ package com.artemis.fsm;
 import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.World;
-
 import com.artemis.fsm.componentproviders.*;
-import com.artemis.fsm.EntityStateMachine;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.fsm.componentproviders.ComponentA;
-import com.artemis.fsm.componentproviders.ComponentB;
-import com.artemis.fsm.componentproviders.ComponentC;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;

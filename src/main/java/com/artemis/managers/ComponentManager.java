@@ -4,13 +4,8 @@ import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Bits;
-import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.Pools;
 
 /**
  * Responsible for pooling and managing of Components and their

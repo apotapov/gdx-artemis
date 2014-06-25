@@ -1,14 +1,9 @@
 package com.artemis.managers;
 
+import com.artemis.*;
+import com.artemis.systems.EntityProcessingSystem;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.artemis.Component;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.Filter;
-import com.artemis.World;
-import com.artemis.systems.EntityProcessingSystem;
 
 public class ComponentManagerTest {
 

@@ -1,10 +1,8 @@
 package com.artemis.managers;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.artemis.World;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class TeamManagerTest {
 

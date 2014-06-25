@@ -1,6 +1,7 @@
 package com.artemis.managers;
 
-import com.artemis.*;
+import com.artemis.Entity;
+import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
 import org.junit.Assert;
 import org.junit.Before;

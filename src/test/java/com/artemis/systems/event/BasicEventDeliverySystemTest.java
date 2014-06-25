@@ -1,13 +1,12 @@
 package com.artemis.systems.event;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.artemis.World;
 import com.artemis.systems.VoidEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests out the basic event system, with simple send/receive mechanic

@@ -2,11 +2,10 @@ package com.artemis.fsm;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.fsm.componentproviders.ComponentProviderComponentA;
-import com.artemis.fsm.componentproviders.ComponentProviderComponentB;
 import com.artemis.fsm.componentproviders.ComponentA;
 import com.artemis.fsm.componentproviders.ComponentB;
-import com.artemis.fsm.EntityStateMachine;
+import com.artemis.fsm.componentproviders.ComponentProviderComponentA;
+import com.artemis.fsm.componentproviders.ComponentProviderComponentB;
 import com.badlogic.gdx.utils.Pools;
 import junit.framework.Assert;
 import org.junit.Before;

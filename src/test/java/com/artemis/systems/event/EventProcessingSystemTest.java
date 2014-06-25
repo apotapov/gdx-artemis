@@ -1,14 +1,12 @@
 package com.artemis.systems.event;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.World;
 import com.artemis.systems.VoidEntitySystem;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class EventProcessingSystemTest {
 

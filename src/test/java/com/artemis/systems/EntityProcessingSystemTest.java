@@ -1,13 +1,11 @@
 package com.artemis.systems;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.World;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class EntityProcessingSystemTest {
 
