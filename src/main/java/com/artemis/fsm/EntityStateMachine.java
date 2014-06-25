@@ -1,4 +1,4 @@
-package com.artemis.fsm.entity;
+package com.artemis.fsm;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -9,12 +9,12 @@ import java.util.Iterator;
 /**
  * Convenient way of creating and adding groups of components to an entity.
  *
- * {@link com.artemis.fsm.entity.EntityStateMachine EntityStateMachine} is accessed through
+ * {@link EntityStateMachine EntityStateMachine} is accessed through
  * {@link com.artemis.Entity#getEntityStateMachine getEntityStateMachine}.
- * {@link com.artemis.fsm.entity.EntityState EntityStates} and
- * {@link com.artemis.fsm.entity.ComponentProvider ComponentProviders} should be created with this class.
+ * {@link EntityState EntityStates} and
+ * {@link ComponentProvider ComponentProviders} should be created with this class.
  * ComponentProviders are linked to EntityStates with
- * {@link com.artemis.fsm.entity.EntityState#add(ComponentProvider)} add}.
+ * {@link EntityState#add(ComponentProvider)} add}.
  *
  * Activate a state through {@link com.artemis.Entity#activateFiniteState(Object) activateFiniteState}
  *

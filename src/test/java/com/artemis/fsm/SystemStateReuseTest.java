@@ -6,7 +6,7 @@ import com.artemis.fsm.componentproviders.ComponentProviderComponentA;
 import com.artemis.fsm.componentproviders.ComponentProviderComponentB;
 import com.artemis.fsm.componentproviders.ComponentA;
 import com.artemis.fsm.componentproviders.ComponentB;
-import com.artemis.fsm.entity.EntityStateMachine;
+import com.artemis.fsm.EntityStateMachine;
 import com.badlogic.gdx.utils.Pools;
 import junit.framework.Assert;
 import org.junit.Before;

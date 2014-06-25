@@ -1,6 +1,6 @@
 package com.artemis.fsm.componentproviders;
 
-import com.artemis.fsm.entity.ComponentProvider;
+import com.artemis.fsm.ComponentProvider;
 
 /**
  * @author Vemund Kvam on 17/06/14.

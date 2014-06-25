@@ -1,6 +1,6 @@
 package com.artemis;
 
-import com.artemis.fsm.entity.EntityStateMachine;
+import com.artemis.fsm.EntityStateMachine;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.badlogic.gdx.utils.Array;
@@ -116,7 +116,7 @@ public final class Entity implements Poolable {
     }
 
     /**
-     * Activates a {@link com.artemis.fsm.entity.EntityState EntityState} for this entity.
+     * Activates a {@link com.artemis.fsm.EntityState EntityState} for this entity.
      *
      * @param stateId the object used to identify the EntityState
      */

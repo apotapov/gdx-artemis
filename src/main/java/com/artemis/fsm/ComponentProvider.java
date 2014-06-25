@@ -1,4 +1,4 @@
-package com.artemis.fsm.entity;
+package com.artemis.fsm;
 
 import com.artemis.Component;
 import com.artemis.Entity;
