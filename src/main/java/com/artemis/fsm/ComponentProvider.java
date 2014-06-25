@@ -26,13 +26,12 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
     protected Class<T> componentClass;
     protected int classIndex=-1;
     protected int instanceIndex=-1;
-    protected boolean indicesSet = false;
+    protected boolean addedStateMachine = false;
     protected Entity entity;
 
     public ComponentProvider() {
         ParameterizedType superclass = (ParameterizedType) getClass().getGenericSuperclass();
         componentClass = (Class<T>) superclass.getActualTypeArguments()[0];
-        onProviderInit();
     }
 
     /**
@@ -52,7 +51,8 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
     protected abstract void onAdd(T component);
 
     /**
-     * Called when the componentProvider is created or retrieved from pool.
+     * Called when the componentProvider is added to EntityStateMachine through EntityState
+     * for the first time.
      *
      * Example usage: Set all default values to be used by component.
      */
@@ -66,7 +66,7 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
     protected void setIndices(int classIndex, int instanceIndex){
         this.classIndex=classIndex;
         this.instanceIndex=instanceIndex;
-        indicesSet = true;
+        addedStateMachine = true;
     }
 
     protected T createComponent(){
@@ -84,11 +84,10 @@ public abstract class ComponentProvider<T extends Component> implements Pool.Poo
 
     @Override
     public void reset() {
-        onProviderInit();
         lastComponentProduced = null;
         classIndex = -1;
         instanceIndex = -1;
-        indicesSet=false;
+        addedStateMachine =false;
         entity=null;
     }
 }

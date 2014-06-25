@@ -25,7 +25,8 @@ public class EntityState implements Pool.Poolable{
      * @return this EntityState for chaining.
      */
     public EntityState add(ComponentProvider componentProvider){
-        if(!componentProvider.indicesSet) {
+        if(!componentProvider.addedStateMachine) {
+            componentProvider.onProviderInit();
             int providerInstanceIndex = entityStateMachine.getProviderIndex(componentProvider);
             int providerComponentClassIndex = entityStateMachine.getProviderComponentClassIndex(componentProvider);
             componentProvider.setIndices(providerComponentClassIndex,providerInstanceIndex);
