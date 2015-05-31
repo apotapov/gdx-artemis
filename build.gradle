@@ -1,0 +1,98 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.roundtriangles.games'
+version = '0.6-SNAPSHOT'
+
+description = """gdx-artemis"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+configurations.all {
+}
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.badlogicgames.gdx', name: 'gdx', version:'1.6.1'
+    testCompile group: 'junit', name: 'junit', version:'4.8.1'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'gdx-artemis'
+        packaging 'jar'
+        description 'Artemis Entity System for Libgdx'
+        url 'https://github.com/apotapov/gdx-artemis'
+
+        scm {
+          connection 'scm:git:git@github.com:apotapov/gdx-artemis.git</'
+          developerConnection 'scm:git:git@github.com:apotapov/gdx-artemis.git</'
+          url 'https://github.com/apotapov/gdx-artemis'
+        }
+
+        licenses {
+          license {
+            name 'The BSD 2-Clause License'
+            url 'http://opensource.org/licenses/BSD-2-Clause'
+          }
+          license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+        
+        developers {
+          developer {
+            id 'appel'
+            name 'Arni Arent'
+          }
+          developer {
+            id 'Spiegel'
+            name 'Tiago Costa'
+          }
+          developer {
+            id 'apotapov'
+            name 'Andrew Potapov'
+          }
+        }
+      }
+    }
+  }
+}
+    
+

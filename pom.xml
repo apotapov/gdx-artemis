@@ -13,12 +13,12 @@
     <version>0.6-SNAPSHOT</version>
     <name>gdx-artemis</name>
     <description>Artemis Entity System for Libgdx</description>
-    <url>http://github.com/apotapov/gdx-artemis</url>
+    <url>https://github.com/apotapov/gdx-artemis</url>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <gdx.version>1.0.0</gdx.version>
+        <gdx.version>1.6.1</gdx.version>
     </properties>
     
     <licenses>
