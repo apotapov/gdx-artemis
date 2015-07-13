@@ -6,7 +6,7 @@ This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entit
 
 This library is no longer actively maintained. I might come back to it at some point in the future if/when I get back into Android game development.
 
-For now I recommend you checkout an excelent library [artemis-odb](https://github.com/DaanVanYperen/artemis-odb). It has some nice extensions for events and libgdx systems: [artemis-odb-contrib](https://github.com/DaanVanYperen/artemis-odb-contrib). I personally haven't played with it but judging by the [benchmarks](https://github.com/junkdog/entity-system-benchmarks), it's very performant and under active development.
+For now I recommend you checkout an excelent library [artemis-odb](https://github.com/junkdog/artemis-odb). It has some nice extensions for events and libgdx systems: [artemis-odb-contrib](https://github.com/junkdog/artemis-odb-contrib). I personally haven't played with it but judging by the [benchmarks](https://github.com/junkdog/entity-system-benchmarks), it's very performant and under active development.
 
 ## Maven
 
