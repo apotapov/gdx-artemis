@@ -1,7 +1,3 @@
-## Published
-
-https://play.google.com/store/apps/details?id=com.captstudios.games.tafl&hl=en
-
 ## Summary
 
 This is a [fork](https://code.google.com/p/artemis-framework/) of [Artemis Entity System Framework](http://gamadu.com/artemis/) which uses [libdx](http://libgdx.badlogicgames.com/) for containers and pooling. There are some major changes made to make Artemis more robust, memory efficient and intuitive. 
@@ -71,3 +67,7 @@ See [Wiki](https://github.com/apotapov/gdx-artemis/wiki/)
 
 ### Previous changes
 See [CHANGELOG.md](https://github.com/apotapov/gdx-artemis/blob/master/CHANGELOG.md)
+
+## Games Using gdx-artemis
+
+* [Viking Chess](https://play.google.com/store/apps/details?id=com.captstudios.games.tafl)
