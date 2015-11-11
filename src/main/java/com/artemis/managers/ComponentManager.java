@@ -4,13 +4,8 @@ import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.utils.SafeArray;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Bits;
-import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.Pools;
 
 /**
  * Responsible for pooling and managing of Components and their
@@ -24,7 +19,7 @@ public class ComponentManager extends Manager {
     protected ObjectMap<Class<?>, ComponentMapper<?>> mappers;
 
     protected static int nextComponentClassIndex = 0;
-    protected static ObjectIntMap<Class<? extends Component>> componentClassIndeces =
+    protected static ObjectIntMap<Class<? extends Component>> componentClassIndices =
             new ObjectIntMap<Class<? extends Component>>();
 
     Array<Component> returnedComponents;
@@ -32,15 +27,16 @@ public class ComponentManager extends Manager {
     /**
      * Returns the index of a Component class. Indices are cached, so retrieval
      * should be fast.
-     * 
+     *
      * @param type Component class to retrieve the index for.
      * @return Index of a specific component class.
      */
     public static int getComponentClassIndex(Class<? extends Component> type) {
-        if (componentClassIndeces.containsKey(type)) {
-            return componentClassIndeces.get(type, -1);
+        int index = componentClassIndices.get(type, -1);
+        if (index!=-1) {
+            return index;
         } else {
-            componentClassIndeces.put(type, nextComponentClassIndex);
+            componentClassIndices.put(type, nextComponentClassIndex);
             return nextComponentClassIndex++;
         }
     }
@@ -59,7 +55,7 @@ public class ComponentManager extends Manager {
 
     /**
      * Preferred way to create Components to allow for pooling.
-     * 
+     *
      * @param <T> Type of component
      * @param type Type of component to create
      * @return Pooled Component of specified type.
@@ -81,8 +77,8 @@ public class ComponentManager extends Manager {
     }
 
     /**
-     * Adds a Component bellonging to the specified Entity to the manager.
-     * 
+     * Adds a Component belonging to the specified Entity to the manager.
+     *
      * @param <T> Type of component
      * @param e Entity the component belongs to
      * @param component Component to add
@@ -108,7 +104,7 @@ public class ComponentManager extends Manager {
 
     /**
      * Remove Component of specified class for a given Entity.
-     * 
+     *
      * @param e Entity to remove the component for.
      * @param type Component class to remove.
      */
@@ -126,7 +122,7 @@ public class ComponentManager extends Manager {
 
     /**
      * Returns an Array of all Components of specified type.
-     * 
+     *
      * @param <T> Type of component
      * @param type Type of Componets to return
      * @return an Array of said components.
@@ -145,7 +141,7 @@ public class ComponentManager extends Manager {
     /**
      * Returns Component of the specified type belonging to specified Entity.
      * Null if not found.
-     * 
+     *
      * @param <T> Type of component
      * @param e Entity to return Component for.
      * @param type Type of Component to return.
@@ -163,7 +159,7 @@ public class ComponentManager extends Manager {
 
     /**
      * Fills an array with Components belonging to the specified Entity.
-     * 
+     *
      * @param e Entity to get Components with.
      * @param array Array of Components to fill.
      */
@@ -179,7 +175,7 @@ public class ComponentManager extends Manager {
      * Returns an array of components for the specified entity.
      * The Array is generated newly every time and making changes to its
      * contents will not affect the components belonging to the entity.
-     * 
+     *
      * @param e Entity to get Components with.
      * @return an array of components belonging to entity.
      */
@@ -226,7 +222,7 @@ public class ComponentManager extends Manager {
     /**
      * Helper method to remove a Component for specified Entity and
      * Component class index. Frees the Component to the pool.
-     * 
+     *
      * @param entityId Entity to remove the component for.
      * @param componentClassIndex Component index to remove.
      */
@@ -245,7 +241,7 @@ public class ComponentManager extends Manager {
     /**
      * Retrieves a ComponentMapper instance for fast retrieval of
      * components from entities.
-     * 
+     *
      * @param <T> Type of component
      * @param type of component to get mapper for.
      * @return mapper for specified component type.

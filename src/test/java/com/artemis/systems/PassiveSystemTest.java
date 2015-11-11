@@ -1,12 +1,8 @@
 package com.artemis.systems;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.artemis.World;
-import com.artemis.systems.EntitySystem;
-import com.artemis.systems.VoidEntitySystem;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class PassiveSystemTest {
 

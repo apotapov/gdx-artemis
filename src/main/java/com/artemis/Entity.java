@@ -1,10 +1,12 @@
 package com.artemis;
 
+import com.artemis.fsm.EntityStateMachine;
 import com.artemis.managers.ComponentManager;
 import com.artemis.managers.EntityManager;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.badlogic.gdx.utils.Pools;
 
 /**
  * The entity class. Cannot be instantiated outside the framework, you must
@@ -27,6 +29,7 @@ public final class Entity implements Poolable {
     protected World world;
     protected EntityManager entityManager;
     protected ComponentManager componentManager;
+    protected EntityStateMachine entityStateMachine;
 
     /**
      * Create an entity for the specified world with the specified id.
@@ -72,6 +75,10 @@ public final class Entity implements Poolable {
     public void reset() {
         systemBits.clear();
         componentBits.clear();
+        if(entityStateMachine !=null){
+            Pools.free(entityStateMachine);
+            entityStateMachine = null;
+        }
         id = 0;
     }
 
@@ -82,9 +89,9 @@ public final class Entity implements Poolable {
 
     /**
      * Add a component to this entity.
-     * 
+     *
      * @param component to add to this entity
-     * 
+     *
      * @return this entity for chaining.
      */
     public Entity addComponent(Component component) {
@@ -93,6 +100,28 @@ public final class Entity implements Poolable {
             world.changedEntity(this);
         }
         return this;
+    }
+
+    /**
+     * Retrieves the EntityStateMachine for this entity,  creates a new one if none were present.
+     *
+     * @return the entity's EntityStateMachine
+     */
+    public EntityStateMachine getEntityStateMachine(){
+        if(entityStateMachine ==null) {
+            entityStateMachine = Pools.obtain(EntityStateMachine.class);
+            entityStateMachine.setEntity(this);
+        }
+        return entityStateMachine;
+    }
+
+    /**
+     * Activates a {@link com.artemis.fsm.EntityState EntityState} for this entity.
+     *
+     * @param stateId the object used to identify the EntityState
+     */
+    public void activateFiniteState(Object stateId) {
+        entityStateMachine.activateState(stateId);
     }
 
     /**

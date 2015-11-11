@@ -1,14 +1,9 @@
 package com.artemis.managers;
 
+import com.artemis.*;
+import com.artemis.systems.EntityProcessingSystem;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.artemis.Component;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.Filter;
-import com.artemis.World;
-import com.artemis.systems.EntityProcessingSystem;
 
 public class ComponentManagerTest {
 
@@ -85,9 +80,10 @@ public class ComponentManagerTest {
         ComponentA c = world.createComponent(ComponentA.class);
         e.addComponent(c);
         world.addEntity(e);
-
         world.process();
+        e.removeComponent(c);
         world.process();
+        Assert.assertFalse(e.getComponents().contains(c,true));
     }
 
     @Test
